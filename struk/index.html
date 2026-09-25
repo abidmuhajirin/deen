@@ -2,7 +2,7 @@
 <html lang="id" class="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KASIR KEJUJURAN</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -18,6 +18,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
         .receipt-font {
             font-family: 'Courier Prime', monospace;
@@ -27,34 +28,35 @@
         }
     </style>
 </head>
-<body class="bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col transition-colors duration-300">
+<body class="bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col transition-colors duration-300 w-full overflow-x-hidden">
 
-    <header class="max-w-md w-full mx-auto pt-6 pb-4 px-4 flex items-center justify-between mb-2">
-        <div class="flex items-center space-x-2.5">
-            <div class="w-9 h-9 rounded-full bg-white dark:bg-zinc-900 flex items-center justify-center shadow-xs border border-zinc-200/80 dark:border-zinc-800 overflow-hidden">
+    <header class="max-w-md w-full mx-auto pt-6 pb-4 px-4 flex items-center justify-between mb-2 box-border">
+        <div class="flex items-center space-x-2.5 min-w-0">
+            <div class="w-9 h-9 shrink-0 rounded-full bg-white dark:bg-zinc-900 flex items-center justify-center shadow-xs border border-zinc-200/80 dark:border-zinc-800 overflow-hidden">
                 <img src="https://img.icons8.com/?size=100&id=2pbzaYIirf1L&format=png&color=000000" class="w-5 h-5 dark:invert object-contain" alt="Logo Kasir Kejujuran">
             </div>
-            <div>
-                <h1 class="font-semibold text-xs tracking-tight text-zinc-900 dark:text-white uppercase">KASIR KEJUJURAN</h1>
-                <p class="text-[10px] text-zinc-500 dark:text-zinc-400">by Abidzar Muhajirin</p>
+            <div class="min-w-0">
+                <h1 class="font-semibold text-xs tracking-tight text-zinc-900 dark:text-white uppercase truncate">KASIR KEJUJURAN</h1>
+                <p class="text-[10px] text-zinc-500 dark:text-zinc-400 truncate">by Abidzar Muhajirin</p>
             </div>
         </div>
-        <div class="flex items-center space-x-2">
+        <div class="flex items-center space-x-2 shrink-0">
             <!-- Theme Toggle Button -->
-            <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-full border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-800 transition shadow-xs">
+            <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-full border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-800 transition shadow-xs" aria-label="Toggle Theme">
                 <svg id="theme-icon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
             </button>
             <!-- Traktir Jajan Button -->
-            <button onclick="openTraktirModal()" class="text-xs font-medium text-zinc-700 dark:text-zinc-200 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 px-3.5 py-2 rounded-full border border-zinc-200/80 dark:border-zinc-800 transition flex items-center space-x-1.5 shadow-xs">
+            <button onclick="openTraktirModal()" class="text-xs font-medium text-zinc-700 dark:text-zinc-200 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 px-3 py-2 rounded-full border border-zinc-200/80 dark:border-zinc-800 transition flex items-center space-x-1.5 shadow-xs">
                 <img src="https://img.icons8.com/?size=100&id=MjAYkOMsbYOO&format=png&color=000000" class="w-3.5 h-3.5 object-contain" alt="Traktir">
-                <span>Traktir Jajan</span>
+                <span class="hidden sm:inline">Traktir Jajan</span>
             </button>
         </div>
     </header>
 
-    <main class="flex-1 max-w-md w-full mx-auto p-4 pb-24">
+    <main class="flex-1 max-w-md w-full mx-auto p-3 sm:p-4 pb-24 box-border">
         
-        <div class="flex bg-zinc-200 dark:bg-zinc-900 p-1 rounded-full mb-6 border border-zinc-300/60 dark:border-zinc-800 shadow-xs">
+        <!-- Tab Navigation -->
+        <div class="flex bg-zinc-200 dark:bg-zinc-900 p-1 rounded-full mb-5 border border-zinc-300/60 dark:border-zinc-800 shadow-xs w-full box-border">
             <button id="tab-form" onclick="switchTab('form')" class="flex-1 py-2 text-xs font-medium rounded-full bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white transition shadow-xs">
                 Isi Struk
             </button>
@@ -64,36 +66,36 @@
         </div>
 
         <!-- FORM SECTION -->
-        <div id="section-form" class="space-y-4">
+        <div id="section-form" class="space-y-4 w-full box-border">
             
-            <!-- Toko Info -->
-            <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-5 shadow-xs space-y-4 w-full box-border">
+            <!-- Toko Info Card matching reference layout -->
+            <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4 w-full box-border">
                 <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                     Informasi Toko & Pelanggan
                 </h2>
-                <div>
+                <div class="w-full box-border">
                     <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nama Toko</label>
                     <input type="text" id="input-nama-toko" value="KASIR KEJUJURAN" oninput="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
                 </div>
-                <div>
+                <div class="w-full box-border">
                     <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Alamat Toko</label>
                     <input type="text" id="input-alamat-toko" placeholder="Contoh: Jl. Malioboro No. 123, Yogyakarta" oninput="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
                 </div>
-                <div>
+                <div class="w-full box-border">
                     <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nama Pelanggan</label>
                     <input type="text" id="input-nama-pelanggan" placeholder="Contoh: Budi Santoso" oninput="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
                 </div>
                 
-                <!-- Date and Time Grid (Stacked on mobile to prevent touch/overlap, 2-cols on desktop) -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 w-full box-border">
-                    <div class="space-y-1 min-w-0">
+                <!-- Date and Time Grid (Responsive stacking for 320px/375px/390px, side-by-side on wider screens) -->
+                <div class="grid grid-cols-1 min-[370px]:grid-cols-2 gap-3 pt-1 w-full box-border">
+                    <div class="space-y-1 min-w-0 w-full box-border">
                         <label class="text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1.5 pb-0.5 truncate">
                             <svg class="w-3.5 h-3.5 text-zinc-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             <span class="truncate">Tanggal</span>
                         </label>
                         <input type="date" id="input-tanggal" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
                     </div>
-                    <div class="space-y-1 min-w-0">
+                    <div class="space-y-1 min-w-0 w-full box-border">
                         <label class="text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1.5 pb-0.5 truncate">
                             <svg class="w-3.5 h-3.5 text-zinc-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             <span class="truncate">Waktu</span>
@@ -104,37 +106,37 @@
             </div>
 
             <!-- Produk Section -->
-            <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-5 shadow-xs space-y-4 w-full box-border">
+            <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4 w-full box-border">
                 <div class="flex items-center justify-between">
                     <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                         Detail Produk
                     </h2>
-                    <button onclick="tambahProdukItem()" class="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700 px-3 py-1.5 rounded-full font-medium transition flex items-center space-x-1 border border-zinc-200 dark:border-zinc-700">
+                    <button onclick="tambahProdukItem()" class="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700 px-3.5 py-2 rounded-full font-medium transition flex items-center space-x-1 border border-zinc-200 dark:border-zinc-700 shadow-xs">
                         <span>+ Tambah Item</span>
                     </button>
                 </div>
                 
-                <div id="produk-list-container" class="space-y-3">
+                <div id="produk-list-container" class="space-y-3 w-full box-border">
                     <!-- Dynamic Product Items -->
                 </div>
             </div>
 
             <!-- Biaya & Pembayaran Section matching reference layout -->
-            <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-5 shadow-xs space-y-4 w-full box-border">
+            <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4 w-full box-border">
                 <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                     Biaya & Pembayaran
                 </h2>
                 
                 <!-- Diskon Section 2 Columns -->
                 <div class="grid grid-cols-2 gap-3 w-full box-border">
-                    <div class="min-w-0">
+                    <div class="min-w-0 w-full box-border">
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1 truncate">Tipe Diskon</label>
                         <select id="input-diskon-tipe" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border">
                             <option value="nominal">Nominal (Rp)</option>
                             <option value="persen">Persen (%)</option>
                         </select>
                     </div>
-                    <div class="min-w-0">
+                    <div class="min-w-0 w-full box-border">
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1 truncate">Jumlah Diskon</label>
                         <input type="text" inputmode="numeric" id="input-diskon-nilai" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border">
                     </div>
@@ -142,11 +144,11 @@
 
                 <!-- Biaya Layanan & PPN 2 Columns -->
                 <div class="grid grid-cols-2 gap-3 w-full box-border">
-                    <div class="min-w-0">
+                    <div class="min-w-0 w-full box-border">
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1 truncate">Biaya Layanan (Rp)</label>
                         <input type="text" inputmode="numeric" id="input-biaya-layanan" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border">
                     </div>
-                    <div class="min-w-0">
+                    <div class="min-w-0 w-full box-border">
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1 truncate">PPN (%)</label>
                         <input type="text" inputmode="numeric" id="input-pajak-persen" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border">
                     </div>
@@ -175,23 +177,23 @@
         </div>
 
         <!-- PREVIEW SECTION -->
-        <div id="section-preview" class="hidden space-y-4">
+        <div id="section-preview" class="hidden space-y-4 w-full box-border">
             
-            <div class="flex justify-center overflow-x-auto py-2">
-                <canvas id="receipt-canvas" class="rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-800 bg-white" style="width: 340px; height: auto;"></canvas>
+            <div class="flex justify-center overflow-x-auto py-2 px-1 w-full box-border">
+                <canvas id="receipt-canvas" class="rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-800 bg-white max-w-full h-auto" style="width: 340px; height: auto;"></canvas>
             </div>
 
             <!-- Download Action Buttons -->
-            <div class="grid grid-cols-2 gap-3 pt-2">
-                <button onclick="downloadJPG()" class="bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium py-3 px-4 rounded-xl shadow-xs transition flex items-center justify-center space-x-2 text-xs sm:text-sm">
+            <div class="grid grid-cols-2 gap-3 pt-2 w-full box-border">
+                <button onclick="downloadJPG()" class="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium py-3.5 px-3 rounded-xl shadow-xs transition flex items-center justify-center space-x-2 text-xs sm:text-sm">
                     <span>Unduh JPG</span>
                 </button>
-                <button onclick="downloadPDF()" class="bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium py-3 px-4 rounded-xl shadow-xs transition flex items-center justify-center space-x-2 text-xs sm:text-sm">
+                <button onclick="downloadPDF()" class="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium py-3.5 px-3 rounded-xl shadow-xs transition flex items-center justify-center space-x-2 text-xs sm:text-sm">
                     <span>Unduh PDF</span>
                 </button>
             </div>
 
-            <button onclick="switchTab('form')" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium py-3 rounded-xl transition text-xs sm:text-sm">
+            <button onclick="switchTab('form')" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium py-3.5 rounded-xl transition text-xs sm:text-sm shadow-xs">
                 Edit Kembali Struk
             </button>
         </div>
@@ -376,25 +378,25 @@
 
             produkList.forEach((item, index) => {
                 const itemDiv = document.createElement('div');
-                itemDiv.className = "bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-3.5 rounded-xl space-y-2.5 relative w-full box-border";
+                itemDiv.className = "bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-3 sm:p-3.5 rounded-xl space-y-2.5 relative w-full box-border";
                 itemDiv.innerHTML = `
                     <div class="flex items-center justify-between">
                         <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wide">Item #${index + 1}</span>
-                        ${produkList.length > 1 ? `<button onclick="hapusProdukItem(${index})" class="text-rose-500 hover:text-rose-400 text-xs">Hapus</button>` : ''}
+                        ${produkList.length > 1 ? `<button onclick="hapusProdukItem(${index})" class="text-rose-500 hover:text-rose-400 text-xs py-1 px-1.5">Hapus</button>` : ''}
                     </div>
-                    <div>
+                    <div class="w-full box-border">
                         <input type="text" placeholder="Nama Produk" value="${item.nama}" oninput="updateProdukData(${index}, 'nama', this.value)" class="w-full h-[42px] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border">
                     </div>
                     <div class="grid grid-cols-3 gap-2 w-full box-border">
-                        <div class="min-w-0">
+                        <div class="min-w-0 w-full box-border">
                             <label class="block text-[10px] text-zinc-400 mb-0.5 truncate">QTY</label>
                             <input type="number" min="1" value="${item.qty}" oninput="updateProdukData(${index}, 'qty', this.value)" class="w-full h-[42px] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2 py-2 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border">
                         </div>
-                        <div class="min-w-0">
+                        <div class="min-w-0 w-full box-border">
                             <label class="block text-[10px] text-zinc-400 mb-0.5 truncate">Satuan</label>
                             <input type="text" placeholder="Pcs/Porsi" value="${item.satuan}" oninput="updateProdukData(${index}, 'satuan', this.value)" class="w-full h-[42px] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2 py-2 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border">
                         </div>
-                        <div class="min-w-0">
+                        <div class="min-w-0 w-full box-border">
                             <label class="block text-[10px] text-zinc-400 mb-0.5 truncate">Harga (Rp)</label>
                             <input type="text" inputmode="numeric" value="${item.harga}" oninput="updateProdukHarga(${index}, this)" class="w-full h-[42px] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2 py-2 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border">
                         </div>
