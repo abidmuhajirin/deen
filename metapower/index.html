@@ -947,16 +947,24 @@ retryBtn.addEventListener('click', retryFailedFiles);
 exportCsvBtn.addEventListener('click', downloadCSV);
 
 async function callGeminiAPI(promptText, base64Image, mimeType) {
-  // Ganti URL di bawah ini dengan URL Cloudflare Worker yang kamu dapatkan saat deploy
-  const workerUrl = "https://deen-lac.vercel.app/api/metadata"; 
+  const workerUrl = "/api/gemini"; // Mengarah ke proxy Vercel kamu
   
-  let parts = [{ text: promptText }];
+  // Format payload yang disesuaikan dengan struktur standar Gemini API terbaru
+  let contentsPayload = {
+    parts: [{ text: promptText }]
+  };
+
   if (base64Image) {
-    parts.push({ inlineData: { mimeType: mimeType || 'image/jpeg', data: base64Image } });
+    contentsPayload.parts.push({ 
+      inlineData: { 
+        mimeType: mimeType || 'image/jpeg', 
+        data: base64Image 
+      } 
+    });
   }
 
   const payload = {
-    contents: [{ role: 'user', parts: parts }],
+    contents: [contentsPayload],
     generationConfig: {
       responseMimeType: "application/json",
       responseSchema: {
@@ -974,14 +982,18 @@ async function callGeminiAPI(promptText, base64Image, mimeType) {
   let lastError = null;
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
-      // Mengirim request ke Cloudflare Worker (API Key aman di backend)
       const response = await fetch(workerUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-      if (!response.ok) throw new Error('HTTP ' + response.status);
+      
       const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error?.message || 'HTTP ' + response.status);
+      }
+
       const candidate = result.candidates?.[0];
       if (candidate && candidate.content?.parts?.[0]?.text) {
         return JSON.parse(candidate.content.parts[0].text);
@@ -993,7 +1005,7 @@ async function callGeminiAPI(promptText, base64Image, mimeType) {
       await new Promise(r => setTimeout(r, 600 * attempt));
     }
   }
-  throw lastError || new Error('Gagal terhubung ke Cloudflare Worker / Gemini API.');
+  throw lastError || new Error('Gagal terhubung ke Vercel Proxy / Gemini API.');
 }
 
 async function processFile(file) {
