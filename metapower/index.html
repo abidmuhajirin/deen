@@ -947,7 +947,7 @@ retryBtn.addEventListener('click', retryFailedFiles);
 exportCsvBtn.addEventListener('click', downloadCSV);
 
 async function callGeminiAPI(promptText, base64Image, mimeType) {
-  const workerUrl = "/api/gemini"; // Mengarah ke proxy Vercel kamu
+  const workerUrl = "/api/metadata"; // Mengarah ke proxy Vercel kamu
   
   // Format payload yang disesuaikan dengan struktur standar Gemini API terbaru
   let contentsPayload = {
