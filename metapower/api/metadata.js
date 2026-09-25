@@ -1,6 +1,6 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   try {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      return res.status(500).json({ error: 'GEMINI_API_KEY belum diatur.' });
+      return res.status(500).json({ error: 'GEMINI_API_KEY belum diatur di Vercel.' });
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
@@ -43,4 +43,4 @@ export default async function handler(req, res) {
   } catch (err) {
     return res.status(500).json({ error: err.message || 'Terjadi kesalahan pada server.' });
   }
-}
+};
