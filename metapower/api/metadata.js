@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   try {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      return res.status(500).json({ error: 'GEMINI_API_KEY belum diatur di Environment Variables Vercel.' });
+      return res.status(500).json({ error: 'GEMINI_API_KEY belum diatur.' });
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
