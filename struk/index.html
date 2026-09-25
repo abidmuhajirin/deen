@@ -24,11 +24,11 @@
         }
     </style>
 </head>
-<body class="bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col transition-colors duration-300">
+<body class="bg-zinc-200 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col transition-colors duration-300">
 
-    <header class="max-w-md w-full mx-auto pt-6 pb-4 px-4 flex items-center justify-between border-b border-zinc-200/60 dark:border-zinc-800/60 mb-2">
+    <header class="max-w-md w-full mx-auto pt-6 pb-4 px-4 flex items-center justify-between mb-2">
         <div class="flex items-center space-x-2.5">
-            <div class="w-9 h-9 rounded-full bg-white dark:bg-zinc-900 flex items-center justify-center shadow-xs border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+            <div class="w-9 h-9 rounded-full bg-white dark:bg-zinc-900 flex items-center justify-center shadow-xs border border-zinc-200/80 dark:border-zinc-800 overflow-hidden">
                 <img src="https://img.icons8.com/?size=100&id=2pbzaYIirf1L&format=png&color=000000" class="w-5 h-5 dark:invert object-contain" alt="Logo Kasir Kejujuran">
             </div>
             <div>
@@ -38,11 +38,11 @@
         </div>
         <div class="flex items-center space-x-2">
             <!-- Theme Toggle Button -->
-            <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-800 transition shadow-xs">
-                <svg id="theme-icon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-full border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-800 transition shadow-xs">
+                <svg id="theme-icon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
             </button>
             <!-- Traktir Jajan Button -->
-            <button onclick="openTraktirModal()" class="text-xs font-medium text-zinc-700 dark:text-zinc-200 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 px-3.5 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 transition flex items-center space-x-1.5 shadow-xs">
+            <button onclick="openTraktirModal()" class="text-xs font-medium text-zinc-700 dark:text-zinc-200 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 px-3.5 py-2 rounded-full border border-zinc-200/80 dark:border-zinc-800 transition flex items-center space-x-1.5 shadow-xs">
                 <img src="https://img.icons8.com/?size=100&id=MjAYkOMsbYOO&format=png&color=000000" class="w-3.5 h-3.5 dark:invert object-contain" alt="Traktir">
                 <span>Traktir Jajan</span>
             </button>
@@ -51,10 +51,9 @@
 
     <main class="flex-1 max-w-md w-full mx-auto p-4 pb-24">
         
-        <!-- Tab navigation -->
-        <div class="flex bg-zinc-200 dark:bg-zinc-900 p-1 rounded-full mb-6 border border-zinc-300/60 dark:border-zinc-800 shadow-xs">
+        <div class="flex bg-zinc-300/80 dark:bg-zinc-900 p-1 rounded-full mb-6 border border-zinc-300/60 dark:border-zinc-800 shadow-xs">
             <button id="tab-form" onclick="switchTab('form')" class="flex-1 py-2 text-xs font-medium rounded-full bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white transition shadow-xs">
-                Isi Form
+                Isi Struk
             </button>
             <button id="tab-preview" onclick="switchTab('preview')" class="flex-1 py-2 text-xs font-medium rounded-full text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Preview Struk
@@ -74,21 +73,27 @@
                     <input type="text" id="input-nama-toko" value="KASIR KEJUJURAN" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Alamat Toko (Opsional)</label>
+                    <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Alamat Toko</label>
                     <input type="text" id="input-alamat-toko" placeholder="Contoh: Jl. Malioboro No. 123, Yogyakarta" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nama Pelanggan (Opsional)</label>
+                    <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nama Pelanggan</label>
                     <input type="text" id="input-nama-pelanggan" placeholder="Contoh: Budi Santoso" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Tanggal</label>
-                        <input type="date" id="input-tanggal" onchange="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1.5 pb-0.5">
+                            <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <span>Tanggal</span>
+                        </label>
+                        <input type="date" id="input-tanggal" onchange="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
                     </div>
-                    <div>
-                        <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Waktu</label>
-                        <input type="time" id="input-waktu" onchange="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
+                    <div class="space-y-1">
+                        <label class="text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1.5 pb-0.5">
+                            <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span>Waktu</span>
+                        </label>
+                        <input type="time" id="input-waktu" onchange="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
                     </div>
                 </div>
             </div>
@@ -114,44 +119,44 @@
                 </h2>
                 
                 <!-- Diskon Section -->
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Tipe Diskon</label>
-                        <select id="input-diskon-tipe" onchange="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <select id="input-diskon-tipe" onchange="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                             <option value="nominal">Nominal (Rp)</option>
                             <option value="persen">Persen (%)</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Jumlah Diskon</label>
-                        <input type="number" id="input-diskon-nilai" value="0" min="0" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <input type="text" inputmode="numeric" id="input-diskon-nilai" value="0" oninput="handleCurrencyInput(this)" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Biaya Layanan (Rp)</label>
-                        <input type="number" id="input-biaya-layanan" value="0" min="0" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <input type="text" inputmode="numeric" id="input-biaya-layanan" value="0" oninput="handleCurrencyInput(this)" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">PPN (%)</label>
-                        <input type="number" id="input-pajak-persen" value="0" min="0" max="100" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <input type="text" inputmode="numeric" id="input-pajak-persen" value="0" oninput="handleCurrencyInput(this)" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                     </div>
                 </div>
 
                 <!-- Metode Pembayaran -->
                 <div>
                     <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Metode Pembayaran</label>
-                    <select id="input-metode-pembayaran" onchange="toggleMetodePembayaran()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
-                        <option value="Cash">Cash (Tunai)</option>
-                        <option value="Transfer">Transfer Bank</option>
+                    <select id="input-metode-pembayaran" onchange="toggleMetodePembayaran()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <option value="Cash">Cash</option>
+                        <option value="Transfer">Transfer</option>
                         <option value="QRIS">QRIS</option>
                     </select>
                 </div>
 
                 <div id="container-bayar-cash">
                     <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Bayar (Cash) (Rp)</label>
-                    <input type="number" id="input-bayar" value="0" min="0" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                    <input type="text" inputmode="numeric" id="input-bayar" value="0" oninput="handleCurrencyInput(this)" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                 </div>
             </div>
 
@@ -164,7 +169,7 @@
         <!-- PREVIEW SECTION -->
         <div id="section-preview" class="hidden space-y-4">
             
-            <!-- Canvas Receipt Container (100% Deterministic Canvas Engine) -->
+            <!-- Canvas Receipt Container (Pure HTML5 Canvas Engine 100% Consistent) -->
             <div class="flex justify-center overflow-x-auto py-2">
                 <canvas id="receipt-canvas" class="rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-800 bg-white" style="width: 340px; height: auto;"></canvas>
             </div>
@@ -186,16 +191,15 @@
 
     </main>
 
-    <!-- Disclaimer Modal -->
     <div id="disclaimer-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
         <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl max-w-sm w-full p-6 text-center space-y-5 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
             <div class="w-12 h-12 bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white rounded-2xl mx-auto flex items-center justify-center">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
             </div>
             <div>
-                <h3 class="font-bold text-base text-zinc-900 dark:text-white">Pemberitahuan Penting</h3>
-                <p class="text-sm text-zinc-600 dark:text-zinc-300 mt-2 leading-relaxed">
-                    Aplikasi ini ditujukan untuk pencatatan transaksi agar memiliki bukti yang jelas. Pengguna bertanggung jawab penuh atas penggunaannya; pembuat berlepas diri dari segala bentuk penyalahgunaan.
+                <h3 class="font-bold text-base text-zinc-900 dark:text-white">Pemberitahuan</h3>
+                <p class="text-sm text-zinc-700 dark:text-zinc-300 mt-2 leading-relaxed font-medium">
+                    Web Apps ini untuk pencatatan transaksi agar punya bukti sah. Aku berlepas diri dari penyalahgunaan.
                 </p>
             </div>
             <button onclick="closeDisclaimerModal()" class="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium py-3 rounded-xl transition text-sm">
@@ -204,7 +208,6 @@
         </div>
     </div>
 
-    <!-- Traktir Jajan Modal -->
     <div id="traktir-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl max-w-xs w-full p-6 text-center space-y-4 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
             <div class="w-12 h-12 bg-amber-100 dark:bg-amber-950/50 text-amber-600 rounded-2xl mx-auto flex items-center justify-center">
@@ -217,7 +220,7 @@
             <!-- QRIS Placeholder Image -->
             <div class="bg-zinc-50 dark:bg-zinc-950 p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 inline-block mx-auto">
                 <img src="https://placehold.co/180x180/ffffff/18181b?text=SCAN+QRIS+TRAKTIK" class="w-40 h-40 object-cover rounded-xl mx-auto" alt="QRIS QR Code" onerror="this.src='https://placehold.co/180x180/e4e4e7/27272a?text=QRIS'">
-                <p class="text-[10px] text-zinc-400 mt-2 font-mono">ID: NMID_KASIRCERDAS_123</p>
+                <p class="text-[10px] text-zinc-400 mt-2 font-mono">ID: NMID_KASIRKEJUJURAN_123</p>
             </div>
             <button onclick="closeTraktirModal()" class="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium py-2.5 rounded-xl transition text-xs">
                 Tutup & Kembali
@@ -226,7 +229,25 @@
     </div>
 
     <script>
-        // Set default date, time and initial mode on load
+        // Number formatting with dots (.)
+        function formatDot(num) {
+            if (isNaN(num) || num === '') return '0';
+            return Number(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function parseDot(str) {
+            if (!str) return 0;
+            return parseFloat(str.toString().replace(/\./g, '')) || 0;
+        }
+
+        function handleCurrencyInput(el) {
+            let val = el.value.replace(/[^\d]/g, '');
+            let parsed = val === '' ? 0 : parseInt(val, 10);
+            el.value = formatDot(parsed);
+            triggerRedraw();
+        }
+
+        // Set default date, time and initial mode on load (Lightmode default)
         window.onload = function() {
             const today = new Date();
             const yyyy = today.getFullYear();
@@ -239,10 +260,9 @@
             document.getElementById('input-waktu').value = `${hh}:${min}`;
 
             // Add initial default product items
-            tambahProdukItem('Kopi Susu Gula Aren', 1, 'Cup', 18000);
-            tambahProdukItem('Roti Bakar Coklat', 1, 'Porsi', 15000);
+            tambahProdukItem('Kopi Susu Gula Aren', 1, 'Cup', '18.000');
+            tambahProdukItem('Roti Bakar Coklat', 1, 'Porsi', '15.000');
             
-            // Trigger initial redraw once wallet icon is loaded
             walletImg.onload = function() {
                 triggerRedraw();
             };
@@ -270,7 +290,7 @@
             document.getElementById('traktir-modal').classList.add('hidden');
         }
 
-        // Dark/Light Mode toggle handler
+        // Dark/Light Mode toggle handler (Default light mode)
         function toggleDarkMode() {
             const html = document.documentElement;
             if (html.classList.contains('dark')) {
@@ -282,7 +302,7 @@
             }
         }
 
-        // Check saved theme preference - default to light mode on first visit
+        // Default to Light Mode on first visit
         if (localStorage.getItem('theme') === 'dark') {
             document.documentElement.classList.add('dark');
         } else {
@@ -325,8 +345,8 @@
         // Product Items Management
         let produkList = [];
 
-        function tambahProdukItem(nama = '', qty = 1, satuan = 'Pcs', harga = 0) {
-            produkList.push({ nama, qty, satuan, harga });
+        function tambahProdukItem(nama = '', qty = 1, satuan = 'Pcs', harga = '0') {
+            produkList.push({ nama, qty, satuan, harga: harga.toString() });
             renderProdukInputs();
             triggerRedraw();
         }
@@ -352,20 +372,20 @@
                         ${produkList.length > 1 ? `<button onclick="hapusProdukItem(${index})" class="text-rose-500 hover:text-rose-400 text-xs">Hapus</button>` : ''}
                     </div>
                     <div>
-                        <input type="text" placeholder="Nama Produk" value="${item.nama}" oninput="updateProdukData(${index}, 'nama', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <input type="text" placeholder="Nama Produk" value="${item.nama}" oninput="updateProdukData(${index}, 'nama', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                     </div>
                     <div class="grid grid-cols-3 gap-2">
                         <div>
                             <label class="block text-[10px] text-zinc-400 mb-0.5">QTY</label>
-                            <input type="number" min="1" value="${item.qty}" oninput="updateProdukData(${index}, 'qty', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                            <input type="number" min="1" value="${item.qty}" oninput="updateProdukData(${index}, 'qty', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-2 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                         </div>
                         <div>
                             <label class="block text-[10px] text-zinc-400 mb-0.5">Satuan</label>
-                            <input type="text" placeholder="Pcs/Porsi" value="${item.satuan}" oninput="updateProdukData(${index}, 'satuan', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                            <input type="text" placeholder="Pcs/Porsi" value="${item.satuan}" oninput="updateProdukData(${index}, 'satuan', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-2 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                         </div>
                         <div>
                             <label class="block text-[10px] text-zinc-400 mb-0.5">Harga (Rp)</label>
-                            <input type="number" min="0" value="${item.harga}" oninput="updateProdukData(${index}, 'harga', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                            <input type="text" inputmode="numeric" value="${item.harga}" oninput="updateProdukHarga(${index}, this)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-2 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                         </div>
                     </div>
                 `;
@@ -374,7 +394,7 @@
         }
 
         function updateProdukData(index, field, value) {
-            if (field === 'qty' || field === 'harga') {
+            if (field === 'qty') {
                 produkList[index][field] = parseFloat(value) || 0;
             } else {
                 produkList[index][field] = value;
@@ -382,11 +402,19 @@
             triggerRedraw();
         }
 
+        function updateProdukHarga(index, el) {
+            let val = el.value.replace(/[^\d]/g, '');
+            let parsed = val === '' ? 0 : parseInt(val, 10);
+            el.value = formatDot(parsed);
+            produkList[index].harga = el.value;
+            triggerRedraw();
+        }
+
         function formatRupiah(angka) {
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(angka).replace('IDR', 'Rp');
         }
 
-        // --- PURE HTML5 CANVAS 2D RECEIPT RENDERING ENGINE (100% CONSISTENT) ---
+        // --- PURE HTML5 CANVAS 2D RECEIPT RENDERING ENGINE (100% CONSISTENT & SHIFT-FREE) ---
         function getReceiptData() {
             const namaToko = document.getElementById('input-nama-toko').value || 'KASIR KEJUJURAN';
             const alamatToko = document.getElementById('input-alamat-toko').value.trim();
@@ -395,19 +423,19 @@
             const waktu = document.getElementById('input-waktu').value;
             const metodePembayaran = document.getElementById('input-metode-pembayaran').value;
 
-            const subtotal = produkList.reduce((acc, item) => acc + (item.qty * item.harga), 0);
+            const subtotal = produkList.reduce((acc, item) => acc + (item.qty * parseDot(item.harga)), 0);
             
             const diskonTipe = document.getElementById('input-diskon-tipe').value;
-            const diskonNilai = parseFloat(document.getElementById('input-diskon-nilai').value) || 0;
+            const diskonNilai = parseDot(document.getElementById('input-diskon-nilai').value);
             let diskonNominal = diskonTipe === 'persen' ? (subtotal * diskonNilai) / 100 : diskonNilai;
             
             const afterDiscount = Math.max(0, subtotal - diskonNominal);
-            const biayaLayanan = parseFloat(document.getElementById('input-biaya-layanan').value) || 0;
-            const pajakPersen = parseFloat(document.getElementById('input-pajak-persen').value) || 0;
+            const biayaLayanan = parseDot(document.getElementById('input-biaya-layanan').value);
+            const pajakPersen = parseDot(document.getElementById('input-pajak-persen').value);
             const pajakNominal = (afterDiscount * pajakPersen) / 100;
             const total = afterDiscount + biayaLayanan + pajakNominal;
             
-            const bayar = metodePembayaran === 'Cash' ? (parseFloat(document.getElementById('input-bayar').value) || 0) : total;
+            const bayar = metodePembayaran === 'Cash' ? parseDot(document.getElementById('input-bayar').value) : total;
             const kembali = bayar - total;
 
             return {
@@ -423,17 +451,16 @@
             const baseWidth = 340;
             const width = baseWidth * scale;
             
-            // Calculate dynamic height precisely
-            let baseHeight = 200; // top header & wallet badge icon
+            let baseHeight = 210;
             if (data.alamatToko) baseHeight += 20;
-            baseHeight += 50; // meta
-            baseHeight += data.produkList.length * 44; // product items
-            baseHeight += 95; // subtotal & discount
+            baseHeight += 50;
+            baseHeight += data.produkList.length * 44;
+            baseHeight += 95;
             if (data.diskonNominal > 0) baseHeight += 22;
             if (data.biayaLayanan > 0) baseHeight += 22;
             if (data.pajakPersen > 0) baseHeight += 22;
-            baseHeight += 125; // total (with extra spacing), payment method, bayar, kembali
-            baseHeight += 80; // footer
+            baseHeight += 135;
+            baseHeight += 80;
 
             const height = baseHeight * scale;
             
@@ -447,6 +474,27 @@
             // Background White
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, baseWidth, baseHeight);
+
+            // Watermark Background Pattern based on Store Name
+            ctx.save();
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.035)';
+            ctx.font = '700 13px "Courier Prime", monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            const watermarkText = (data.namaToko || 'KASIR KEJUJURAN').toUpperCase();
+            
+            ctx.translate(baseWidth / 2, baseHeight / 2);
+            ctx.rotate(-Math.PI / 6); // 30 degrees tilt
+            ctx.translate(-baseWidth / 2, -baseHeight / 2);
+
+            const stepX = 140;
+            const stepY = 110;
+            for (let yPos = -baseHeight; yPos < baseHeight * 2; yPos += stepY) {
+                for (let xPos = -baseWidth; xPos < baseWidth * 2; xPos += stepX) {
+                    ctx.fillText(watermarkText, xPos, yPos);
+                }
+            }
+            ctx.restore();
 
             const padding = 24;
             let y = padding;
@@ -462,7 +510,7 @@
                 ctx.setLineDash([]);
             }
 
-            // 1. Wallet Badge Circle at the very top (Above Store Name)
+            // Wallet Badge Circle
             const circleRadius = 18;
             const circleX = baseWidth / 2;
             const circleY = y + circleRadius;
@@ -475,14 +523,13 @@
             ctx.fill();
             ctx.stroke();
 
-            // Draw Wallet Icon image inside circle
             if (walletImg.complete && walletImg.naturalWidth !== 0) {
                 const iconSize = 18;
                 ctx.drawImage(walletImg, circleX - iconSize / 2, circleY - iconSize / 2, iconSize, iconSize);
             }
             y += circleRadius * 2 + 16;
 
-            // 2. Header Store Name
+            // Store Name
             ctx.fillStyle = '#18181b';
             ctx.font = '700 14px "Courier Prime", monospace';
             ctx.textAlign = 'center';
@@ -498,11 +545,11 @@
                 y += 18;
             }
 
-            y += 8;
+            y += 12;
             drawDashedLine(y);
             y += 16;
 
-            // 3. Meta Data
+            // Meta Data
             ctx.font = '400 11px "Courier Prime", monospace';
             const metaLeftX = padding;
             const metaRightX = baseWidth - padding;
@@ -538,7 +585,7 @@
             drawDashedLine(y);
             y += 14;
 
-            // 4. Detail Produk Label
+            // Detail Produk Label
             ctx.fillStyle = '#a1a1aa';
             ctx.font = '700 10px "Courier Prime", monospace';
             ctx.textAlign = 'left';
@@ -555,19 +602,19 @@
 
                 ctx.fillStyle = '#71717a';
                 ctx.font = '400 10px "Courier Prime", monospace';
-                ctx.fillText(`${item.qty} ${item.satuan} x ${formatRupiah(item.harga)}`, metaLeftX, y);
+                ctx.fillText(`${item.qty} ${item.satuan} x ${formatRupiah(parseDot(item.harga))}`, metaLeftX, y);
 
                 ctx.fillStyle = '#27272a';
                 ctx.font = '500 10px "Courier Prime", monospace';
                 ctx.textAlign = 'right';
-                ctx.fillText(formatRupiah(item.qty * item.harga), metaRightX, y);
+                ctx.fillText(formatRupiah(item.qty * parseDot(item.harga)), metaRightX, y);
                 y += 22;
             });
 
             drawDashedLine(y);
             y += 14;
 
-            // 5. Calculations
+            // Calculations
             function drawRow(label, val, isBold = false, color = '#27272a', size = 11, extraSpacing = 0) {
                 ctx.fillStyle = '#71717a';
                 ctx.font = `${isBold ? '700' : '400'} ${size}px "Courier Prime", monospace`;
@@ -584,18 +631,17 @@
             drawRow('Subtotal:', formatRupiah(data.subtotal));
 
             if (data.diskonNominal > 0) {
-                const diskonLabel = data.diskonTipe === 'persen' ? `Diskon (${data.diskonNilai}%):` : 'Diskon:';
+                const diskonLabel = data.diskonTipe === 'persen' ? `Diskon (${formatDot(data.diskonNilai)}%):` : 'Diskon:';
                 drawRow(diskonLabel, `- ${formatRupiah(data.diskonNominal)}`, false, '#27272a');
             }
             if (data.biayaLayanan > 0) {
                 drawRow('Biaya Layanan:', formatRupiah(data.biayaLayanan));
             }
             if (data.pajakPersen > 0) {
-                drawRow(`Pajak: PPN (${data.pajakPersen}%)`, formatRupiah(data.pajakNominal));
+                drawRow(`Pajak: PPN (${formatDot(data.pajakPersen)}%)`, formatRupiah(data.pajakNominal));
             }
 
             y += 8;
-            // Total Border Divider
             ctx.strokeStyle = '#e4e4e7';
             ctx.lineWidth = 1;
             ctx.beginPath();
@@ -604,7 +650,7 @@
             ctx.stroke();
             y += 12;
 
-            drawRow('Total:', formatRupiah(data.total), true, '#18181b', 13, 6); // Extra spacing after Total
+            drawRow('Total:', formatRupiah(data.total), true, '#18181b', 13, 8);
             y += 2;
             drawRow('Pembayaran:', data.metodePembayaran);
 
@@ -618,7 +664,7 @@
             drawDashedLine(y);
             y += 18;
 
-            // 6. Footer
+            // Footer
             ctx.fillStyle = '#27272a';
             ctx.font = '700 11px "Courier Prime", monospace';
             ctx.textAlign = 'center';
@@ -643,7 +689,7 @@
         function downloadJPG() {
             document.fonts.ready.then(() => {
                 const canvas = document.createElement('canvas');
-                drawReceiptOnCanvas(canvas, 3); // High resolution export scale = 3
+                drawReceiptOnCanvas(canvas, 3);
                 const link = document.createElement('a');
                 const data = getReceiptData();
                 link.download = `Struk-${data.namaToko.replace(/\s+/g, '_')}-${Date.now()}.jpg`;
