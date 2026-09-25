@@ -1,652 +1,239 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kasir Kejujuran - Generator Struk Belanja</title>
+    <title>Coming Soon - DreamSpace</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for cute icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
-            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    animation: {
+                        'float-slow': 'float 8s ease-in-out infinite',
+                        'float-delayed': 'float 7s ease-in-out 2s infinite',
+                        'float-fast': 'float 5s ease-in-out 1s infinite',
+                        'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-20px) rotate(5deg)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.6', transform: 'scale(1)' },
+                            '50%': { opacity: '0.9', transform: 'scale(1.05)' },
+                        }
+                    }
+                }
+            }
         }
     </script>
-    <!-- Google Fonts Inter & Courier Prime -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
-    <!-- jsPDF for PDF export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
+        /* Custom Liquid Glassmorphic Styles */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
-        .receipt-font {
-            font-family: 'Courier Prime', monospace;
+        
+        .glass-badge {
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .glass-input {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Background Animated Blobs */
+        .blob-1 {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+        }
+        .blob-2 {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+        }
+        .blob-3 {
+            background: linear-gradient(135deg, #fbc531 0%, #e84118 100%);
         }
     </style>
 </head>
-<body class="bg-zinc-200 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col transition-colors duration-300">
+<body class="h-full bg-slate-900 text-slate-100 font-sans overflow-x-hidden selection:bg-pink-500 selection:text-white">
 
-    <header class="max-w-md w-full mx-auto pt-6 pb-4 px-4 flex items-center justify-between">
-        <div class="flex items-center space-x-2.5">
-            <div class="w-9 h-9 rounded-full bg-white dark:bg-zinc-900 flex items-center justify-center shadow-xs border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-                <img src="https://img.icons8.com/?size=100&id=2pbzaYIirf1L&format=png&color=000000" class="w-5 h-5 dark:invert object-contain" alt="Logo Kasir Kejujuran">
-            </div>
-            <div>
-                <h1 class="font-semibold text-xs tracking-tight text-zinc-900 dark:text-white uppercase">KASIR KEJUJURAN</h1>
-                <p class="text-[10px] text-zinc-500 dark:text-zinc-400">by Abidzar Muhajirin</p>
-            </div>
+    <!-- Background Animated Blobs for Liquid Effect -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute -top-32 -left-32 w-96 h-96 blob-1 rounded-full mix-blend-screen filter blur-[80px] opacity-70 animate-pulse-glow"></div>
+        <div class="absolute top-1/2 -right-32 w-[30rem] h-[30rem] blob-2 rounded-full mix-blend-screen filter blur-[100px] opacity-60 animate-pulse-glow" style="animation-delay: 1.5s;"></div>
+        <div class="absolute -bottom-32 left-1/3 w-[28rem] h-[28rem] blob-3 rounded-full mix-blend-screen filter blur-[90px] opacity-50 animate-pulse-glow" style="animation-delay: 3s;"></div>
+    </div>
+
+    <!-- Floating Cute Dribbble-style Elements -->
+    <div class="fixed inset-0 pointer-events-none z-10 overflow-hidden hidden md:block">
+        <!-- Cute Star -->
+        <div class="absolute top-20 left-[15%] glass-badge p-4 rounded-3xl text-yellow-300 text-2xl animate-float-slow shadow-lg">
+            <i class="fa-solid fa-star drop-shadow"></i>
         </div>
-        <div class="flex items-center space-x-2">
-            <!-- Theme Toggle Button -->
-            <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-800 transition shadow-xs">
-                <svg id="theme-icon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-            </button>
-            <!-- Traktir Jajan Button -->
-            <button onclick="openTraktirModal()" class="text-xs font-medium text-zinc-700 dark:text-zinc-200 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 px-3.5 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 transition flex items-center space-x-1.5 shadow-xs">
-                <img src="https://img.icons8.com/?size=100&id=MjAYkOMsbYOO&format=png&color=000000" class="w-3.5 h-3.5 dark:invert object-contain" alt="Traktir">
-                <span>Traktir Jajan</span>
-            </button>
+        <!-- Cute Heart -->
+        <div class="absolute top-36 right-[18%] glass-badge p-4 rounded-3xl text-pink-400 text-2xl animate-float-delayed shadow-lg">
+            <i class="fa-solid fa-heart drop-shadow"></i>
         </div>
-    </header>
-
-    <main class="flex-1 max-w-md w-full mx-auto p-4 pb-24">
-        
-        <!-- Tab navigation -->
-        <div class="flex bg-zinc-300 dark:bg-zinc-900 p-1 rounded-full mb-6 border border-zinc-300 dark:border-zinc-800 shadow-xs">
-            <button id="tab-form" onclick="switchTab('form')" class="flex-1 py-2 text-xs font-medium rounded-full bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white transition shadow-xs">
-                Isi Form
-            </button>
-            <button id="tab-preview" onclick="switchTab('preview')" class="flex-1 py-2 text-xs font-medium rounded-full text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
-                Preview Struk
-            </button>
+        <!-- Cute Rocket -->
+        <div class="absolute bottom-28 left-[18%] glass-badge p-4 rounded-3xl text-indigo-300 text-2xl animate-float-fast shadow-lg">
+            <i class="fa-solid fa-rocket drop-shadow"></i>
         </div>
-
-        <!-- FORM SECTION -->
-        <div id="section-form" class="space-y-4">
-            
-            <!-- Toko Info -->
-            <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-5 shadow-xs space-y-4">
-                <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
-                    Informasi Toko & Pelanggan
-                </h2>
-                <div>
-                    <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nama Toko</label>
-                    <input type="text" id="input-nama-toko" value="KASIR KEJUJURAN" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Alamat Toko (Opsional)</label>
-                    <input type="text" id="input-alamat-toko" placeholder="Contoh: Jl. Malioboro No. 123, Yogyakarta" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nama Pelanggan (Opsional)</label>
-                    <input type="text" id="input-nama-pelanggan" placeholder="Contoh: Budi Santoso" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Tanggal</label>
-                        <input type="date" id="input-tanggal" onchange="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Waktu</label>
-                        <input type="time" id="input-waktu" onchange="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-5 shadow-xs space-y-4">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
-                        Detail Produk
-                    </h2>
-                    <button onclick="tambahProdukItem()" class="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700 px-3 py-1.5 rounded-full font-medium transition flex items-center space-x-1 border border-zinc-200 dark:border-zinc-700">
-                        <span>+ Tambah Item</span>
-                    </button>
-                </div>
-                
-                <div id="produk-list-container" class="space-y-3">
-                    <!-- Dynamic Product Items -->
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-5 shadow-xs space-y-4">
-                <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
-                    Biaya & Pembayaran
-                </h2>
-                
-                <!-- Diskon Section -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Tipe Diskon</label>
-                        <select id="input-diskon-tipe" onchange="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
-                            <option value="nominal">Nominal (Rp)</option>
-                            <option value="persen">Persen (%)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Jumlah Diskon</label>
-                        <input type="number" id="input-diskon-nilai" value="0" min="0" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Biaya Layanan (Rp)</label>
-                        <input type="number" id="input-biaya-layanan" value="0" min="0" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">PPN (%)</label>
-                        <input type="number" id="input-pajak-persen" value="0" min="0" max="100" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
-                    </div>
-                </div>
-
-                <!-- Metode Pembayaran -->
-                <div>
-                    <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Metode Pembayaran</label>
-                    <select id="input-metode-pembayaran" onchange="toggleMetodePembayaran()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
-                        <option value="Cash">Cash (Tunai)</option>
-                        <option value="Transfer">Transfer Bank</option>
-                        <option value="QRIS">QRIS</option>
-                    </select>
-                </div>
-
-                <div id="container-bayar-cash">
-                    <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Bayar (Cash) (Rp)</label>
-                    <input type="number" id="input-bayar" value="0" min="0" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
-                </div>
-            </div>
-
-            <!-- Action Button to Preview -->
-            <button onclick="switchTab('preview')" class="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium py-3 rounded-xl shadow-xs transition flex items-center justify-center space-x-2 text-xs">
-                <span>Lihat Struk & Unduh</span>
-            </button>
-        </div>
-
-        <!-- PREVIEW SECTION -->
-        <div id="section-preview" class="hidden space-y-4">
-            
-            <!-- Canvas Receipt Container (100% Deterministic Canvas Engine) -->
-            <div class="flex justify-center overflow-x-auto py-2">
-                <canvas id="receipt-canvas" class="rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-800 bg-white" style="width: 340px; height: auto;"></canvas>
-            </div>
-
-            <!-- Download Action Buttons -->
-            <div class="grid grid-cols-2 gap-3 pt-2">
-                <button onclick="downloadJPG()" class="bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium py-3 px-4 rounded-xl shadow-xs transition flex items-center justify-center space-x-2 text-xs">
-                    <span>Unduh JPG</span>
-                </button>
-                <button onclick="downloadPDF()" class="bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium py-3 px-4 rounded-xl shadow-xs transition flex items-center justify-center space-x-2 text-xs">
-                    <span>Unduh PDF</span>
-                </button>
-            </div>
-
-            <button onclick="switchTab('form')" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium py-2.5 rounded-xl transition text-xs">
-                Edit Kembali Struk
-            </button>
-        </div>
-
-    </main>
-
-    <div id="traktir-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl max-w-xs w-full p-6 text-center space-y-4 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
-            <div class="w-12 h-12 bg-amber-100 dark:bg-amber-950/50 text-amber-600 rounded-2xl mx-auto flex items-center justify-center">
-                <img src="https://img.icons8.com/?size=100&id=MjAYkOMsbYOO&format=png&color=000000" class="w-6 h-6 object-contain" alt="Traktir Jajan">
-            </div>
-            <div>
-                <h3 class="font-bold text-sm text-zinc-900 dark:text-white">Traktir Jajan Pembuat App</h3>
-                <p class="text-[11px] text-zinc-500 dark:text-zinc-400 mt-1">Dukung Abidzar Muhajirin agar terus semangat berkarya & membuat aplikasi gratis!</p>
-            </div>
-            <!-- QRIS Placeholder Image -->
-            <div class="bg-zinc-50 dark:bg-zinc-950 p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 inline-block mx-auto">
-                <img src="https://placehold.co/180x180/ffffff/18181b?text=SCAN+QRIS+TRAKTIK" class="w-40 h-40 object-cover rounded-xl mx-auto" alt="QRIS QR Code" onerror="this.src='https://placehold.co/180x180/e4e4e7/27272a?text=QRIS'">
-                <p class="text-[10px] text-zinc-400 mt-2 font-mono">ID: NMID_KASIRCERDAS_123</p>
-            </div>
-            <button onclick="closeTraktirModal()" class="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium py-2.5 rounded-xl transition text-xs">
-                Tutup & Kembali
-            </button>
+        <!-- Cute Sparkles -->
+        <div class="absolute bottom-32 right-[20%] glass-badge p-4 rounded-3xl text-cyan-300 text-2xl animate-float-slow shadow-lg" style="animation-delay: 2s;">
+            <i class="fa-solid fa-wand-magic-sparkles drop-shadow"></i>
         </div>
     </div>
 
+    <!-- Main Wrapper -->
+    <div class="relative z-20 min-h-full flex flex-col justify-between p-6 sm:p-10 lg:p-12 max-w-7xl mx-auto">
+        
+        <!-- Header / Logo -->
+        <header class="flex items-center justify-between w-full">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl glass-badge flex items-center justify-center text-pink-400 font-bold text-xl shadow-md">
+                    <i class="fa-solid fa-cubes"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">DeenUI</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="mailto:abidmuhajirin@gmail.com" class="glass-badge px-4 py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-white/20 transition-all duration-300 shadow-sm flex items-center gap-2">
+                    <i class="fa-regular fa-envelope"></i> Hubungi Kami
+                </a>
+            </div>
+        </header>
+
+        <!-- Center Hero Content -->
+        <main class="my-auto py-12 flex flex-col items-center text-center">
+            
+            <!-- Glassmorphic Badge Announcement -->
+            <div class="inline-flex items-center gap-2 glass-badge px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-pink-300 mb-6 shadow-md animate-bounce">
+                <span class="flex h-2 w-2 rounded-full bg-pink-400 animate-ping"></span>
+                <span>InsyaAllah Segera Hadir</span>
+                <i class="fa-solid fa-arrow-right text-[10px] ml-1"></i>
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight max-w-3xl leading-[1.1] mb-6">
+                Pengalaman Digital Baru yang <span class="bg-gradient-to-r from-pink-400 via-purple-300 to-indigo-300 bg-clip-text text-transparent">Lebih Imersif</span>
+            </h1>
+
+            <p class="text-base sm:text-lg text-slate-300 max-w-xl mb-10 font-normal leading-relaxed">
+                Kami sedang meracik platform desain dan interaksi digital generasi berikutnya. Masukkan email kamu untuk mendapatkan akses awal eksklusif!
+            </p>
+
+            <!-- Countdown Timer Container -->
+            <div class="grid grid-cols-4 gap-3 sm:gap-4 mb-10 w-full max-w-md">
+                <div class="glass-card p-3 sm:p-4 rounded-2xl flex flex-col items-center">
+                    <span id="days" class="text-2xl sm:text-4xl font-bold text-white">00</span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 mt-1 font-semibold">Hari</span>
+                </div>
+                <div class="glass-card p-3 sm:p-4 rounded-2xl flex flex-col items-center">
+                    <span id="hours" class="text-2xl sm:text-4xl font-bold text-white">00</span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 mt-1 font-semibold">Jam</span>
+                </div>
+                <div class="glass-card p-3 sm:p-4 rounded-2xl flex flex-col items-center">
+                    <span id="minutes" class="text-2xl sm:text-4xl font-bold text-white">00</span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 mt-1 font-semibold">Menit</span>
+                </div>
+                <div class="glass-card p-3 sm:p-4 rounded-2xl flex flex-col items-center">
+                    <span id="seconds" class="text-2xl sm:text-4xl font-bold text-white">00</span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 mt-1 font-semibold">Detik</span>
+                </div>
+            </div>
+
+            <!-- Newsletter / Notify Form -->
+            <div class="w-full max-w-md" id="contact">
+                <form id="notifyForm" class="flex flex-col sm:flex-row gap-3 p-2 glass-card rounded-2xl sm:rounded-full">
+                    <div class="relative flex-1">
+                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-paper-plane text-sm"></i>
+                        </span>
+                        <input type="email" id="emailInput" required placeholder="Masukkan alamat email kamu..." class="w-full pl-11 pr-4 py-3 bg-transparent rounded-xl sm:rounded-full text-sm text-white placeholder-slate-400 focus:outline-none">
+                    </div>
+                    <button type="submit" class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold px-6 py-3 rounded-xl sm:rounded-full text-sm shadow-lg shadow-pink-500/25 transition-all duration-300 transform active:scale-95 flex items-center justify-center gap-2">
+                        <span>Kabari Saya</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </form>
+                <div id="successMessage" class="hidden mt-3 p-3 rounded-xl glass-badge text-green-300 text-xs font-medium flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-circle-check"></i> Terima kasih! Kamu telah masuk dalam daftar tunggu prioritas.
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/10 text-xs text-slate-400">
+            <p>&copy; 2026 DeenUI. Dibuat dengan sentuhan hati.</p>
+            <div class="flex items-center gap-4 text-base">
+                <a href="#" class="hover:text-pink-400 transition-colors"><i class="fa-brands fa-dribbble"></i></a>
+                <a href="#" class="hover:text-indigo-400 transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="hover:text-purple-400 transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-github"></i></a>
+            </div>
+        </footer>
+
+    </div>
+
     <script>
-        // Set default date, time and initial mode on load
-        window.onload = function() {
-            const today = new Date();
-            const yyyy = today.getFullYear();
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const dd = String(today.getDate()).padStart(2, '0');
-            document.getElementById('input-tanggal').value = `${yyyy}-${mm}-${dd}`;
+        // Countdown Timer Logic
+        // Target date set to 14 days from now
+        const targetDate = new Date().getTime() + (14 * 24 * 60 * 60 * 1000);
 
-            const hh = String(today.getHours()).padStart(2, '0');
-            const min = String(today.getMinutes()).padStart(2, '0');
-            document.getElementById('input-waktu').value = `${hh}:${min}`;
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
 
-            // Add initial default product items
-            tambahProdukItem('Kopi Susu Gula Aren', 1, 'Cup', 18000);
-            tambahProdukItem('Roti Bakar Coklat', 1, 'Porsi', 15000);
-            
-            // Trigger initial redraw once wallet icon is loaded
-            walletImg.onload = function() {
-                triggerRedraw();
-            };
-            if (walletImg.complete) {
-                triggerRedraw();
-            }
-        };
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // Icons8 Wallet Glyph Image loader for Canvas
-        const walletImg = new Image();
-        walletImg.crossOrigin = 'anonymous';
-        walletImg.src = 'https://img.icons8.com/?size=100&id=60025&format=png&color=000000';
-
-        // Modal Handlers
-        function openTraktirModal() {
-            document.getElementById('traktir-modal').classList.remove('hidden');
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
         }
 
-        function closeTraktirModal() {
-            document.getElementById('traktir-modal').classList.add('hidden');
-        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
 
-        // Dark/Light Mode toggle handler
-        function toggleDarkMode() {
-            const html = document.documentElement;
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
+        // Form submission simulation
+        const notifyForm = document.getElementById('notifyForm');
+        const successMessage = document.getElementById('successMessage');
+        const emailInput = document.getElementById('emailInput');
+
+        notifyForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if(emailInput.value.trim() !== '') {
+                notifyForm.style.opacity = '0.5';
+                notifyForm.style.pointerEvents = 'none';
+                successMessage.classList.remove('hidden');
+                emailInput.value = '';
             }
-        }
-
-        // Check saved theme preference - default to light mode on first visit
-        if (localStorage.getItem('theme') === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-
-        // Tab Switcher
-        function switchTab(tab) {
-            const formSection = document.getElementById('section-form');
-            const previewSection = document.getElementById('section-preview');
-            const tabForm = document.getElementById('tab-form');
-            const tabPreview = document.getElementById('tab-preview');
-
-            if (tab === 'form') {
-                formSection.classList.remove('hidden');
-                previewSection.classList.add('hidden');
-                tabForm.className = "flex-1 py-2 text-xs font-medium rounded-full bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white transition shadow-xs";
-                tabPreview.className = "flex-1 py-2 text-xs font-medium rounded-full text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition";
-            } else {
-                triggerRedraw();
-                formSection.classList.add('hidden');
-                previewSection.classList.remove('hidden');
-                tabPreview.className = "flex-1 py-2 text-xs font-medium rounded-full bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white transition shadow-xs";
-                tabForm.className = "flex-1 py-2 text-xs font-medium rounded-full text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition";
-            }
-        }
-
-        // Toggle Cash payment field visibility based on payment method
-        function toggleMetodePembayaran() {
-            const metode = document.getElementById('input-metode-pembayaran').value;
-            const containerCash = document.getElementById('container-bayar-cash');
-            if (metode === 'Cash') {
-                containerCash.classList.remove('hidden');
-            } else {
-                containerCash.classList.add('hidden');
-            }
-            triggerRedraw();
-        }
-
-        // Product Items Management
-        let produkList = [];
-
-        function tambahProdukItem(nama = '', qty = 1, satuan = 'Pcs', harga = 0) {
-            produkList.push({ nama, qty, satuan, harga });
-            renderProdukInputs();
-            triggerRedraw();
-        }
-
-        function hapusProdukItem(index) {
-            if (produkList.length > 1) {
-                produkList.splice(index, 1);
-                renderProdukInputs();
-                triggerRedraw();
-            }
-        }
-
-        function renderProdukInputs() {
-            const container = document.getElementById('produk-list-container');
-            container.innerHTML = '';
-
-            produkList.forEach((item, index) => {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = "bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-3.5 rounded-xl space-y-2.5 relative";
-                itemDiv.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wide">Item #${index + 1}</span>
-                        ${produkList.length > 1 ? `<button onclick="hapusProdukItem(${index})" class="text-rose-500 hover:text-rose-400 text-xs">Hapus</button>` : ''}
-                    </div>
-                    <div>
-                        <input type="text" placeholder="Nama Produk" value="${item.nama}" oninput="updateProdukData(${index}, 'nama', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
-                    </div>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div>
-                            <label class="block text-[10px] text-zinc-400 mb-0.5">QTY</label>
-                            <input type="number" min="1" value="${item.qty}" oninput="updateProdukData(${index}, 'qty', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] text-zinc-400 mb-0.5">Satuan</label>
-                            <input type="text" placeholder="Pcs/Porsi" value="${item.satuan}" oninput="updateProdukData(${index}, 'satuan', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] text-zinc-400 mb-0.5">Harga (Rp)</label>
-                            <input type="number" min="0" value="${item.harga}" oninput="updateProdukData(${index}, 'harga', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
-                        </div>
-                    </div>
-                `;
-                container.appendChild(itemDiv);
-            });
-        }
-
-        function updateProdukData(index, field, value) {
-            if (field === 'qty' || field === 'harga') {
-                produkList[index][field] = parseFloat(value) || 0;
-            } else {
-                produkList[index][field] = value;
-            }
-            triggerRedraw();
-        }
-
-        function formatRupiah(angka) {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(angka).replace('IDR', 'Rp');
-        }
-
-        // --- PURE HTML5 CANVAS 2D RECEIPT RENDERING ENGINE (100% CONSISTENT) ---
-        function getReceiptData() {
-            const namaToko = document.getElementById('input-nama-toko').value || 'KASIR KEJUJURAN';
-            const alamatToko = document.getElementById('input-alamat-toko').value.trim();
-            const namaPelanggan = document.getElementById('input-nama-pelanggan').value.trim();
-            const tanggal = document.getElementById('input-tanggal').value;
-            const waktu = document.getElementById('input-waktu').value;
-            const metodePembayaran = document.getElementById('input-metode-pembayaran').value;
-
-            const subtotal = produkList.reduce((acc, item) => acc + (item.qty * item.harga), 0);
-            
-            const diskonTipe = document.getElementById('input-diskon-tipe').value;
-            const diskonNilai = parseFloat(document.getElementById('input-diskon-nilai').value) || 0;
-            let diskonNominal = diskonTipe === 'persen' ? (subtotal * diskonNilai) / 100 : diskonNilai;
-            
-            const afterDiscount = Math.max(0, subtotal - diskonNominal);
-            const biayaLayanan = parseFloat(document.getElementById('input-biaya-layanan').value) || 0;
-            const pajakPersen = parseFloat(document.getElementById('input-pajak-persen').value) || 0;
-            const pajakNominal = (afterDiscount * pajakPersen) / 100;
-            const total = afterDiscount + biayaLayanan + pajakNominal;
-            
-            const bayar = metodePembayaran === 'Cash' ? (parseFloat(document.getElementById('input-bayar').value) || 0) : total;
-            const kembali = bayar - total;
-
-            return {
-                namaToko, alamatToko, namaPelanggan, tanggal, waktu, metodePembayaran,
-                produkList, subtotal, diskonTipe, diskonNilai, diskonNominal, biayaLayanan, pajakPersen, pajakNominal, total, bayar, kembali: kembali >= 0 ? kembali : 0
-            };
-        }
-
-        function drawReceiptOnCanvas(canvas, scale = 2) {
-            const ctx = canvas.getContext('2d');
-            const data = getReceiptData();
-
-            const baseWidth = 340;
-            const width = baseWidth * scale;
-            
-            // Calculate dynamic height precisely
-            let baseHeight = 185; // top header & wallet badge icon
-            if (data.alamatToko) baseHeight += 20;
-            baseHeight += 50; // meta
-            baseHeight += data.produkList.length * 44; // product items
-            baseHeight += 95; // subtotal & discount
-            if (data.diskonNominal > 0) baseHeight += 22;
-            if (data.biayaLayanan > 0) baseHeight += 22;
-            if (data.pajakPersen > 0) baseHeight += 22;
-            baseHeight += 110; // total, payment method, bayar, kembali
-            baseHeight += 80; // footer
-
-            const height = baseHeight * scale;
-            
-            canvas.width = width;
-            canvas.height = height;
-            canvas.style.width = baseWidth + 'px';
-            canvas.style.height = baseHeight + 'px';
-
-            ctx.scale(scale, scale);
-
-            // Background White
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, baseWidth, baseHeight);
-
-            const padding = 24;
-            let y = padding;
-
-            function drawDashedLine(currentY) {
-                ctx.strokeStyle = '#d4d4d8';
-                ctx.lineWidth = 1;
-                ctx.setLineDash([4, 4]);
-                ctx.beginPath();
-                ctx.moveTo(padding, currentY);
-                ctx.lineTo(baseWidth - padding, currentY);
-                ctx.stroke();
-                ctx.setLineDash([]);
-            }
-
-            // 1. Wallet Badge Circle at the very top
-            const circleRadius = 18;
-            const circleX = baseWidth / 2;
-            const circleY = y + circleRadius;
-
-            ctx.fillStyle = '#f4f4f5';
-            ctx.strokeStyle = '#e4e4e7';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.arc(circleX, circleY, circleRadius, 0, 2 * Math.PI);
-            ctx.fill();
-            ctx.stroke();
-
-            // Draw Wallet Icon image inside circle
-            if (walletImg.complete && walletImg.naturalWidth !== 0) {
-                const iconSize = 18;
-                ctx.drawImage(walletImg, circleX - iconSize / 2, circleY - iconSize / 2, iconSize, iconSize);
-            }
-            y += circleRadius * 2 + 14;
-
-            // 2. Header Store Name
-            ctx.fillStyle = '#18181b';
-            ctx.font = '700 14px "Courier Prime", monospace';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'top';
-            ctx.fillText(data.namaToko.toUpperCase(), baseWidth / 2, y);
-            y += 20;
-
-            // Store Address
-            if (data.alamatToko) {
-                ctx.fillStyle = '#71717a';
-                ctx.font = '400 10px "Courier Prime", monospace';
-                ctx.fillText(data.alamatToko, baseWidth / 2, y);
-                y += 18;
-            }
-
-            y += 6;
-            drawDashedLine(y);
-            y += 14;
-
-            // 3. Meta Data
-            ctx.font = '400 11px "Courier Prime", monospace';
-            const metaLeftX = padding;
-            const metaRightX = baseWidth - padding;
-
-            if (data.namaPelanggan) {
-                ctx.fillStyle = '#71717a';
-                ctx.textAlign = 'left';
-                ctx.fillText('Pelanggan:', metaLeftX, y);
-                ctx.fillStyle = '#18181b';
-                ctx.font = '700 11px "Courier Prime", monospace';
-                ctx.textAlign = 'right';
-                ctx.fillText(data.namaPelanggan, metaRightX, y);
-                ctx.font = '400 11px "Courier Prime", monospace';
-                y += 18;
-            }
-
-            ctx.fillStyle = '#71717a';
-            ctx.textAlign = 'left';
-            ctx.fillText('Waktu:', metaLeftX, y);
-            ctx.fillStyle = '#27272a';
-            ctx.textAlign = 'right';
-            ctx.fillText(data.waktu || '-', metaRightX, y);
-            y += 18;
-
-            ctx.fillStyle = '#71717a';
-            ctx.textAlign = 'left';
-            ctx.fillText('Tanggal Transaksi:', metaLeftX, y);
-            ctx.fillStyle = '#27272a';
-            ctx.textAlign = 'right';
-            ctx.fillText(data.tanggal || '-', metaRightX, y);
-            y += 16;
-
-            drawDashedLine(y);
-            y += 14;
-
-            // 4. Detail Produk Label
-            ctx.fillStyle = '#a1a1aa';
-            ctx.font = '700 10px "Courier Prime", monospace';
-            ctx.textAlign = 'left';
-            ctx.fillText('DETAIL PRODUK:', metaLeftX, y);
-            y += 18;
-
-            // Product Items Loop
-            data.produkList.forEach(item => {
-                ctx.fillStyle = '#18181b';
-                ctx.font = '700 11px "Courier Prime", monospace';
-                ctx.textAlign = 'left';
-                ctx.fillText(item.nama || 'Produk', metaLeftX, y);
-                y += 16;
-
-                ctx.fillStyle = '#71717a';
-                ctx.font = '400 10px "Courier Prime", monospace';
-                ctx.fillText(`${item.qty} ${item.satuan} x ${formatRupiah(item.harga)}`, metaLeftX, y);
-
-                ctx.fillStyle = '#27272a';
-                ctx.font = '500 10px "Courier Prime", monospace';
-                ctx.textAlign = 'right';
-                ctx.fillText(formatRupiah(item.qty * item.harga), metaRightX, y);
-                y += 22;
-            });
-
-            drawDashedLine(y);
-            y += 14;
-
-            // 5. Calculations
-            function drawRow(label, val, isBold = false, color = '#27272a', size = 11) {
-                ctx.fillStyle = '#71717a';
-                ctx.font = `${isBold ? '700' : '400'} ${size}px "Courier Prime", monospace`;
-                ctx.textAlign = 'left';
-                ctx.fillText(label, metaLeftX, y);
-
-                ctx.fillStyle = color;
-                ctx.font = `${isBold ? '700' : '500'} ${size}px "Courier Prime", monospace`;
-                ctx.textAlign = 'right';
-                ctx.fillText(val, metaRightX, y);
-                y += 20;
-            }
-
-            drawRow('Subtotal:', formatRupiah(data.subtotal));
-
-            if (data.diskonNominal > 0) {
-                const diskonLabel = data.diskonTipe === 'persen' ? `Diskon (${data.diskonNilai}%):` : 'Diskon:';
-                drawRow(diskonLabel, `- ${formatRupiah(data.diskonNominal)}`, false, '#27272a');
-            }
-            if (data.biayaLayanan > 0) {
-                drawRow('Biaya Layanan:', formatRupiah(data.biayaLayanan));
-            }
-            if (data.pajakPersen > 0) {
-                drawRow(`Pajak: PPN (${data.pajakPersen}%)`, formatRupiah(data.pajakNominal));
-            }
-
-            y += 6;
-            // Total Border Divider
-            ctx.strokeStyle = '#e4e4e7';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(padding, y - 4);
-            ctx.lineTo(baseWidth - padding, y - 4);
-            ctx.stroke();
-            y += 10;
-
-            drawRow('Total:', formatRupiah(data.total), true, '#18181b', 13);
-            y += 4;
-            drawRow('Pembayaran:', data.metodePembayaran);
-
-            if (data.metodePembayaran === 'Cash') {
-                drawRow('Bayar: (Cash)', formatRupiah(data.bayar));
-                drawRow('Kembali:', formatRupiah(data.kembali), true, '#18181b', 11);
-            } else {
-                drawRow('Status:', 'LUNAS', true, '#18181b', 11);
-            }
-
-            drawDashedLine(y);
-            y += 18;
-
-            // 6. Footer
-            ctx.fillStyle = '#27272a';
-            ctx.font = '700 11px "Courier Prime", monospace';
-            ctx.textAlign = 'center';
-            ctx.fillText('Terima Kasih!', baseWidth / 2, y);
-            y += 16;
-
-            ctx.fillStyle = '#71717a';
-            ctx.font = 'italic 10px "Courier Prime", monospace';
-            ctx.fillText('Kejujuran adalah hal yang paling utama!', baseWidth / 2, y);
-        }
-
-        function triggerRedraw() {
-            const canvas = document.getElementById('receipt-canvas');
-            if (canvas) {
-                document.fonts.ready.then(() => {
-                    drawReceiptOnCanvas(canvas, 2);
-                });
-            }
-        }
-
-        // Download JPG
-        function downloadJPG() {
-            document.fonts.ready.then(() => {
-                const canvas = document.createElement('canvas');
-                drawReceiptOnCanvas(canvas, 3); // High resolution export scale = 3
-                const link = document.createElement('a');
-                const data = getReceiptData();
-                link.download = `Struk-${data.namaToko.replace(/\s+/g, '_')}-${Date.now()}.jpg`;
-                link.href = canvas.toDataURL('image/jpeg', 1.0);
-                link.click();
-            });
-        }
-
-        // Download PDF
-        function downloadPDF() {
-            document.fonts.ready.then(() => {
-                const canvas = document.createElement('canvas');
-                drawReceiptOnCanvas(canvas, 3);
-                const imgData = canvas.toDataURL('image/png');
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF({
-                    orientation: 'portrait',
-                    unit: 'mm',
-                    format: [80, 160]
-                });
-                const imgWidth = 72;
-                const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                pdf.addImage(imgData, 'PNG', 4, 4, imgWidth, imgHeight);
-                const data = getReceiptData();
-                pdf.save(`Struk-${data.namaToko.replace(/\s+/g, '_')}-${Date.now()}.pdf`);
-            });
-        }
+        });
     </script>
 </body>
 </html>
