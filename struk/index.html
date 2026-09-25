@@ -68,7 +68,7 @@
         <!-- FORM SECTION -->
         <div id="section-form" class="space-y-4 w-full box-border">
             
-            <!-- Toko Info Card matching reference layout -->
+            <!-- Toko Info Card with Optimized Date & Time Layout -->
             <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4 w-full box-border">
                 <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                     Informasi Toko & Pelanggan
@@ -86,26 +86,24 @@
                     <input type="text" id="input-nama-pelanggan" placeholder="Contoh: Budi Santoso" oninput="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
                 </div>
                 
-                <!-- Date and Time Grid (Responsive stacking for 320px/375px/390px, side-by-side on wider screens) -->
-                <div class="grid grid-cols-1 min-[370px]:grid-cols-2 gap-3 pt-1 w-full box-border">
-                    <div class="space-y-1 min-w-0 w-full box-border">
-                        <label class="text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1.5 pb-0.5 truncate">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 w-full box-border">
+                    <div class="space-y-1.5 min-w-0 w-full box-border">
+                        <label class="text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1.5 truncate">
                             <svg class="w-3.5 h-3.5 text-zinc-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             <span class="truncate">Tanggal</span>
                         </label>
-                        <input type="date" id="input-tanggal" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
+                        <input type="date" id="input-tanggal" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
                     </div>
-                    <div class="space-y-1 min-w-0 w-full box-border">
-                        <label class="text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1.5 pb-0.5 truncate">
+                    <div class="space-y-1.5 min-w-0 w-full box-border">
+                        <label class="text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1.5 truncate">
                             <svg class="w-3.5 h-3.5 text-zinc-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             <span class="truncate">Waktu</span>
                         </label>
-                        <input type="time" id="input-waktu" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
+                        <input type="time" id="input-waktu" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
                     </div>
                 </div>
             </div>
 
-            <!-- Produk Section -->
             <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4 w-full box-border">
                 <div class="flex items-center justify-between">
                     <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
@@ -121,7 +119,6 @@
                 </div>
             </div>
 
-            <!-- Biaya & Pembayaran Section matching reference layout -->
             <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4 w-full box-border">
                 <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                     Biaya & Pembayaran
