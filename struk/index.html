@@ -70,32 +70,32 @@
                 </h2>
                 <div>
                     <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nama Toko</label>
-                    <input type="text" id="input-nama-toko" value="KASIR KEJUJURAN" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
+                    <input type="text" id="input-nama-toko" value="KASIR KEJUJURAN" oninput="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Alamat Toko</label>
-                    <input type="text" id="input-alamat-toko" placeholder="Contoh: Jl. Malioboro No. 123, Yogyakarta" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
+                    <input type="text" id="input-alamat-toko" placeholder="Contoh: Jl. Malioboro No. 123, Yogyakarta" oninput="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nama Pelanggan</label>
-                    <input type="text" id="input-nama-pelanggan" placeholder="Contoh: Budi Santoso" oninput="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
+                    <input type="text" id="input-nama-pelanggan" placeholder="Contoh: Budi Santoso" oninput="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
                 </div>
                 
-                <!-- Date and Time Grid (Stacked on mobile to prevent small cramped appearance) -->
+                <!-- Date and Time Grid with Uniform Heights -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1.5 pb-0.5">
                             <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             <span>Tanggal</span>
                         </label>
-                        <input type="date" id="input-tanggal" onchange="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
+                        <input type="date" id="input-tanggal" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
                     </div>
                     <div class="space-y-1">
                         <label class="text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1.5 pb-0.5">
                             <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             <span>Waktu</span>
                         </label>
-                        <input type="time" id="input-waktu" onchange="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
+                        <input type="time" id="input-waktu" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
                     </div>
                 </div>
             </div>
@@ -120,37 +120,37 @@
                     Biaya & Pembayaran
                 </h2>
                 
-                <!-- Diskon Section (Stacked on mobile for consistent sizing) -->
+                <!-- Diskon Section with Uniform Height -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Tipe Diskon</label>
-                        <select id="input-diskon-tipe" onchange="triggerRedraw()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <select id="input-diskon-tipe" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                             <option value="nominal">Nominal (Rp)</option>
                             <option value="persen">Persen (%)</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Jumlah Diskon</label>
-                        <input type="text" inputmode="numeric" id="input-diskon-nilai" value="0" oninput="handleCurrencyInput(this)" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <input type="text" inputmode="numeric" id="input-diskon-nilai" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                     </div>
                 </div>
 
-                <!-- Biaya Layanan & PPN Grid (Stacked on mobile) -->
+                <!-- Biaya Layanan & PPN Grid with Uniform Height -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Biaya Layanan (Rp)</label>
-                        <input type="text" inputmode="numeric" id="input-biaya-layanan" value="0" oninput="handleCurrencyInput(this)" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <input type="text" inputmode="numeric" id="input-biaya-layanan" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">PPN (%)</label>
-                        <input type="text" inputmode="numeric" id="input-pajak-persen" value="0" oninput="handleCurrencyInput(this)" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <input type="text" inputmode="numeric" id="input-pajak-persen" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                     </div>
                 </div>
 
                 <!-- Metode Pembayaran -->
                 <div>
                     <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Metode Pembayaran</label>
-                    <select id="input-metode-pembayaran" onchange="toggleMetodePembayaran()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                    <select id="input-metode-pembayaran" onchange="toggleMetodePembayaran()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                         <option value="Cash">Cash</option>
                         <option value="Transfer">Transfer</option>
                         <option value="QRIS">QRIS</option>
@@ -159,7 +159,7 @@
 
                 <div id="container-bayar-cash">
                     <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Bayar (Cash) (Rp)</label>
-                    <input type="text" inputmode="numeric" id="input-bayar" value="0" oninput="handleCurrencyInput(this)" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                    <input type="text" inputmode="numeric" id="input-bayar" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                 </div>
             </div>
 
@@ -172,7 +172,7 @@
         <!-- PREVIEW SECTION -->
         <div id="section-preview" class="hidden space-y-4">
             
-            <!-- Canvas Receipt Container (Pure HTML5 Canvas Engine 100% Consistent) -->
+            <!-- Canvas Receipt Container -->
             <div class="flex justify-center overflow-x-auto py-2">
                 <canvas id="receipt-canvas" class="rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-800 bg-white" style="width: 340px; height: auto;"></canvas>
             </div>
@@ -203,7 +203,7 @@
             <div>
                 <h3 class="font-bold text-base text-zinc-900 dark:text-white">Pemberitahuan</h3>
                 <p class="text-sm text-zinc-700 dark:text-zinc-300 mt-2 leading-relaxed font-medium">
-                    Web Apps ini digunakan untuk kebutuhan pencatatan transaksi supaya punya bukti dan tidak untuk disalahgunakan, aku berlepas diri dari hal yang tidak baik.
+                    Web Apps ini digunakan untuk pencatatan transaksi agar punya bukti dan tidak disalahgunakan. Saya berlepas diri dari hal yang tidak baik.
                 </p>
             </div>
             <button onclick="closeDisclaimerModal()" class="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium py-3 rounded-xl transition text-sm">
@@ -377,20 +377,20 @@
                         ${produkList.length > 1 ? `<button onclick="hapusProdukItem(${index})" class="text-rose-500 hover:text-rose-400 text-xs">Hapus</button>` : ''}
                     </div>
                     <div>
-                        <input type="text" placeholder="Nama Produk" value="${item.nama}" oninput="updateProdukData(${index}, 'nama', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <input type="text" placeholder="Nama Produk" value="${item.nama}" oninput="updateProdukData(${index}, 'nama', this.value)" class="w-full h-[42px] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                     </div>
                     <div class="grid grid-cols-3 gap-2">
                         <div>
                             <label class="block text-[10px] text-zinc-400 mb-0.5">QTY</label>
-                            <input type="number" min="1" value="${item.qty}" oninput="updateProdukData(${index}, 'qty', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-2 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                            <input type="number" min="1" value="${item.qty}" oninput="updateProdukData(${index}, 'qty', this.value)" class="w-full h-[42px] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-2 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                         </div>
                         <div>
                             <label class="block text-[10px] text-zinc-400 mb-0.5">Satuan</label>
-                            <input type="text" placeholder="Pcs/Porsi" value="${item.satuan}" oninput="updateProdukData(${index}, 'satuan', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-2 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                            <input type="text" placeholder="Pcs/Porsi" value="${item.satuan}" oninput="updateProdukData(${index}, 'satuan', this.value)" class="w-full h-[42px] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-2 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                         </div>
                         <div>
                             <label class="block text-[10px] text-zinc-400 mb-0.5">Harga (Rp)</label>
-                            <input type="text" inputmode="numeric" value="${item.harga}" oninput="updateProdukHarga(${index}, this)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-2 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                            <input type="text" inputmode="numeric" value="${item.harga}" oninput="updateProdukHarga(${index}, this)" class="w-full h-[42px] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-2 text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                         </div>
                     </div>
                 `;
@@ -419,7 +419,7 @@
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(angka).replace('IDR', 'Rp');
         }
 
-        // --- PURE HTML5 CANVAS 2D RECEIPT RENDERING ENGINE (100% CONSISTENT & SHIFT-FREE) ---
+        // --- PURE HTML5 CANVAS 2D RECEIPT RENDERING ENGINE ---
         function getReceiptData() {
             const namaToko = document.getElementById('input-nama-toko').value || 'KASIR KEJUJURAN';
             const alamatToko = document.getElementById('input-alamat-toko').value.trim();
@@ -456,7 +456,7 @@
             const baseWidth = 340;
             const width = baseWidth * scale;
             
-            let baseHeight = 210;
+            let baseHeight = 280;
             if (data.alamatToko) baseHeight += 20;
             baseHeight += 50;
             baseHeight += data.produkList.length * 44;
@@ -465,7 +465,7 @@
             if (data.biayaLayanan > 0) baseHeight += 22;
             if (data.pajakPersen > 0) baseHeight += 22;
             baseHeight += 135;
-            baseHeight += 80;
+            baseHeight += 110; // for barcode & spacing
 
             const height = baseHeight * scale;
             
@@ -489,7 +489,7 @@
             const watermarkText = (data.namaToko || 'KASIR KEJUJURAN').toUpperCase();
             
             ctx.translate(baseWidth / 2, baseHeight / 2);
-            ctx.rotate(-Math.PI / 6); // 30 degrees tilt
+            ctx.rotate(-Math.PI / 6);
             ctx.translate(-baseWidth / 2, -baseHeight / 2);
 
             const stepX = 140;
@@ -515,7 +515,7 @@
                 ctx.setLineDash([]);
             }
 
-            // Wallet Badge Circle
+            // Wallet Badge Circle above Store Name
             const circleRadius = 18;
             const circleX = baseWidth / 2;
             const circleY = y + circleRadius;
@@ -679,6 +679,39 @@
             ctx.fillStyle = '#71717a';
             ctx.font = 'italic 10px "Courier Prime", monospace';
             ctx.fillText('Kejujuran adalah hal yang paling utama!', baseWidth / 2, y);
+            y += 34; // Generous vertical gap before barcode
+
+            // Barcode Drawing
+            const barcodeStr = `*KJ-${(data.tanggal || '20260924').replace(/-/g, '')}-${(data.waktu || '1200').replace(':', '')}-${data.total}*`;
+            const barcodeWidth = baseWidth - (padding * 2);
+            const barcodeHeight = 28;
+            const barcodeStartX = padding;
+
+            ctx.fillStyle = '#18181b';
+            let curX = barcodeStartX + 10;
+            const barPattern = [2,1,1,3,1,2,1,1,2,3,1,1,2,1,3,1,2,1,1,2,3,1,1,2,1,2,3,1,1,2,1,3,1,2,1,1];
+            let patternIndex = 0;
+            
+            // Start guard
+            ctx.fillRect(curX, y, 2, barcodeHeight); curX += 4;
+            ctx.fillRect(curX, y, 1, barcodeHeight); curX += 3;
+
+            while (curX < barcodeStartX + barcodeWidth - 25) {
+                let w = barPattern[patternIndex % barPattern.length];
+                ctx.fillRect(curX, y, w, barcodeHeight);
+                curX += w + ((patternIndex % 2 === 0) ? 2 : 1);
+                patternIndex++;
+            }
+
+            // End guard
+            ctx.fillRect(curX, y, 1, barcodeHeight); curX += 3;
+            ctx.fillRect(curX, y, 2, barcodeHeight);
+
+            y += barcodeHeight + 6;
+            ctx.fillStyle = '#71717a';
+            ctx.font = '400 9px "Courier Prime", monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText(barcodeStr, baseWidth / 2, y);
         }
 
         function triggerRedraw() {
@@ -713,7 +746,7 @@
                 const pdf = new jsPDF({
                     orientation: 'portrait',
                     unit: 'mm',
-                    format: [80, 160]
+                    format: [80, 180]
                 });
                 const imgWidth = 72;
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
