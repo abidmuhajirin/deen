@@ -216,8 +216,14 @@ button:hover .copy-icon {
       </div>
     </div>
 
-    <!-- Right Controls: Theme Toggle & Sound Toggle -->
-    <div class="flex items-center gap-3">
+    <!-- Right Controls: API Key Input, Sound Toggle & Theme Toggle -->
+    <div class="flex items-center gap-3 flex-wrap justify-end">
+      <div class="flex items-center gap-1.5 ui-subcard px-3 py-1.5 border border-gray-500/30 shadow-sm">
+        <span class="text-xs ui-text-muted font-bold whitespace-hidden sm:whitespace-visible">🔑 API Key:</span>
+        <input type="password" id="headerApiKeyInput" placeholder="Tempel Gemini API Key..." class="bg-transparent text-xs font-bold ui-text-main focus:outline-none w-36 sm:w-48">
+        <button id="saveHeaderKeyBtn" title="Simpan API Key" class="text-xs px-2.5 py-1 rounded-lg accent-btn font-bold transition-all shadow-sm">Simpan</button>
+      </div>
+
       <button id="soundToggleBtn" title="Suara Notifikasi" class="w-10 h-10 rounded-2xl ui-subcard flex items-center justify-center text-base hover:opacity-80 transition-all shadow-sm">
         🔊
       </button>
@@ -440,6 +446,26 @@ function playCompletionChime() {
     console.debug('Audio chime playback blocked', e);
   }
 }
+
+// Header API Key Binding
+const headerApiKeyInput = document.getElementById('headerApiKeyInput');
+const saveHeaderKeyBtn = document.getElementById('saveHeaderKeyBtn');
+
+const savedApiKey = localStorage.getItem('GEMINI_USER_KEY');
+if (savedApiKey) {
+  headerApiKeyInput.value = savedApiKey;
+}
+
+saveHeaderKeyBtn.addEventListener('click', () => {
+  const key = headerApiKeyInput.value.trim();
+  if (key) {
+    localStorage.setItem('GEMINI_USER_KEY', key);
+    setStatus('API Key berhasil disimpan di browser!');
+    setTimeout(() => setStatus(''), 2500);
+  } else {
+    setStatus('Masukkan API Key yang valid.', true);
+  }
+});
 
 const themeToggleBtn = document.getElementById('themeToggleBtn');
 const soundToggleBtn = document.getElementById('soundToggleBtn');
@@ -947,23 +973,20 @@ retryBtn.addEventListener('click', retryFailedFiles);
 exportCsvBtn.addEventListener('click', downloadCSV);
 
 async function callGeminiAPI(promptText, base64Image, mimeType) {
-  const workerUrl = "/api/metadata"; // Pastikan ini mengarah ke /api/metadata
-  
-  let contentsPayload = {
-    parts: [{ text: promptText }]
-  };
+  const userApiKey = localStorage.getItem('GEMINI_USER_KEY') || headerApiKeyInput.value.trim();
+  if (!userApiKey) {
+    throw new Error('API Key belum diisi! Silakan masukkan dan klik Simpan di pojok kanan atas.');
+  }
 
+  // Menggunakan model stabil terkini (gemini-3.8-flash) sesuai rekomendasi Google
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${userApiKey}`;
+  let parts = [{ text: promptText }];
   if (base64Image) {
-    contentsPayload.parts.push({ 
-      inlineData: { 
-        mimeType: mimeType || 'image/jpeg', 
-        data: base64Image 
-      } 
-    });
+    parts.push({ inlineData: { mimeType: mimeType || 'image/jpeg', data: base64Image } });
   }
 
   const payload = {
-    contents: [contentsPayload],
+    contents: [{ role: 'user', parts: parts }],
     generationConfig: {
       responseMimeType: "application/json",
       responseSchema: {
@@ -978,24 +1001,30 @@ async function callGeminiAPI(promptText, base64Image, mimeType) {
     }
   };
 
-  const response = await fetch(workerUrl, {
-    method: 'POST', // Wajib POST
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
-  
-  const result = await response.json();
-  
-  if (!response.ok) {
-    throw new Error(result.error?.message || 'HTTP ' + response.status);
+  let lastError = null;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.error?.message || 'HTTP ' + response.status);
+      }
+      const candidate = result.candidates?.[0];
+      if (candidate && candidate.content?.parts?.[0]?.text) {
+        return JSON.parse(candidate.content.parts[0].text);
+      } else {
+        throw new Error('Struktur respons AI tidak valid.');
+      }
+    } catch (err) {
+      lastError = err;
+      await new Promise(r => setTimeout(r, 600 * attempt));
+    }
   }
-
-  const candidate = result.candidates?.[0];
-  if (candidate && candidate.content?.parts?.[0]?.text) {
-    return JSON.parse(candidate.content.parts[0].text);
-  } else {
-    throw new Error('Struktur respons AI tidak valid.');
-  }
+  throw lastError || new Error('Gagal terhubung ke Gemini API.');
 }
 
 async function processFile(file) {
