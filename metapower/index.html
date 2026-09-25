@@ -947,9 +947,8 @@ retryBtn.addEventListener('click', retryFailedFiles);
 exportCsvBtn.addEventListener('click', downloadCSV);
 
 async function callGeminiAPI(promptText, base64Image, mimeType) {
-  const workerUrl = "/api/metadata"; // Mengarah ke proxy Vercel kamu
+  const workerUrl = "/api/metadata"; // Pastikan ini mengarah ke /api/metadata
   
-  // Format payload yang disesuaikan dengan struktur standar Gemini API terbaru
   let contentsPayload = {
     parts: [{ text: promptText }]
   };
@@ -979,33 +978,24 @@ async function callGeminiAPI(promptText, base64Image, mimeType) {
     }
   };
 
-  let lastError = null;
-  for (let attempt = 1; attempt <= 3; attempt++) {
-    try {
-      const response = await fetch(workerUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      
-      const result = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(result.error?.message || 'HTTP ' + response.status);
-      }
-
-      const candidate = result.candidates?.[0];
-      if (candidate && candidate.content?.parts?.[0]?.text) {
-        return JSON.parse(candidate.content.parts[0].text);
-      } else {
-        throw new Error('Struktur respons AI tidak valid.');
-      }
-    } catch (err) {
-      lastError = err;
-      await new Promise(r => setTimeout(r, 600 * attempt));
-    }
+  const response = await fetch(workerUrl, {
+    method: 'POST', // Wajib POST
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  
+  const result = await response.json();
+  
+  if (!response.ok) {
+    throw new Error(result.error?.message || 'HTTP ' + response.status);
   }
-  throw lastError || new Error('Gagal terhubung ke Vercel Proxy / Gemini API.');
+
+  const candidate = result.candidates?.[0];
+  if (candidate && candidate.content?.parts?.[0]?.text) {
+    return JSON.parse(candidate.content.parts[0].text);
+  } else {
+    throw new Error('Struktur respons AI tidak valid.');
+  }
 }
 
 async function processFile(file) {
