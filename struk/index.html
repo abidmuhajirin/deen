@@ -21,6 +21,7 @@
             overflow-x: hidden;
             width: 100%;
             max-width: 100vw;
+            box-sizing: border-box;
         }
         .receipt-font {
             font-family: 'Courier Prime', monospace;
@@ -88,21 +89,21 @@
                     <input type="text" id="input-nama-pelanggan" placeholder="Contoh: Budi Santoso" oninput="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
                 </div>
                 
-                <!-- Date & Time Grid optimized for 320px+ viewports -->
-                <div class="grid grid-cols-2 gap-2.5 sm:gap-3 pt-1 w-full box-border">
+                <!-- Date & Time Grid: Stack vertically on mobile to prevent iPhone Safari touch/overlap, side-by-side on sm+ -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 w-full box-border">
                     <div class="space-y-1.5 min-w-0 w-full box-border">
-                        <label class="text-[11px] sm:text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1 truncate">
+                        <label class="text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1.5 truncate">
                             <svg class="w-3.5 h-3.5 text-zinc-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             <span class="truncate">Tanggal</span>
                         </label>
-                        <input type="date" id="input-tanggal" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-2 sm:px-3.5 py-3 text-[11px] sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
+                        <input type="date" id="input-tanggal" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border block">
                     </div>
                     <div class="space-y-1.5 min-w-0 w-full box-border">
-                        <label class="text-[11px] sm:text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1 truncate">
+                        <label class="text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1.5 truncate">
                             <svg class="w-3.5 h-3.5 text-zinc-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             <span class="truncate">Waktu</span>
                         </label>
-                        <input type="time" id="input-waktu" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-2 sm:px-3.5 py-3 text-[11px] sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
+                        <input type="time" id="input-waktu" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border block">
                     </div>
                 </div>
             </div>
@@ -129,37 +130,37 @@
                     Biaya & Pembayaran
                 </h2>
                 
-                <!-- Diskon Section 2 Columns -->
+                <!-- Diskon Section 2 Columns matching reference layout -->
                 <div class="grid grid-cols-2 gap-3 w-full box-border">
                     <div class="min-w-0 w-full box-border">
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1 truncate">Tipe Diskon</label>
-                        <select id="input-diskon-tipe" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border">
+                        <select id="input-diskon-tipe" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border block">
                             <option value="nominal">Nominal (Rp)</option>
                             <option value="persen">Persen (%)</option>
                         </select>
                     </div>
                     <div class="min-w-0 w-full box-border">
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1 truncate">Jumlah Diskon</label>
-                        <input type="text" inputmode="numeric" id="input-diskon-nilai" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border">
+                        <input type="text" inputmode="numeric" id="input-diskon-nilai" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border block">
                     </div>
                 </div>
 
-                <!-- Biaya Layanan & PPN 2 Columns -->
+                <!-- Biaya Layanan & PPN 2 Columns matching reference layout -->
                 <div class="grid grid-cols-2 gap-3 w-full box-border">
                     <div class="min-w-0 w-full box-border">
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1 truncate">Biaya Layanan (Rp)</label>
-                        <input type="text" inputmode="numeric" id="input-biaya-layanan" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border">
+                        <input type="text" inputmode="numeric" id="input-biaya-layanan" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border block">
                     </div>
                     <div class="min-w-0 w-full box-border">
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1 truncate">PPN (%)</label>
-                        <input type="text" inputmode="numeric" id="input-pajak-persen" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border">
+                        <input type="text" inputmode="numeric" id="input-pajak-persen" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border block">
                     </div>
                 </div>
 
                 <!-- Metode Pembayaran -->
                 <div class="w-full box-border">
                     <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Metode Pembayaran</label>
-                    <select id="input-metode-pembayaran" onchange="toggleMetodePembayaran()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border">
+                    <select id="input-metode-pembayaran" onchange="toggleMetodePembayaran()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border block">
                         <option value="Cash">Cash</option>
                         <option value="Transfer">Transfer</option>
                         <option value="QRIS">QRIS</option>
@@ -168,7 +169,7 @@
 
                 <div id="container-bayar-cash" class="w-full box-border">
                     <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Bayar (Cash) (Rp)</label>
-                    <input type="text" inputmode="numeric" id="input-bayar" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border">
+                    <input type="text" inputmode="numeric" id="input-bayar" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition box-border block">
                 </div>
             </div>
 
