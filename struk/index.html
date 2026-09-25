@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,25 +81,26 @@
                     <input type="text" id="input-nama-pelanggan" placeholder="Contoh: Budi Santoso" oninput="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
                 </div>
                 
-                <!-- Date and Time Grid with Uniform Heights -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Date and Time Grid matching exact mobile UX layout -->
+                <div class="grid grid-cols-2 gap-3 pt-1">
                     <div class="space-y-1">
                         <label class="text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1.5 pb-0.5">
                             <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             <span>Tanggal</span>
                         </label>
-                        <input type="date" id="input-tanggal" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
+                        <input type="date" id="input-tanggal" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
                     </div>
                     <div class="space-y-1">
                         <label class="text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1.5 pb-0.5">
                             <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             <span>Waktu</span>
                         </label>
-                        <input type="time" id="input-waktu" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
+                        <input type="time" id="input-waktu" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition">
                     </div>
                 </div>
             </div>
 
+            <!-- Produk Section -->
             <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-5 shadow-xs space-y-4">
                 <div class="flex items-center justify-between">
                     <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
@@ -115,42 +116,43 @@
                 </div>
             </div>
 
+            <!-- Biaya & Pembayaran Section matching exact reference layout -->
             <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-5 shadow-xs space-y-4">
                 <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                     Biaya & Pembayaran
                 </h2>
                 
-                <!-- Diskon Section with Uniform Height -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Diskon Section 2 Columns -->
+                <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Tipe Diskon</label>
-                        <select id="input-diskon-tipe" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <select id="input-diskon-tipe" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                             <option value="nominal">Nominal (Rp)</option>
                             <option value="persen">Persen (%)</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Jumlah Diskon</label>
-                        <input type="text" inputmode="numeric" id="input-diskon-nilai" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <input type="text" inputmode="numeric" id="input-diskon-nilai" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                     </div>
                 </div>
 
-                <!-- Biaya Layanan & PPN Grid with Uniform Height -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Biaya Layanan & PPN 2 Columns -->
+                <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Biaya Layanan (Rp)</label>
-                        <input type="text" inputmode="numeric" id="input-biaya-layanan" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <input type="text" inputmode="numeric" id="input-biaya-layanan" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">PPN (%)</label>
-                        <input type="text" inputmode="numeric" id="input-pajak-persen" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                        <input type="text" inputmode="numeric" id="input-pajak-persen" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                     </div>
                 </div>
 
                 <!-- Metode Pembayaran -->
                 <div>
                     <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Metode Pembayaran</label>
-                    <select id="input-metode-pembayaran" onchange="toggleMetodePembayaran()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                    <select id="input-metode-pembayaran" onchange="toggleMetodePembayaran()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                         <option value="Cash">Cash</option>
                         <option value="Transfer">Transfer</option>
                         <option value="QRIS">QRIS</option>
@@ -159,7 +161,7 @@
 
                 <div id="container-bayar-cash">
                     <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Bayar (Cash) (Rp)</label>
-                    <input type="text" inputmode="numeric" id="input-bayar" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
+                    <input type="text" inputmode="numeric" id="input-bayar" value="0" oninput="handleCurrencyInput(this)" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 transition">
                 </div>
             </div>
 
@@ -193,7 +195,7 @@
 
     </main>
 
-    <!-- Disclaimer Modal -->
+    <!-- Disclaimer Modal with Shortened Polite Text and Larger Font -->
     <div id="disclaimer-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
         <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl max-w-sm w-full p-6 text-center space-y-5 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
             <div class="w-12 h-12 bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white rounded-2xl mx-auto flex items-center justify-center">
@@ -201,11 +203,11 @@
             </div>
             <div>
                 <h3 class="font-bold text-base text-zinc-900 dark:text-white">Pemberitahuan</h3>
-                <p class="text-sm text-zinc-700 dark:text-zinc-300 mt-2 leading-relaxed font-medium">
-                    Web Apps ini digunakan untuk pencatatan transaksi agar punya bukti dan tidak disalahgunakan. Saya berlepas diri dari hal yang tidak baik.
+                <p class="text-base text-zinc-700 dark:text-zinc-300 mt-2 leading-relaxed font-medium">
+                    Web Apps ini untuk pencatatan transaksi agar punya bukti dan tidak disalahgunakan. Saya berlepas diri dari hal yang tidak baik.
                 </p>
             </div>
-            <button onclick="closeDisclaimerModal()" class="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium py-3 rounded-xl transition text-sm">
+            <button onclick="closeDisclaimerModal()" class="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium py-3 rounded-xl transition text-base">
                 Saya Setuju & Mengerti
             </button>
         </div>
@@ -309,7 +311,9 @@
         // Default to Light Mode on first visit
         if (localStorage.getItem('theme') === 'dark') {
             document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
         } else {
+            document.documentElement.classList.add('light');
             document.documentElement.classList.remove('dark');
         }
 
@@ -455,7 +459,7 @@
             const baseWidth = 340;
             const width = baseWidth * scale;
             
-            let baseHeight = 280;
+            let baseHeight = 310;
             if (data.alamatToko) baseHeight += 20;
             baseHeight += 50;
             baseHeight += data.produkList.length * 44;
@@ -464,7 +468,7 @@
             if (data.biayaLayanan > 0) baseHeight += 22;
             if (data.pajakPersen > 0) baseHeight += 22;
             baseHeight += 135;
-            baseHeight += 110; // for barcode & spacing
+            baseHeight += 120; // for barcode & spacing
 
             const height = baseHeight * scale;
             
@@ -654,8 +658,8 @@
             ctx.stroke();
             y += 12;
 
-            drawRow('Total:', formatRupiah(data.total), true, '#18181b', 13, 8);
-            y += 2;
+            drawRow('Total:', formatRupiah(data.total), true, '#18181b', 13, 10);
+            y += 4;
             drawRow('Pembayaran:', data.metodePembayaran);
 
             if (data.metodePembayaran === 'Cash') {
@@ -666,14 +670,14 @@
             }
 
             drawDashedLine(y);
-            y += 18;
+            y += 24; // Generous vertical gap before footer
 
             // Footer
             ctx.fillStyle = '#27272a';
             ctx.font = '700 11px "Courier Prime", monospace';
             ctx.textAlign = 'center';
             ctx.fillText('Terima Kasih!', baseWidth / 2, y);
-            y += 16;
+            y += 18;
 
             ctx.fillStyle = '#71717a';
             ctx.font = 'italic 10px "Courier Prime", monospace';
