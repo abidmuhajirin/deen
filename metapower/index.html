@@ -948,7 +948,7 @@ exportCsvBtn.addEventListener('click', downloadCSV);
 
 async function callGeminiAPI(promptText, base64Image, mimeType) {
   // Ganti URL di bawah ini dengan URL Cloudflare Worker yang kamu dapatkan saat deploy
-  const workerUrl = "https://deen-lac.vercel.app/metapower"; 
+  const workerUrl = "https://deen-lac.vercel.app/api/metadata"; 
   
   let parts = [{ text: promptText }];
   if (base64Image) {
