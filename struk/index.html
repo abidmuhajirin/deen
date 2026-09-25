@@ -75,42 +75,53 @@
         <!-- FORM SECTION -->
         <div id="section-form" class="space-y-4 w-full box-border">
             
-            <!-- Toko Info Card -->
-            <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4 w-full box-border">
-                <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
-                    Informasi Toko & Pelanggan
-                </h2>
-                <div class="w-full box-border">
-                    <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nama Toko</label>
-                    <input type="text" id="input-nama-toko" value="KASIR KEJUJURAN" oninput="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
-                </div>
-                <div class="w-full box-border">
-                    <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Alamat Toko</label>
-                    <input type="text" id="input-alamat-toko" placeholder="Contoh: Jl. Malioboro No. 123, Yogyakarta" oninput="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
-                </div>
-                <div class="w-full box-border">
-                    <label class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nama Pelanggan</label>
-                    <input type="text" id="input-nama-pelanggan" placeholder="Contoh: Budi Santoso" oninput="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
-                </div>
-                
-                <!-- Date & Time Grid optimized side-by-side with anti-collision padding -->
-                <div class="grid grid-cols-2 gap-2 pt-1 w-full box-border">
-                    <div class="space-y-1.5 min-w-0 w-full box-border">
-                        <label class="text-[11px] sm:text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1 truncate">
-                            <svg class="w-3.5 h-3.5 text-zinc-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                            <span class="truncate">Tanggal</span>
-                        </label>
-                        <input type="date" id="input-tanggal" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-2 sm:px-3 py-3 text-[11px] sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
-                    </div>
-                    <div class="space-y-1.5 min-w-0 w-full box-border">
-                        <label class="text-[11px] sm:text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center space-x-1 truncate">
-                            <svg class="w-3.5 h-3.5 text-zinc-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            <span class="truncate">Waktu</span>
-                        </label>
-                        <input type="time" id="input-waktu" onchange="triggerRedraw()" class="w-full h-[46px] bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-2 sm:px-3 py-3 text-[11px] sm:text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition box-border">
-                    </div>
-                </div>
+            <!-- INFORMASI TOKO & PELANGGAN -->
+<div class="bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-3xl p-5 shadow-sm space-y-4">
+    <h2 class="text-xs font-bold tracking-wider text-gray-400 dark:text-gray-500 uppercase">Informasi Toko & Pelanggan</h2>
+    
+    <!-- Nama Toko -->
+    <div>
+        <label class="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1.5">Nama Toko</label>
+        <input type="text" id="namaToko" class="w-full bg-gray-50 dark:bg-zinc-800/50 border border-gray-200 dark:border-zinc-700/60 rounded-2xl px-4 py-3 text-sm text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all" placeholder="KASIR KEJUJURAN">
+    </div>
+
+    <!-- Alamat Toko -->
+    <div>
+        <label class="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1.5">Alamat Toko</label>
+        <input type="text" id="alamatToko" class="w-full bg-gray-50 dark:bg-zinc-800/50 border border-gray-200 dark:border-zinc-700/60 rounded-2xl px-4 py-3 text-sm text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all" placeholder="Contoh: Jl. Malioboro No. 123, Yogyakarta">
+    </div>
+
+    <!-- Nama Pelanggan -->
+    <div>
+        <label class="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1.5">Nama Pelanggan</label>
+        <input type="text" id="namaPelanggan" class="w-full bg-gray-50 dark:bg-zinc-800/50 border border-gray-200 dark:border-zinc-700/60 rounded-2xl px-4 py-3 text-sm text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all" placeholder="Contoh: Budi Santoso">
+    </div>
+
+    <!-- Baris Tanggal & Waktu (Dibuat berdampingan aman tanpa tabrakan di HP) -->
+    <div class="grid grid-cols-2 gap-2 sm:gap-3 w-full min-w-0">
+        <!-- Tanggal -->
+        <div class="min-w-0">
+            <div class="flex items-center space-x-1 mb-1.5">
+                <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <label class="text-xs font-medium text-gray-600 dark:text-gray-300 truncate">Tanggal</label>
             </div>
+            <div class="flex items-center bg-gray-50 dark:bg-zinc-800/50 border border-gray-200 dark:border-zinc-700/60 rounded-2xl px-2 sm:px-3 py-2 sm:py-3 min-w-0 w-full box-border">
+                <input type="date" id="tanggalInput" class="w-full bg-transparent text-[11px] sm:text-sm text-gray-800 dark:text-gray-200 focus:outline-none min-w-0 cursor-pointer">
+            </div>
+        </div>
+
+        <!-- Waktu -->
+        <div class="min-w-0">
+            <div class="flex items-center space-x-1 mb-1.5">
+                <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <label class="text-xs font-medium text-gray-600 dark:text-gray-300 truncate">Waktu</label>
+            </div>
+            <div class="flex items-center bg-gray-50 dark:bg-zinc-800/50 border border-gray-200 dark:border-zinc-700/60 rounded-2xl px-2 sm:px-3 py-2 sm:py-3 min-w-0 w-full box-border">
+                <input type="time" id="waktuInput" class="w-full bg-transparent text-[11px] sm:text-sm text-gray-800 dark:text-gray-200 focus:outline-none min-w-0 cursor-pointer">
+            </div>
+        </div>
+    </div>
+</div>
 
             <div class="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4 w-full box-border">
                 <div class="flex items-center justify-between">
