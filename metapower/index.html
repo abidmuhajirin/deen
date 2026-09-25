@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI-Powered Metadata Assistant</title>
+<style>
+:root{
+  --bg:#f3f5f8; --card:#ffffff; --border:#e4e8ef; --text:#161b22; --muted:#6b7280;
+  --blue:#2f8fef; --blue-dark:#1c6fd6; --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#0f1115;--card:#171a21;--border:#2a2e38;--text:#eef1f6;--muted:#93989f;}
+}
+:root[data-theme="dark"]{--bg:#0f1115;--card:#171a21;--border:#2a2e38;--text:#eef1f6;--muted:#93989f;}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+.wrap{max-width:1080px;margin:0 auto;padding:32px 20px 60px;}
+.header{text-align:center;margin-bottom:22px;}
+.badges{display:flex;gap:8px;justify-content:center;margin-bottom:10px;flex-wrap:wrap;}
+.badge{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--muted);}
+h1{font-size:26px;margin:4px 0;letter-spacing:.3px;}
+.sub{color:var(--muted);font-size:14px;margin-bottom:18px;}
+.tabs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;}
+.tab{padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:var(--card);font-size:13px;cursor:pointer;color:var(--text);}
+.tab.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:18px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:760px){.grid2{grid-template-columns:1fr;}}
+.step-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;margin-bottom:4px;}
+.num{width:20px;height:20px;border-radius:50%;background:var(--blue);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-desc{color:var(--muted);font-size:12px;margin-bottom:12px;}
+.drop{border:2px dashed var(--border);border-radius:12px;min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:.15s;text-align:center;padding:12px;}
+.drop.drag{border-color:var(--blue);background:rgba(47,143,239,.06);}
+.drop small{color:var(--muted);}
+.drop a{color:var(--blue);text-decoration:underline;}
+input[type=file]{display:none;}
+textarea,input[type=number],input[type=text]{width:100%;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);padding:8px 10px;font-size:13px;font-family:inherit;}
+textarea{min-height:70px;resize:vertical;}
+label.small{font-size:11px;font-weight:700;letter-spacing:.4px;color:var(--muted);display:block;margin-bottom:6px;}
+.kc-row{display:flex;align-items:center;justify-content:space-between;margin-top:14px;}
+.kc-row input{width:70px;text-align:center;}
+button.primary{width:100%;margin-top:14px;background:var(--blue);color:#fff;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;}
+button.primary:disabled{opacity:.5;cursor:not-allowed;}
+button.primary:hover:not(:disabled){background:var(--blue-dark);}
+.thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.thumb{position:relative;width:56px;height:56px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:20px;}
+.thumb img{width:100%;height:100%;object-fit:cover;}
+.thumb .rm{position:absolute;top:1px;right:1px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;width:16px;height:16px;font-size:10px;line-height:16px;cursor:pointer;padding:0;z-index:2;}
+.empty{color:var(--muted);text-align:center;padding:50px 10px;font-size:13px;}
+.result{border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;}
+.result-head{display:flex;gap:10px;align-items:flex-start;}
+.result img,.result .ricon{width:64px;height:64px;object-fit:cover;border-radius:8px;flex-shrink:0;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:26px;}
+.result-fields{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0;}
+.kw-box{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+.kw{background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:3px 9px;font-size:11px;color:var(--muted);}
+.platforms{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0;}
+.plat{padding:7px 14px;border-radius:9px;border:1px solid var(--border);background:var(--bg);font-size:12px;cursor:pointer;color:var(--text);}
+.plat.active{background:#161b22;color:#fff;border-color:#161b22;}
+.footer-row{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:14px;margin-top:6px;}
+.toggle{position:relative;width:38px;height:21px;border-radius:20px;background:var(--border);cursor:pointer;flex-shrink:0;}
+.toggle.on{background:var(--blue);}
+.toggle span{position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:50%;background:#fff;transition:.15s;}
+.toggle.on span{left:19px;}
+.autodl{font-size:12px;color:var(--muted);}
+.autodl b{color:var(--text);display:block;font-size:13px;margin-bottom:2px;}
+.status{font-size:11px;color:var(--muted);margin-top:8px;text-align:center;min-height:14px;}
+.status.err{color:#e0563d;}
+.progress{height:5px;background:var(--border);border-radius:4px;overflow:hidden;margin-top:8px;display:none;}
+.progress.show{display:block;}
+.progress i{display:block;height:100%;background:var(--blue);width:0%;transition:.25s;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="badges">
+      <span class="badge">🔒 Smart Precision Metadata</span>
+      <span class="badge">🛡️ Intellectual Property Protection</span>
+    </div>
+    <h1>AI-POWERED METADATA ASSISTANT</h1>
+    <div class="sub">Precision Metadata. Relevant Keywords. Smarter Discoverability.</div>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-cat="image">🖼️ Image Metadata</button>
+      <button class="tab" data-cat="video">▶️ Video Metadata</button>
+      <button class="tab" data-cat="vector">✏️ Vector (SVG/EPS/AI)</button>
+      <button class="tab" data-cat="epsai">⚡ Vector EPS/AI (Upload JPG)</button>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="step-title"><span class="num">1</span> Upload Files</div>
+      <div class="step-desc" id="uploadDesc">Mendukung JPEG &amp; PNG. Metadata tidak ditanam — file asli tetap aman.</div>
+      <div class="drop" id="drop">
+        <div style="font-size:26px;" id="dropIcon">🖼️</div>
+        <div>Drag &amp; drop di sini, atau <a id="chooseLink">pilih file</a></div>
+        <small id="countTxt">Belum ada file dipilih</small>
+        <input type="file" id="fileInput" multiple>
+      </div>
+      <div class="thumbs" id="thumbs"></div>
+    </div>
+
+    <div class="card">
+      <div class="step-title"><span class="num">2</span> AI Optimize</div>
+      <div class="step-desc">AI menganalisis konten visual untuk hasil terbaik.</div>
+      <label class="small">INSTRUKSI TAMBAHAN (OPTIONAL)</label>
+      <textarea id="instr" placeholder='Contoh: pastikan judul mengandung kata "keyword utama" dan letakkan keyword tertentu di awal.'></textarea>
+      <div class="kc-row">
+        <div>
+          <label class="small" style="margin-bottom:2px;">KEYWORD COUNT (1–49)</label>
+          <div style="font-size:11px;color:var(--muted);">Direkomendasikan 25–35</div>
+        </div>
+        <input type="number" id="kwCount" min="1" max="49" value="25">
+      </div>
+      <button class="primary" id="processBtn" disabled>✨ Process Metadata (0)</button>
+      <div class="progress" id="progress"><i></i></div>
+      <div class="status" id="status"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="step-title"><span class="num">3</span> Review &amp; Export</div>
+    <div class="step-desc">Tinjau hasil AI, lalu export ke CSV untuk upload massal.</div>
+    <div id="results"><div class="empty">ℹ️<br>Belum ada konten diunggah</div></div>
+
+    <div class="platforms" id="platforms">
+      <button class="plat active" data-p="AdobeStock">AdobeStock</button>
+      <button class="plat" data-p="Shutterstock">Shutterstock</button>
+      <button class="plat" data-p="Vecteezy">Vecteezy</button>
+      <button class="plat" data-p="Canva">Canva</button>
+      <button class="plat" data-p="Freepik">Freepik</button>
+    </div>
+
+    <div class="footer-row">
+      <div class="autodl"><b>Auto Download</b>Unduh otomatis CSV setelah proses selesai</div>
+      <div class="toggle" id="autoToggle"><span></span></div>
+    </div>
+    <button class="primary" id="retryBtn" disabled style="margin-top:10px;background:var(--card);color:var(--text);border:1px solid var(--border);">↻ Coba Ulang File Gagal</button>
+    <button class="primary" id="exportBtn" disabled style="margin-top:10px;">⬇ Download CSV</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+const CATS = {
+  image: {label:'Image Metadata', accept:'image/jpeg,image/png', icon:'🖼️', desc:'Mendukung JPEG & PNG. Metadata tidak ditanam — file asli tetap aman.'},
+  video: {label:'Video Metadata', accept:'video/mp4,video/quicktime,video/webm', icon:'🎬', desc:'Mendukung MP4, MOV, WEBM. Frame representatif diambil otomatis untuk dianalisis AI.'},
+  vector: {label:'Vector (SVG/EPS/AI)', accept:'.svg,.eps,.ai,image/svg+xml', icon:'✏️', desc:'SVG dianalisis penuh oleh AI. File EPS/AI dianalisis dari nama file (tanpa pratinjau visual).'},
+  epsai: {label:'Vector EPS/AI (Upload JPG)', accept:'image/jpeg', icon:'⚡', desc:'Upload JPG hasil export/preview dari file EPS/AI Anda sebagai referensi visual untuk AI.'}
+};
+let category = 'image';
+let files = []; // {id,name,thumb,base64,mediaType,noPreview,result}
+let platform = 'AdobeStock';
+let autoDL = false;
+let uidCounter = 0;
+function uid(){ uidCounter++; return 'f_'+Date.now()+'_'+uidCounter; }
+
+const drop=document.getElementById('drop'), fileInput=document.getElementById('fileInput');
+const statusEl=document.getElementById('status');
+
+function setStatus(msg, isErr){
+  statusEl.textContent = msg || '';
+  statusEl.classList.toggle('err', !!isErr);
+}
+
+document.getElementById('chooseLink').addEventListener('click', function(e){
+  e.preventDefault(); e.stopPropagation(); fileInput.click();
+});
+drop.addEventListener('click', function(){ fileInput.click(); });
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.add('drag'); }));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.remove('drag'); }));
+drop.addEventListener('drop', function(e){
+  if(e.dataTransfer && e.dataTransfer.files) handleFiles(e.dataTransfer.files);
+});
+fileInput.addEventListener('change', function(e){ handleFiles(e.target.files); e.target.value=''; });
+
+document.getElementById('tabs').addEventListener('click', function(e){
+  const btn = e.target.closest('.tab');
+  if(!btn) return;
+  category = btn.dataset.cat;
+  document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.toggle('active', t===btn));
+  const c = CATS[category];
+  fileInput.setAttribute('accept', c.accept);
+  document.getElementById('dropIcon').textContent = c.icon;
+  document.getElementById('uploadDesc').textContent = c.desc;
+  files = [];
+  renderThumbs(); renderResults(); updateButtons();
+  setStatus('');
+});
+document.getElementById('fileInput').setAttribute('accept', CATS.image.accept);
+
+function handleFiles(list){
+  const arr = Array.prototype.slice.call(list);
+  arr.forEach(function(f){ addFile(f); });
+}
+
+function addFile(f){
+  const isSvg = /svg/i.test(f.type) || /\.svg$/i.test(f.name);
+  const isVideo = /^video\//.test(f.type);
+  const isJpegPng = /^image\/(jpeg|png)$/.test(f.type);
+
+  if(category==='image' && !isJpegPng){ setStatus('File '+f.name+' dilewati: hanya JPEG/PNG.', true); return; }
+  if(category==='epsai' && !isJpegPng){ setStatus('File '+f.name+' dilewati: unggah JPG hasil export.', true); return; }
+  if(category==='video' && !isVideo){ setStatus('File '+f.name+' dilewati: hanya MP4/MOV/WEBM.', true); return; }
+
+  const rec = {id:uid(), name:f.name, thumb:null, base64:null, mediaType:null, noPreview:false, result:null};
+  files.push(rec);
+  renderThumbs(); renderResults(); updateButtons();
+
+  if(category==='image' || category==='epsai'){
+    readAsDataUrl(f, function(dataUrl){
+      rec.thumb = dataUrl; rec.base64 = dataUrl.split(',')[1]; rec.mediaType = f.type;
+      renderThumbs(); renderResults(); updateButtons();
+    });
+  } else if(isSvg){
+    readAsText(f, function(svgText){
+      svgToPng(svgText, function(pngDataUrl){
+        if(pngDataUrl){
+          rec.thumb = pngDataUrl; rec.base64 = pngDataUrl.split(',')[1]; rec.mediaType = 'image/png';
+        } else { rec.noPreview = true; }
+        renderThumbs(); renderResults(); updateButtons();
+      });
+    });
+  } else if(category==='vector'){
+    // .eps / .ai — no browser-renderable preview
+    rec.noPreview = true;
+    renderThumbs(); renderResults(); updateButtons();
+  } else if(isVideo){
+    readAsDataUrl(f, function(videoDataUrl){
+      videoFrameToPng(videoDataUrl, function(pngDataUrl){
+        if(pngDataUrl){
+          rec.thumb = pngDataUrl; rec.base64 = pngDataUrl.split(',')[1]; rec.mediaType = 'image/png';
+        } else { rec.noPreview = true; }
+        renderThumbs(); renderResults(); updateButtons();
+      });
+    });
+  }
+}
+
+function readAsDataUrl(f, cb){
+  const r = new FileReader();
+  r.onload = function(){ cb(r.result); };
+  r.onerror = function(){ setStatus('Gagal membaca file '+f.name, true); };
+  r.readAsDataURL(f);
+}
+function readAsText(f, cb){
+  const r = new FileReader();
+  r.onload = function(){ cb(r.result); };
+  r.onerror = function(){ setStatus('Gagal membaca file '+f.name, true); };
+  r.readAsText(f);
+}
+function svgToPng(svgText, cb){
+  try{
+    const img = new Image();
+    const svgBlob = new Blob([svgText], {type:'image/svg+xml'});
+    const url = URL.createObjectURL(svgBlob);
+    img.onload = function(){
+      try{
+        const size = 512;
+        const canvas = document.createElement('canvas');
+        canvas.width = size; canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,size,size);
+        const ratio = Math.min(size/(img.width||size), size/(img.height||size));
+        const w = (img.width||size)*ratio, h=(img.height||size)*ratio;
+        ctx.drawImage(img, (size-w)/2, (size-h)/2, w, h);
+        URL.revokeObjectURL(url);
+        cb(canvas.toDataURL('image/png'));
+      }catch(err){ URL.revokeObjectURL(url); cb(null); }
+    };
+    img.onerror = function(){ URL.revokeObjectURL(url); cb(null); };
+    img.src = url;
+  }catch(err){ cb(null); }
+}
+function videoFrameToPng(videoDataUrl, cb){
+  try{
+    const video = document.createElement('video');
+    video.muted = true; video.src = videoDataUrl; video.crossOrigin='anonymous';
+    video.addEventListener('loadeddata', function(){
+      try{ video.currentTime = Math.min(1, (video.duration||2)/2); }catch(err){ cb(null); }
+    });
+    video.addEventListener('seeked', function(){
+      try{
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth || 480; canvas.height = video.videoHeight || 270;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        cb(canvas.toDataURL('image/jpeg', 0.85));
+      }catch(err){ cb(null); }
+    });
+    video.addEventListener('error', function(){ cb(null); });
+  }catch(err){ cb(null); }
+}
+
+function renderThumbs(){
+  const t=document.getElementById('thumbs'); t.innerHTML='';
+  files.forEach(function(f){
+    const d=document.createElement('div'); d.className='thumb';
+    if(f.thumb){ d.innerHTML = '<img src="'+f.thumb+'">'; }
+    else { d.textContent = f.noPreview ? '📄' : '⏳'; }
+    const rm = document.createElement('button');
+    rm.className='rm'; rm.textContent='✕'; rm.dataset.id=f.id;
+    d.appendChild(rm);
+    t.appendChild(d);
+  });
+  t.querySelectorAll('.rm').forEach(function(b){
+    b.addEventListener('click', function(ev){
+      ev.stopPropagation();
+      files = files.filter(function(f){ return f.id!==b.dataset.id; });
+      renderThumbs(); renderResults(); updateButtons();
+    });
+  });
+  document.getElementById('countTxt').textContent = files.length ? (files.length+' file dipilih') : 'Belum ada file dipilih';
+}
+
+function updateButtons(){
+  document.getElementById('processBtn').textContent = '✨ Process Metadata ('+files.length+')';
+  document.getElementById('processBtn').disabled = files.length===0;
+  const done = files.filter(function(f){ return f.result && !f.result.error; }).length;
+  const failed = files.filter(function(f){ return f.result && f.result.error; }).length;
+  document.getElementById('exportBtn').disabled = done===0;
+  document.getElementById('retryBtn').disabled = failed===0;
+  document.getElementById('retryBtn').textContent = '↻ Coba Ulang File Gagal ('+failed+')';
+}
+
+document.getElementById('platforms').addEventListener('click', function(e){
+  const b = e.target.closest('.plat');
+  if(!b) return;
+  document.querySelectorAll('.plat').forEach(function(x){ x.classList.remove('active'); });
+  b.classList.add('active'); platform=b.dataset.p;
+});
+
+const autoToggle=document.getElementById('autoToggle');
+autoToggle.addEventListener('click', function(){ autoDL=!autoDL; autoToggle.classList.toggle('on',autoDL); });
+
+function renderResults(){
+  const r=document.getElementById('results');
+  if(files.length===0){ r.innerHTML='<div class="empty">ℹ️<br>Belum ada konten diunggah</div>'; return; }
+  r.innerHTML='';
+  files.forEach(function(f){
+    const box=document.createElement('div'); box.className='result';
+    const media = f.thumb ? ('<img src="'+f.thumb+'">') : '<div class="ricon">'+(f.noPreview?'📄':'⏳')+'</div>';
+    if(!f.result){
+      box.innerHTML = '<div class="result-head">'+media+'<div class="result-fields"><div style="font-size:12px;color:var(--muted);">'+esc(f.name)+' — menunggu proses AI…</div></div></div>';
+    } else if(f.result.error){
+      box.innerHTML = '<div class="result-head">'+media+
+        '<div class="result-fields">'+
+        '<div style="font-size:12px;color:#e0563d;font-weight:600;">Gagal: '+esc(f.name)+'</div>'+
+        '<div style="font-size:11px;color:var(--muted);">Alasan: '+esc(f.result.error)+'</div>'+
+        '<button class="plat" data-retry="'+f.id+'" style="align-self:flex-start;margin-top:4px;">↻ Coba lagi file ini</button>'+
+        '</div></div>';
+    } else {
+      box.innerHTML = '<div class="result-head">'+media+
+        '<div class="result-fields">'+
+        (f.result.note ? '<div style="font-size:10px;color:#e0a53d;">⚠ '+esc(f.result.note)+'</div>' : '')+
+        '<input type="text" data-id="'+f.id+'" data-field="title" value="'+escAttr(f.result.title)+'" style="font-weight:600;">'+
+        '<textarea data-id="'+f.id+'" data-field="description">'+esc(f.result.description)+'</textarea>'+
+        '<div class="kw-box">'+f.result.keywords.map(function(k){return '<span class="kw">'+esc(k)+'</span>';}).join('')+'</div>'+
+        '</div></div>';
+    }
+    r.appendChild(box);
+  });
+  r.querySelectorAll('input[data-field],textarea[data-field]').forEach(function(el){
+    el.addEventListener('change', function(){
+      const f = files.find(function(x){ return x.id===el.dataset.id; });
+      if(f && f.result && !f.result.error) f.result[el.dataset.field]=el.value;
+    });
+  });
+  r.querySelectorAll('[data-retry]').forEach(function(el){
+    el.addEventListener('click', function(){
+      const f = files.find(function(x){ return x.id===el.dataset.retry; });
+      if(f){ f.result = null; renderResults(); processOne(f); }
+    });
+  });
+}
+function esc(s){ return (s||'').replace(/[&<>]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+function escAttr(s){ return esc(s).replace(/"/g,'&quot;'); }
+
+document.getElementById('processBtn').addEventListener('click', processAll);
+document.getElementById('retryBtn').addEventListener('click', retryFailed);
+
+async function getSample(){
+  try{ return window.claude ? await window.claude.use('sample') : null; }
+  catch(err){ return null; }
+}
+
+function errMessage(err){
+  const code = err && err.code;
+  const map = {
+    not_granted: 'Izin akses AI belum diberikan/ditolak.',
+    sampling_disabled: 'AI tidak tersedia untuk akun/organisasi ini.',
+    not_declared: 'Halaman tidak mendeklarasikan akses AI.',
+    capability_disabled: 'Akses AI dinonaktifkan untuk tampilan ini.',
+    capability_removed: 'Fitur ini tidak didukung versi viewer saat ini.',
+    images_unavailable: 'Tampilan ini tidak mendukung pengiriman gambar ke AI.',
+    tools_unavailable: 'Fitur tools AI tidak didukung di tampilan ini.',
+    image_rejected: 'Gambar ditolak (format/ukuran tidak didukung atau rusak).',
+    rate_limited: 'Terlalu banyak permintaan sekaligus (rate limit).',
+    session_expired: 'Sesi login berakhir, silakan muat ulang & login lagi.',
+    refused: 'AI menolak memproses permintaan ini.',
+    empty_completion: 'AI tidak menghasilkan jawaban, coba lagi dengan input lebih sederhana.',
+    invalid_json: 'Jawaban AI tidak berupa JSON yang valid.',
+    upstream_error: 'Gangguan sementara pada layanan AI, coba lagi.',
+    prompt_too_large: 'Instruksi tambahan terlalu panjang.',
+    invalid_request: 'Permintaan tidak valid.',
+    cancelled: 'Permintaan dibatalkan.'
+  };
+  if(code && map[code]) return map[code];
+  if(err && err.message) return String(err.message).slice(0,140);
+  return 'Kesalahan tidak diketahui.';
+}
+
+function dataUrlToBlob(dataUrl){
+  const commaIdx = dataUrl.indexOf(',');
+  const meta = dataUrl.slice(0, commaIdx);
+  const mimeMatch = meta.match(/:(.*?);/);
+  const mime = mimeMatch ? mimeMatch[1] : 'image/png';
+  const binary = atob(dataUrl.slice(commaIdx+1));
+  const len = binary.length;
+  const u8 = new Uint8Array(len);
+  for(let i=0; i<len; i++){ u8[i] = binary.charCodeAt(i); }
+  return new Blob([u8], {type: mime});
+}
+
+function sleep(ms){ return new Promise(function(res){ setTimeout(res, ms); }); }
+
+async function processOne(f, sampleArg){
+  const sample = sampleArg || await getSample();
+  if(!sample){ f.result = {title:f.name, description:'', keywords:[], error:'AI tidak tersedia di tampilan ini.'}; renderResults(); updateButtons(); return; }
+  const kwCount = Math.min(49, Math.max(1, parseInt(document.getElementById('kwCount').value,10) || 25));
+  const instr = document.getElementById('instr').value.trim();
+  const catLabel = CATS[category].label;
+  const basePrompt = 'Anda adalah asisten metadata microstock profesional untuk platform '+platform+' (kategori: '+catLabel+'). '+
+    (instr ? ('Instruksi tambahan dari pengguna: '+instr+'. ') : '') +
+    'Balas HANYA dengan JSON valid, tanpa teks lain, format persis: '+
+    '{"title":"judul deskriptif 60-200 karakter","description":"deskripsi 1-2 kalimat","keywords":["kw1","kw2", "... total tepat '+kwCount+' kata kunci, paling relevan dulu, tanpa duplikat"]}';
+
+  const maxAttempts = 3;
+  let forceTextOnly = false;
+  for(let attempt=1; attempt<=maxAttempts; attempt++){
+    try{
+      let res;
+      if(f.thumb && !forceTextOnly){
+        const blob = dataUrlToBlob(f.thumb);
+        res = await sample.json(basePrompt + ' Analisis gambar berikut.', { images:[blob] });
+      } else {
+        res = await sample.json(basePrompt + ' Tidak ada pratinjau visual yang bisa dikirim di tampilan ini; gunakan nama file sebagai konteks terbaik: "'+f.name+'".');
+      }
+      f.result = { title: res.title||f.name, description: res.description||'', keywords: (res.keywords||[]).slice(0,kwCount) };
+      if(f.thumb && forceTextOnly){ f.result.note = 'Dianalisis dari nama file (pengiriman gambar tidak didukung di tampilan ini).'; }
+      return;
+    }catch(err){
+      const code = err && err.code;
+      if(code==='rate_limited' && attempt<maxAttempts){ await sleep(1500*attempt); continue; }
+      if((code==='images_unavailable' || code==='image_rejected') && f.thumb && !forceTextOnly){ forceTextOnly = true; continue; }
+      f.result = { title:f.name, description:'', keywords:[], error: errMessage(err) };
+      return;
+    }
+  }
+}
+
+async function processAll(){
+  const sample = await getSample();
+  if(!sample){ setStatus('AI tidak tersedia di tampilan ini. Pastikan Anda membuka link artefak yang sudah dipublikasikan dan menyetujui izin akses AI saat diminta.', true); return; }
+
+  const btn = document.getElementById('processBtn'); btn.disabled = true;
+  const prog = document.getElementById('progress'), progBar = prog.querySelector('i');
+  prog.classList.add('show');
+  let done = 0, failed = 0;
+
+  for(const f of files){
+    setStatus('Menganalisis '+f.name+' ('+(done+1)+'/'+files.length+')…', false);
+    await processOne(f, sample);
+    if(f.result && f.result.error) failed++;
+    done++;
+    progBar.style.width = (done/files.length*100)+'%';
+    renderResults(); updateButtons();
+  }
+  if(failed>0){ setStatus(failed+' dari '+done+' file gagal dianalisis — lihat alasan di masing-masing kartu, atau klik "Coba Ulang File Gagal".', true); }
+  else { setStatus('Selesai — '+done+' file diproses.', false); }
+  btn.disabled = false;
+  if(autoDL && failed===0) exportCSV();
+}
+
+async function retryFailed(){
+  const sample = await getSample();
+  if(!sample){ setStatus('AI tidak tersedia di tampilan ini.', true); return; }
+  const failedFiles = files.filter(function(f){ return f.result && f.result.error; });
+  const btn = document.getElementById('retryBtn'); btn.disabled = true;
+  let done=0, stillFailed=0;
+  for(const f of failedFiles){
+    setStatus('Mencoba ulang '+f.name+' ('+(done+1)+'/'+failedFiles.length+')…', false);
+    f.result = null; renderResults();
+    await processOne(f, sample);
+    if(f.result && f.result.error) stillFailed++;
+    done++;
+    renderResults(); updateButtons();
+  }
+  setStatus(stillFailed===0 ? 'Semua file berhasil diproses ulang.' : (stillFailed+' file masih gagal — cek alasan pada kartu masing-masing.'), stillFailed>0);
+  updateButtons();
+}
+
+document.getElementById('exportBtn').addEventListener('click', exportCSV);
+
+async function exportCSV(){
+  const rows = [['Filename','Title','Description','Keywords']];
+  files.filter(function(f){ return f.result; }).forEach(function(f){
+    rows.push([f.name, f.result.title, f.result.description, f.result.keywords.join(', ')]);
+  });
+  const csv = rows.map(function(r){ return r.map(function(c){ return '"'+String(c).replace(/"/g,'""')+'"'; }).join(','); }).join('\n');
+
+  let downloads = null;
+  try{ downloads = window.claude ? await window.claude.use('downloads') : null; }catch(err){ downloads = null; }
+  if(downloads){
+    try{ await downloads.save({filename:'metadata_'+platform+'_'+category+'.csv', data:csv}); return; }catch(err){}
+  }
+  try{
+    const blob = new Blob([csv], {type:'text/csv'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'metadata_'+platform+'_'+category+'.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  }catch(err){ setStatus('Gagal mengunduh CSV di tampilan ini.', true); }
+}
+</script>
+</body>
+</html>
