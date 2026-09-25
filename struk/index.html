@@ -24,9 +24,9 @@
         }
     </style>
 </head>
-<body class="bg-zinc-200 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col transition-colors duration-300">
+<body class="bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col transition-colors duration-300">
 
-    <header class="max-w-md w-full mx-auto pt-6 pb-4 px-4 flex items-center justify-between">
+    <header class="max-w-md w-full mx-auto pt-6 pb-4 px-4 flex items-center justify-between border-b border-zinc-200/60 dark:border-zinc-800/60 mb-2">
         <div class="flex items-center space-x-2.5">
             <div class="w-9 h-9 rounded-full bg-white dark:bg-zinc-900 flex items-center justify-center shadow-xs border border-zinc-200 dark:border-zinc-800 overflow-hidden">
                 <img src="https://img.icons8.com/?size=100&id=2pbzaYIirf1L&format=png&color=000000" class="w-5 h-5 dark:invert object-contain" alt="Logo Kasir Kejujuran">
@@ -52,7 +52,7 @@
     <main class="flex-1 max-w-md w-full mx-auto p-4 pb-24">
         
         <!-- Tab navigation -->
-        <div class="flex bg-zinc-300 dark:bg-zinc-900 p-1 rounded-full mb-6 border border-zinc-300 dark:border-zinc-800 shadow-xs">
+        <div class="flex bg-zinc-200 dark:bg-zinc-900 p-1 rounded-full mb-6 border border-zinc-300/60 dark:border-zinc-800 shadow-xs">
             <button id="tab-form" onclick="switchTab('form')" class="flex-1 py-2 text-xs font-medium rounded-full bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white transition shadow-xs">
                 Isi Form
             </button>
@@ -186,6 +186,25 @@
 
     </main>
 
+    <!-- Disclaimer Modal -->
+    <div id="disclaimer-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl max-w-sm w-full p-6 text-center space-y-5 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <div class="w-12 h-12 bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white rounded-2xl mx-auto flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            </div>
+            <div>
+                <h3 class="font-bold text-base text-zinc-900 dark:text-white">Pemberitahuan Penting</h3>
+                <p class="text-sm text-zinc-600 dark:text-zinc-300 mt-2 leading-relaxed">
+                    Aplikasi ini ditujukan untuk pencatatan transaksi agar memiliki bukti yang jelas. Pengguna bertanggung jawab penuh atas penggunaannya; pembuat berlepas diri dari segala bentuk penyalahgunaan.
+                </p>
+            </div>
+            <button onclick="closeDisclaimerModal()" class="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium py-3 rounded-xl transition text-sm">
+                Saya Setuju & Mengerti
+            </button>
+        </div>
+    </div>
+
+    <!-- Traktir Jajan Modal -->
     <div id="traktir-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl max-w-xs w-full p-6 text-center space-y-4 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
             <div class="w-12 h-12 bg-amber-100 dark:bg-amber-950/50 text-amber-600 rounded-2xl mx-auto flex items-center justify-center">
@@ -236,6 +255,11 @@
         const walletImg = new Image();
         walletImg.crossOrigin = 'anonymous';
         walletImg.src = 'https://img.icons8.com/?size=100&id=60025&format=png&color=000000';
+
+        // Disclaimer Modal Handlers
+        function closeDisclaimerModal() {
+            document.getElementById('disclaimer-modal').classList.add('hidden');
+        }
 
         // Modal Handlers
         function openTraktirModal() {
@@ -400,7 +424,7 @@
             const width = baseWidth * scale;
             
             // Calculate dynamic height precisely
-            let baseHeight = 185; // top header & wallet badge icon
+            let baseHeight = 200; // top header & wallet badge icon
             if (data.alamatToko) baseHeight += 20;
             baseHeight += 50; // meta
             baseHeight += data.produkList.length * 44; // product items
@@ -408,7 +432,7 @@
             if (data.diskonNominal > 0) baseHeight += 22;
             if (data.biayaLayanan > 0) baseHeight += 22;
             if (data.pajakPersen > 0) baseHeight += 22;
-            baseHeight += 110; // total, payment method, bayar, kembali
+            baseHeight += 125; // total (with extra spacing), payment method, bayar, kembali
             baseHeight += 80; // footer
 
             const height = baseHeight * scale;
@@ -438,7 +462,7 @@
                 ctx.setLineDash([]);
             }
 
-            // 1. Wallet Badge Circle at the very top
+            // 1. Wallet Badge Circle at the very top (Above Store Name)
             const circleRadius = 18;
             const circleX = baseWidth / 2;
             const circleY = y + circleRadius;
@@ -456,7 +480,7 @@
                 const iconSize = 18;
                 ctx.drawImage(walletImg, circleX - iconSize / 2, circleY - iconSize / 2, iconSize, iconSize);
             }
-            y += circleRadius * 2 + 14;
+            y += circleRadius * 2 + 16;
 
             // 2. Header Store Name
             ctx.fillStyle = '#18181b';
@@ -474,9 +498,9 @@
                 y += 18;
             }
 
-            y += 6;
+            y += 8;
             drawDashedLine(y);
-            y += 14;
+            y += 16;
 
             // 3. Meta Data
             ctx.font = '400 11px "Courier Prime", monospace';
@@ -544,7 +568,7 @@
             y += 14;
 
             // 5. Calculations
-            function drawRow(label, val, isBold = false, color = '#27272a', size = 11) {
+            function drawRow(label, val, isBold = false, color = '#27272a', size = 11, extraSpacing = 0) {
                 ctx.fillStyle = '#71717a';
                 ctx.font = `${isBold ? '700' : '400'} ${size}px "Courier Prime", monospace`;
                 ctx.textAlign = 'left';
@@ -554,7 +578,7 @@
                 ctx.font = `${isBold ? '700' : '500'} ${size}px "Courier Prime", monospace`;
                 ctx.textAlign = 'right';
                 ctx.fillText(val, metaRightX, y);
-                y += 20;
+                y += 20 + extraSpacing;
             }
 
             drawRow('Subtotal:', formatRupiah(data.subtotal));
@@ -570,7 +594,7 @@
                 drawRow(`Pajak: PPN (${data.pajakPersen}%)`, formatRupiah(data.pajakNominal));
             }
 
-            y += 6;
+            y += 8;
             // Total Border Divider
             ctx.strokeStyle = '#e4e4e7';
             ctx.lineWidth = 1;
@@ -578,10 +602,10 @@
             ctx.moveTo(padding, y - 4);
             ctx.lineTo(baseWidth - padding, y - 4);
             ctx.stroke();
-            y += 10;
+            y += 12;
 
-            drawRow('Total:', formatRupiah(data.total), true, '#18181b', 13);
-            y += 4;
+            drawRow('Total:', formatRupiah(data.total), true, '#18181b', 13, 6); // Extra spacing after Total
+            y += 2;
             drawRow('Pembayaran:', data.metodePembayaran);
 
             if (data.metodePembayaran === 'Cash') {
