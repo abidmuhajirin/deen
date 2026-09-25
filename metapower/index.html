@@ -12,20 +12,20 @@
     theme: {
       extend: {
         colors: {
-          appBgDark: '#14171d',
-          cardDark: '#1c212c',
-          borderDark: '#2a2e39',
+          appBgDark: '#121212',
+          cardDark: '#1a1a1a',
+          borderDark: '#2c2c2c',
           textDark: '#f3f4f6',
           mutedDark: '#9ca3af',
           
-          appBgLight: '#f1f5f9',
+          appBgLight: '#f8fafc',
           cardLight: '#ffffff',
-          borderLight: '#cbd5e1',
+          borderLight: '#e2e8f0',
           textLight: '#0f172a',
           mutedLight: '#475569',
 
-          // Restored Vibrant Lime/Green Accent
-          limeAccent: '#10b981',
+          // Neon Lime / Stabilo Green Accent matching the reference design
+          accentNeon: '#b6ff00',
         },
         borderRadius: {
           '3xl': '28px',
@@ -46,43 +46,43 @@ body {
 
 /* Dark Mode Theme Styles */
 body.dark {
-  background-color: #14171d;
+  background-color: #121212;
   color: #f3f4f6;
 }
 body.dark .ui-card {
-  background-color: #1c212c;
-  border: 1px solid #2a2e39;
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+  background-color: #1a1a1a;
+  border: 1px solid #2c2c2c;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
 }
 body.dark .ui-subcard {
-  background-color: #242b38;
-  border: 1px solid #2e3646;
+  background-color: #242424;
+  border: 1px solid #333333;
   color: #f3f4f6;
 }
 body.dark .ui-text-main { color: #f3f4f6; }
 body.dark .ui-text-muted { color: #9ca3af; }
 body.dark .accent-btn {
-  background-color: #10b981;
+  background-color: #b6ff00;
   color: #0f172a;
 }
 body.dark .accent-btn:hover:not(:disabled) {
-  background-color: #059669;
-  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.25);
+  background-color: #9fe600;
+  box-shadow: 0 8px 25px rgba(182, 255, 0, 0.3);
 }
 body.dark .accent-badge {
-  background-color: #10b981;
+  background-color: #b6ff00;
   color: #0f172a;
 }
-body.dark .accent-text { color: #34d399; }
+body.dark .accent-text { color: #b6ff00; }
 body.dark .badge-pill.active {
-  background: #10b981 !important;
+  background: #b6ff00 !important;
   color: #0f172a !important;
-  border-color: #10b981 !important;
+  border-color: #b6ff00 !important;
 }
 
 /* Light Mode Theme Styles */
 body:not(.dark) {
-  background-color: #f1f5f9;
+  background-color: #f8fafc;
   color: #0f172a;
 }
 body:not(.dark) .ui-card {
@@ -91,35 +91,35 @@ body:not(.dark) .ui-card {
   box-shadow: 0 15px 35px -10px rgba(15, 23, 42, 0.08);
 }
 body:not(.dark) .ui-subcard {
-  background-color: #ffffff;
+  background-color: #f1f5f9;
   border: 1px solid #cbd5e1;
   color: #0f172a;
 }
 body:not(.dark) .ui-text-main { color: #0f172a; }
 body:not(.dark) .ui-text-muted { color: #475569; }
 body:not(.dark) .accent-btn {
-  background-color: #10b981;
-  color: #ffffff;
+  background-color: #b6ff00;
+  color: #0f172a;
 }
 body:not(.dark) .accent-btn:hover:not(:disabled) {
-  background-color: #059669;
-  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.25);
+  background-color: #9fe600;
+  box-shadow: 0 8px 25px rgba(182, 255, 0, 0.25);
 }
 body:not(.dark) .accent-badge {
-  background-color: #10b981;
-  color: #ffffff;
+  background-color: #b6ff00;
+  color: #0f172a;
 }
-body:not(.dark) .accent-text { color: #059669; }
+body:not(.dark) .accent-text { color: #82b600; }
 body:not(.dark) .badge-pill.active {
-  background: #10b981 !important;
-  color: #ffffff !important;
-  border-color: #10b981 !important;
+  background: #b6ff00 !important;
+  color: #0f172a !important;
+  border-color: #b6ff00 !important;
 }
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-body.dark ::-webkit-scrollbar-thumb { background: #2a2e39; border-radius: 10px; }
-body:not(.dark) ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+body.dark ::-webkit-scrollbar-thumb { background: #333333; border-radius: 10px; }
+body:not(.dark) ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
 .ui-card {
   border-radius: 32px;
@@ -141,8 +141,8 @@ body:not(.dark) ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 
   transition: all 0.2s;
 }
 body.dark .badge-pill {
-  background: #242b38;
-  border: 1px solid #2e3646;
+  background: #242424;
+  border: 1px solid #333333;
   color: #9ca3af;
 }
 body:not(.dark) .badge-pill {
@@ -152,12 +152,12 @@ body:not(.dark) .badge-pill {
 }
 
 @keyframes flashHighlightDark {
-  0% { background-color: rgba(16, 185, 129, 0.4); }
-  100% { background-color: #242b38; }
+  0% { background-color: rgba(182, 255, 0, 0.4); }
+  100% { background-color: #242424; }
 }
 @keyframes flashHighlightLight {
-  0% { background-color: rgba(16, 185, 129, 0.25); }
-  100% { background-color: #ffffff; }
+  0% { background-color: rgba(182, 255, 0, 0.35); }
+  100% { background-color: #f1f5f9; }
 }
 .flash-dark { animation: flashHighlightDark 0.6s ease; }
 .flash-light { animation: flashHighlightLight 0.6s ease; }
@@ -179,8 +179,8 @@ button:hover .copy-icon {
   position: absolute;
   top: -28px;
   right: 0;
-  background-color: #10b981;
-  color: #ffffff;
+  background-color: #b6ff00;
+  color: #0f172a;
   font-size: 10px;
   font-weight: 800;
   padding: 2px 8px;
@@ -248,7 +248,7 @@ button:hover .copy-icon {
       <div class="text-xs ui-text-muted font-bold uppercase tracking-wider mb-1">Auto-Export CSV</div>
       <div class="flex items-center justify-between mt-2">
         <span class="text-sm font-bold ui-text-main" id="autoStatusText">Nonaktif</span>
-        <div class="w-12 h-6 rounded-full bg-gray-400/40 cursor-pointer relative transition-colors duration-200" id="autoToggle">
+        <div class="w-12 h-6 rounded-full bg-gray-500/40 cursor-pointer relative transition-colors duration-200" id="autoToggle">
           <span class="absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-all duration-200 shadow-md"></span>
         </div>
       </div>
@@ -275,7 +275,7 @@ button:hover .copy-icon {
         </div>
 
         <!-- Drag & Drop Zone -->
-        <div class="ui-subcard border-2 border-dashed border-gray-400/40 hover:opacity-90 transition-all p-8 flex flex-col items-center justify-center text-center cursor-pointer min-h-[160px]" id="dropZone">
+        <div class="ui-subcard border-2 border-dashed border-gray-500/40 hover:opacity-90 transition-all p-8 flex flex-col items-center justify-center text-center cursor-pointer min-h-[160px]" id="dropZone">
           <div class="w-12 h-12 rounded-2xl ui-card flex items-center justify-center text-2xl mb-2 shadow-sm">
             📁
           </div>
@@ -283,23 +283,23 @@ button:hover .copy-icon {
           <div class="text-xs ui-text-muted font-bold" id="fileCountText">No files selected</div>
           <input type="file" id="fileInput" multiple class="hidden">
         </div>
+      </div>
 
-        <!-- Warning Note Bar placed directly below Drag & Drop zone -->
-        <div class="mt-3 p-3 rounded-xl ui-subcard border border-amber-500/30 bg-amber-500/10 text-xs italic ui-text-muted font-medium flex items-start gap-2">
-          <span class="text-amber-500 not-italic font-bold">⚠️</span>
-          <span>note: setelah proses generate metadata selesai! jangan di klik tombol image, video, vector, EPS/AI karena akan mereset ulang file media assets, lumayan loh nanti generate ulang lagi.</span>
-        </div>
+      <!-- Warning Note Bar (Placed below Drag & Drop Zone) -->
+      <div class="my-3 p-3 rounded-xl ui-subcard border border-amber-500/40 text-xs ui-text-muted font-medium flex items-start gap-2 shadow-sm">
+        <span class="text-amber-500 font-bold">⚠️</span>
+        <span><strong>Note:</strong> setelah proses generate metadata selesai! jangan di klik tombol image, video, vector, EPS/AI karena akan mereset ulang file media assets, lumayan loh nanti generate ulang lagi.</span>
       </div>
 
       <!-- Thumbnails Preview Row -->
-      <div class="mt-4">
+      <div class="mt-2">
         <div class="flex items-center justify-between mb-2">
           <div class="text-xs font-bold ui-text-muted uppercase tracking-wider">Upload Queue</div>
-          <button id="clearQueueBtn" class="text-xs font-bold px-3 py-1 rounded-xl ui-subcard ui-text-muted hover:text-rose-500 hover:border-rose-500 transition-all border border-gray-400/30 hidden shadow-sm">
+          <button id="clearQueueBtn" class="text-xs font-bold px-3 py-1 rounded-xl ui-subcard ui-text-muted hover:text-rose-500 hover:border-rose-500 transition-all border border-gray-500/30 hidden shadow-sm">
             Clear Queue
           </button>
         </div>
-        <div class="flex flex-wrap gap-2.5 max-h-[140px] overflow-y-auto p-2 ui-subcard border border-gray-400/30" id="thumbsContainer">
+        <div class="flex flex-wrap gap-2.5 max-h-[140px] overflow-y-auto p-2 ui-subcard border border-gray-500/30" id="thumbsContainer">
           <div class="w-full text-center py-6 text-xs ui-text-muted italic font-bold">No files in queue</div>
         </div>
       </div>
@@ -316,37 +316,36 @@ button:hover .copy-icon {
         <div class="space-y-4">
           <div>
             <label class="block text-xs font-bold ui-text-muted uppercase tracking-wider mb-2">Additional Instructions (Optional)</label>
-            <textarea id="instructionInput" placeholder="Contoh: pastikan judul mengandung kata 'keyword utama' dan letakkan keyword tertentu di awal, utamakan nilai komersial, serta hindari istilah teknis yang tidak perlu..." class="w-full ui-subcard border border-gray-400/30 rounded-xl p-3 text-sm ui-text-main focus:outline-none transition-colors min-h-[90px] resize-none font-medium"></textarea>
+            <textarea id="instructionInput" placeholder="Contoh: pastikan judul mengandung kata 'keyword utama' dan letakkan keyword tertentu di awal, utamakan nilai komersial..." class="w-full ui-subcard border border-gray-500/30 rounded-xl p-3 text-sm ui-text-main focus:outline-none transition-colors min-h-[90px] resize-none font-medium"></textarea>
           </div>
 
-          <!-- Vertical Layout for Keyword Count & Target Platforms -->
           <div class="space-y-4">
             <div>
               <label class="block text-xs font-bold ui-text-muted uppercase tracking-wider mb-2" id="keywordCountLabel">Keyword Count (Max 49)</label>
-              <input type="number" id="keywordCountInput" min="1" max="50" value="49" class="w-full ui-subcard border border-gray-400/30 rounded-xl p-3 text-sm ui-text-main text-center font-bold focus:outline-none transition-colors">
+              <input type="number" id="keywordCountInput" min="1" max="50" value="49" class="w-full ui-subcard border border-gray-500/30 rounded-xl p-3 text-sm ui-text-main text-center font-bold focus:outline-none transition-colors">
             </div>
             <div>
               <label class="block text-xs font-bold ui-text-muted uppercase tracking-wider mb-2">Target Platform</label>
+              <!-- Responsive Grid for Platforms (Borderless) -->
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="platformGrid">
-                <button type="button" class="py-2.5 px-2 rounded-xl text-xs font-bold accent-badge transition-all text-center border-0 outline-none" data-platform="AdobeStock" data-limit="49">AdobeStock</button>
-                <button type="button" class="py-2.5 px-2 rounded-xl text-xs font-bold ui-subcard ui-text-main transition-all text-center border-0 outline-none" data-platform="Shutterstock" data-limit="50">Shutterstock</button>
-                <button type="button" class="py-2.5 px-2 rounded-xl text-xs font-bold ui-subcard ui-text-main transition-all text-center border-0 outline-none" data-platform="Vecteezy" data-limit="30">Vecteezy</button>
-                <button type="button" class="py-2.5 px-2 rounded-xl text-xs font-bold ui-subcard ui-text-main transition-all text-center border-0 outline-none" data-platform="Canva" data-limit="20">Canva</button>
-                <button type="button" class="py-2.5 px-2 rounded-xl text-xs font-bold ui-subcard ui-text-main transition-all text-center border-0 outline-none" data-platform="Freepik" data-limit="50">Freepik</button>
-                <button type="button" class="py-2.5 px-2 rounded-xl text-xs font-bold ui-subcard ui-text-main transition-all text-center border-0 outline-none" data-platform="The Noun Project" data-limit="5">The Noun Project</button>
+                <button type="button" class="py-2.5 px-2 rounded-xl text-xs font-bold accent-badge transition-all text-center border-0 shadow-none" data-platform="AdobeStock" data-limit="49">AdobeStock</button>
+                <button type="button" class="py-2.5 px-2 rounded-xl text-xs font-bold ui-subcard ui-text-main transition-all text-center border-0 shadow-none" data-platform="Shutterstock" data-limit="50">Shutterstock</button>
+                <button type="button" class="py-2.5 px-2 rounded-xl text-xs font-bold ui-subcard ui-text-main transition-all text-center border-0 shadow-none" data-platform="Vecteezy" data-limit="30">Vecteezy</button>
+                <button type="button" class="py-2.5 px-2 rounded-xl text-xs font-bold ui-subcard ui-text-main transition-all text-center border-0 shadow-none" data-platform="Canva" data-limit="20">Canva</button>
+                <button type="button" class="py-2.5 px-2 rounded-xl text-xs font-bold ui-subcard ui-text-main transition-all text-center border-0 shadow-none" data-platform="Freepik" data-limit="50">Freepik</button>
+                <button type="button" class="py-2.5 px-2 rounded-xl text-xs font-bold ui-subcard ui-text-main transition-all text-center border-0 shadow-none" data-platform="The Noun Project" data-limit="5">The Noun Project</button>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="mt-6 pt-4 border-t border-gray-400/25">
+      <div class="mt-6 pt-4 border-t border-gray-500/25">
         <button id="processBtn" disabled class="accent-btn w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-lg disabled:opacity-40 disabled:cursor-not-allowed">
           Process Metadata <span id="queueBadge">(0)</span> Files
         </button>
-        <!-- Standard Loading Progress Bar -->
-        <div class="w-full bg-gray-300/30 h-1.5 rounded-full overflow-hidden mt-3 hidden" id="progressBarContainer">
-          <div id="progressBar" class="bg-emerald-500 h-full w-0 transition-all duration-300"></div>
+        <div class="w-full bg-gray-500/30 h-1.5 rounded-full overflow-hidden mt-3 hidden" id="progressBarContainer">
+          <div id="progressBar" class="bg-accentNeon h-full w-0 transition-all duration-300"></div>
         </div>
         <div class="text-xs text-center font-bold mt-3 accent-text min-h-[16px]" id="statusMessage"></div>
       </div>
@@ -365,12 +364,12 @@ button:hover .copy-icon {
 
       <div class="flex items-center gap-3 w-full md:w-auto flex-wrap justify-end">
         <!-- View Mode Toggle (List / Grid) -->
-        <div class="flex items-center bg-gray-400/10 p-1 rounded-xl ui-subcard border border-gray-400/30">
+        <div class="flex items-center bg-gray-500/10 p-1 rounded-xl ui-subcard border border-gray-500/30">
           <button id="viewListBtn" class="px-3 py-1.5 text-xs font-bold rounded-lg accent-badge transition-all shadow-sm">List</button>
           <button id="viewGridBtn" class="px-3 py-1.5 text-xs font-bold rounded-lg ui-subcard ui-text-muted hover:text-white transition-all">Grid</button>
         </div>
 
-        <button id="retryBtn" disabled class="ui-subcard px-4 py-2.5 text-xs font-bold ui-text-main hover:opacity-80 transition-all disabled:opacity-40 disabled:cursor-not-allowed border border-gray-400/30 shadow-sm">
+        <button id="retryBtn" disabled class="ui-subcard px-4 py-2.5 text-xs font-bold ui-text-main hover:opacity-80 transition-all disabled:opacity-40 disabled:cursor-not-allowed border border-gray-500/30 shadow-sm">
           Coba Ulang Gagal
         </button>
         <button id="exportCsvBtn" disabled class="accent-btn px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 shadow-md disabled:opacity-40 disabled:cursor-not-allowed">
@@ -381,7 +380,7 @@ button:hover .copy-icon {
 
     <!-- Results Feed (List / Grid container) -->
     <div id="resultsContainer" class="space-y-4">
-      <div class="ui-subcard p-12 text-center ui-text-muted text-sm font-bold border border-gray-400/30">
+      <div class="ui-subcard p-12 text-center ui-text-muted text-sm font-bold border border-gray-500/30">
         Belum ada aset yang diproses. Unggah file dan klik "Process Metadata" untuk memulai.
       </div>
     </div>
@@ -393,10 +392,10 @@ button:hover .copy-icon {
 'use strict';
 
 const CATEGORIES = {
-  image: { label: 'Image Metadata', accept: 'image/jpeg,image/png', desc: 'Mendukung JPEG & PNG. Analisis visual multimodal langsung.' },
-  video: { label: 'Video Metadata', accept: 'video/mp4,video/quicktime,video/webm', desc: 'Mendukung MP4, MOV, WEBM. Keyframe diekstrak otomatis.' },
-  vector: { label: 'Vector (SVG)', accept: '.svg,image/svg+xml', desc: 'SVG dirender dan dianalisis oleh Gemini AI vision.' },
-  epsai: { label: 'Vector EPS/AI Preview', accept: 'image/jpeg', desc: 'Unggah JPG pratinjau EPS/AI Anda untuk panduan analisis AI.' }
+  image: { label: 'Image Metadata', accept: 'image/jpeg,image/png', desc: 'Mendukung JPEG & PNG.' },
+  video: { label: 'Video Metadata', accept: 'video/mp4,video/quicktime,video/webm', desc: 'Mendukung MP4, MOV, WEBM.' },
+  vector: { label: 'Vector (SVG)', accept: '.svg,image/svg+xml', desc: 'SVG dirender dan dianalisis.' },
+  epsai: { label: 'Vector EPS/AI Preview', accept: 'image/jpeg', desc: 'Unggah JPG pratinjau EPS/AI.' }
 };
 
 let currentCategory = 'image';
@@ -415,7 +414,6 @@ function generateId() {
   return 'file_' + Date.now() + '_' + counterId;
 }
 
-// Web Audio API Notification Chime
 function playCompletionChime() {
   if (!soundEnabled) return;
   try {
@@ -439,7 +437,7 @@ function playCompletionChime() {
       osc.stop(ctx.currentTime + index * 0.1 + 0.6);
     });
   } catch (e) {
-    console.debug('Audio chime playback blocked or unavailable', e);
+    console.debug('Audio chime playback blocked', e);
   }
 }
 
@@ -492,7 +490,6 @@ viewGridBtn.addEventListener('click', () => {
   renderResults();
 });
 
-// Category tab switching
 document.querySelectorAll('[data-cat]').forEach(btn => {
   btn.addEventListener('click', (e) => {
     document.querySelectorAll('[data-cat]').forEach(b => b.classList.remove('active'));
@@ -507,7 +504,6 @@ document.querySelectorAll('[data-cat]').forEach(btn => {
   });
 });
 
-// Platform selection & automatic keyword count adjustment
 document.querySelectorAll('[data-platform]').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('[data-platform]').forEach(b => {
@@ -534,11 +530,11 @@ const autoToggle = document.getElementById('autoToggle');
 autoToggle.addEventListener('click', () => {
   isAutoDownload = !isAutoDownload;
   autoToggle.classList.toggle('accent-badge', isAutoDownload);
-  autoToggle.classList.toggle('bg-gray-400/40', !isAutoDownload);
+  autoToggle.classList.toggle('bg-gray-500/40', !isAutoDownload);
   const dot = autoToggle.querySelector('span');
   dot.style.left = isAutoDownload ? '26px' : '4px';
   document.getElementById('autoStatusText').textContent = isAutoDownload ? 'Aktif' : 'Nonaktif';
-  document.getElementById('autoStatusText').style.color = isAutoDownload ? '#10b981' : '';
+  document.getElementById('autoStatusText').style.color = isAutoDownload ? '#b6ff00' : '';
 });
 
 dropZone.addEventListener('click', () => fileInput.click());
@@ -667,16 +663,14 @@ function renderThumbnails() {
   const thumbsContainer = document.getElementById('thumbsContainer');
   if (uploadedFiles.length === 0) {
     thumbsContainer.innerHTML = '<div class="w-full text-center py-6 text-xs ui-text-muted italic font-bold">No files in queue</div>';
-    document.getElementById('fileCountText').textContent = 'No files selected';
     clearQueueBtn.classList.add('hidden');
     return;
   }
-  document.getElementById('fileCountText').textContent = uploadedFiles.length + ' file(s) ready';
   clearQueueBtn.classList.remove('hidden');
   thumbsContainer.innerHTML = '';
   uploadedFiles.forEach(f => {
     const wrap = document.createElement('div');
-    wrap.className = 'relative w-14 h-14 rounded-xl overflow-hidden border border-gray-400/30 ui-subcard flex items-center justify-center text-lg shadow-sm';
+    wrap.className = 'relative w-14 h-14 rounded-xl overflow-hidden border border-gray-500/30 ui-subcard flex items-center justify-center text-lg shadow-sm';
     if (f.thumb) {
       wrap.innerHTML = `<img src="${f.thumb}" class="w-full h-full object-cover">`;
     } else {
@@ -713,12 +707,13 @@ function updateUIState() {
 function renderResults() {
   if (uploadedFiles.length === 0) {
     resultsContainer.className = 'space-y-4';
-    resultsContainer.innerHTML = '<div class="ui-subcard p-12 text-center ui-text-muted text-sm font-bold border border-gray-400/30">Belum ada aset yang diproses. Unggah file dan klik "Process Metadata" untuk memulai.</div>';
+    resultsContainer.innerHTML = '<div class="ui-subcard p-12 text-center ui-text-muted text-sm font-bold border border-gray-500/30">Belum ada aset yang diproses. Unggah file dan klik "Process Metadata" untuk memulai.</div>';
     return;
   }
 
+  // Grid view compact square thumbnail cards
   if (currentViewMode === 'grid') {
-    resultsContainer.className = 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4';
+    resultsContainer.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3';
   } else {
     resultsContainer.className = 'space-y-4';
   }
@@ -728,67 +723,64 @@ function renderResults() {
     const card = document.createElement('div');
     
     if (currentViewMode === 'grid') {
-      card.className = 'ui-subcard p-3 flex flex-col gap-2.5 border border-gray-400/30 shadow-sm justify-between rounded-2xl';
+      card.className = 'ui-subcard p-3 flex flex-col gap-2 border border-gray-500/30 shadow-sm justify-between';
       
       const mediaBox = document.createElement('div');
-      mediaBox.className = 'w-full aspect-square rounded-xl overflow-hidden border border-gray-400/30 ui-subcard flex items-center justify-center text-xl shadow-inner bg-black/5';
+      mediaBox.className = 'w-full aspect-square rounded-xl overflow-hidden border border-gray-500/30 bg-black/20 flex items-center justify-center shadow-inner';
       if (f.thumb) {
-        mediaBox.innerHTML = `<img src="${f.thumb}" class="w-full h-full object-cover">`;
+        mediaBox.innerHTML = `<img src="${f.thumb}" class="w-full h-full object-contain">`;
       } else {
         mediaBox.textContent = f.noPreview ? '📄' : '⏳';
       }
       card.appendChild(mediaBox);
 
       const contentBox = document.createElement('div');
-      contentBox.className = 'w-full space-y-2';
+      contentBox.className = 'space-y-2';
 
       if (!f.result) {
-        contentBox.innerHTML = `<div class="text-xs font-bold ui-text-main truncate">${escapeHtml(f.name)}</div><div class="text-[10px] ui-text-muted">Menunggu antrean...</div>`;
+        contentBox.innerHTML = `<div class="text-xs font-bold ui-text-main" style="word-break: break-word;">${escapeHtml(f.name)}</div><div class="text-[10px] ui-text-muted">Menunggu antrean...</div>`;
       } else if (f.result.error) {
         contentBox.innerHTML = `
-          <div class="text-xs font-bold text-rose-500 truncate">${escapeHtml(f.name)}</div>
-          <div class="text-[10px] text-rose-400">Error: ${escapeHtml(f.result.error)}</div>
-          <button class="text-[10px] font-bold accent-text underline" onclick="retrySingle('${f.id}')">Coba ulang</button>
+          <div class="text-xs font-bold text-rose-500" style="word-break: break-word;">${escapeHtml(f.name)}</div>
+          <div class="text-[10px] text-rose-400">Error</div>
+          <button class="text-[10px] accent-text underline font-bold" onclick="retrySingle('${f.id}')">Coba ulang</button>
         `;
       } else {
         contentBox.innerHTML = `
-          <div class="text-[10px] font-black accent-text uppercase tracking-wide truncate">${escapeHtml(f.name)}</div>
+          <div class="text-xs font-black accent-text" style="word-break: break-word;">${escapeHtml(f.name)}</div>
+          
           <div class="relative" id="wrapper-title-${f.id}">
-            <div class="flex items-center justify-between mb-0.5">
+            <div class="flex items-center justify-between">
               <label class="text-[9px] font-black ui-text-muted uppercase">Judul</label>
-              <div class="relative">
-                <button onclick="copySpecificField('${f.id}', 'title')" title="Salin Judul" class="w-5 h-5 rounded-md ui-subcard border border-gray-400/30 flex items-center justify-center hover:opacity-85 transition-all shadow-sm">
-                  <img src="${CUSTOM_COPY_ICON}" class="copy-icon" style="width:11px;height:11px;">
-                </button>
-                <div id="tooltip-title-${f.id}" class="copy-tooltip">Copied!</div>
-              </div>
+              <button onclick="copySpecificField('${f.id}', 'title')" title="Salin Judul" class="w-5 h-5 rounded-md ui-subcard border border-gray-500/30 flex items-center justify-center hover:opacity-85 shadow-sm">
+                <img src="${CUSTOM_COPY_ICON}" class="w-3 h-3 ${bodyEl.classList.contains('dark') ? 'invert brightness-200' : ''}">
+              </button>
+              <div id="tooltip-title-${f.id}" class="copy-tooltip">Copied!</div>
             </div>
-            <input type="text" id="field-title-${f.id}" value="${escapeAttr(f.result.title)}" onchange="updateField('${f.id}', 'title', this.value)" class="w-full ui-subcard border border-gray-400/30 rounded-lg p-1.5 text-[11px] font-bold ui-text-main focus:outline-none transition-colors">
+            <textarea id="field-title-${f.id}" onchange="updateField('${f.id}', 'title', this.value)" class="w-full ui-subcard border border-gray-500/30 rounded-lg p-1.5 text-xs font-bold ui-text-main focus:outline-none resize-y" style="min-height: 42px; word-break: break-word;">${escapeHtml(f.result.title)}</textarea>
           </div>
+
           <div class="relative" id="wrapper-desc-${f.id}">
-            <div class="flex items-center justify-between mb-0.5">
+            <div class="flex items-center justify-between">
               <label class="text-[9px] font-black ui-text-muted uppercase">Deskripsi</label>
-              <div class="relative">
-                <button onclick="copySpecificField('${f.id}', 'description')" title="Salin Deskripsi" class="w-5 h-5 rounded-md ui-subcard border border-gray-400/30 flex items-center justify-center hover:opacity-85 transition-all shadow-sm">
-                  <img src="${CUSTOM_COPY_ICON}" class="copy-icon" style="width:11px;height:11px;">
-                </button>
-                <div id="tooltip-desc-${f.id}" class="copy-tooltip">Copied!</div>
-              </div>
+              <button onclick="copySpecificField('${f.id}', 'description')" title="Salin Deskripsi" class="w-5 h-5 rounded-md ui-subcard border border-gray-500/30 flex items-center justify-center hover:opacity-85 shadow-sm">
+                <img src="${CUSTOM_COPY_ICON}" class="w-3 h-3 ${bodyEl.classList.contains('dark') ? 'invert brightness-200' : ''}">
+              </button>
+              <div id="tooltip-desc-${f.id}" class="copy-tooltip">Copied!</div>
             </div>
-            <textarea id="field-desc-${f.id}" onchange="updateField('${f.id}', 'description', this.value)" class="w-full ui-subcard border border-gray-400/30 rounded-lg p-1.5 text-[10px] font-bold ui-text-main focus:outline-none resize-none h-12 transition-colors">${escapeHtml(f.result.description)}</textarea>
+            <textarea id="field-desc-${f.id}" onchange="updateField('${f.id}', 'description', this.value)" class="w-full ui-subcard border border-gray-500/30 rounded-lg p-1.5 text-[10px] font-bold ui-text-main focus:outline-none resize-none h-12" style="word-break: break-word;">${escapeHtml(f.result.description)}</textarea>
           </div>
+
           <div class="relative" id="wrapper-kw-${f.id}">
-            <div class="flex items-center justify-between mb-0.5">
-              <label class="text-[9px] font-black ui-text-muted uppercase">Keywords (${f.result.keywords.length})</label>
-              <div class="relative">
-                <button onclick="copySpecificField('${f.id}', 'keywords')" title="Salin Keyword" class="w-5 h-5 rounded-md ui-subcard border border-gray-400/30 flex items-center justify-center hover:opacity-85 transition-all shadow-sm">
-                  <img src="${CUSTOM_COPY_ICON}" class="copy-icon" style="width:11px;height:11px;">
-                </button>
-                <div id="tooltip-kw-${f.id}" class="copy-tooltip">Copied!</div>
-              </div>
+            <div class="flex items-center justify-between">
+              <label class="text-[9px] font-black ui-text-muted uppercase">Keyword (${f.result.keywords.length})</label>
+              <button onclick="copySpecificField('${f.id}', 'keywords')" title="Salin Keyword" class="w-5 h-5 rounded-md ui-subcard border border-gray-500/30 flex items-center justify-center hover:opacity-85 shadow-sm">
+                <img src="${CUSTOM_COPY_ICON}" class="w-3 h-3 ${bodyEl.classList.contains('dark') ? 'invert brightness-200' : ''}">
+              </button>
+              <div id="tooltip-kw-${f.id}" class="copy-tooltip">Copied!</div>
             </div>
-            <div id="field-kw-${f.id}" class="flex flex-wrap gap-1 max-h-16 overflow-y-auto p-1 ui-subcard rounded-lg border border-gray-400/30 transition-colors">
-              ${f.result.keywords.map(kw => `<span class="ui-subcard border border-gray-400/30 ui-text-main text-[9px] font-bold px-1.5 py-0.5 rounded">${escapeHtml(kw)}</span>`).join('')}
+            <div id="field-kw-${f.id}" class="flex flex-wrap gap-1 max-h-16 overflow-y-auto p-1 ui-subcard rounded-lg border border-gray-500/30">
+              ${f.result.keywords.map(kw => `<span class="ui-subcard border border-gray-500/30 ui-text-main text-[9px] font-bold px-1.5 py-0.5 rounded">${escapeHtml(kw)}</span>`).join('')}
             </div>
           </div>
         `;
@@ -796,13 +788,13 @@ function renderResults() {
       card.appendChild(contentBox);
 
     } else {
-      // List Mode
-      card.className = 'ui-subcard p-5 flex flex-col md:flex-row gap-5 items-start border border-gray-400/30 shadow-sm';
+      // List view - Full filename displayed without truncation
+      card.className = 'ui-subcard p-5 flex flex-col md:flex-row gap-5 items-start border border-gray-500/30 shadow-sm';
       
       const mediaBox = document.createElement('div');
-      mediaBox.className = 'w-20 h-20 rounded-2xl overflow-hidden border border-gray-400/30 ui-subcard flex-shrink-0 flex items-center justify-center text-2xl shadow-sm';
+      mediaBox.className = 'w-20 h-20 rounded-2xl overflow-hidden border border-gray-500/30 ui-subcard flex-shrink-0 flex items-center justify-center text-2xl shadow-sm';
       if (f.thumb) {
-        mediaBox.innerHTML = `<img src="${f.thumb}" class="w-full h-full object-cover">`;
+        mediaBox.innerHTML = `<img src="${f.thumb}" class="object-cover w-full h-full">`;
       } else {
         mediaBox.textContent = f.noPreview ? '📄' : '⏳';
       }
@@ -812,54 +804,54 @@ function renderResults() {
       contentBox.className = 'flex-1 w-full space-y-3';
 
       if (!f.result) {
-        contentBox.innerHTML = `<div class="text-sm font-bold ui-text-main">${escapeHtml(f.name)}</div><div class="text-xs ui-text-muted font-bold">Menunggu antrean analisis AI...</div>`;
+        contentBox.innerHTML = `<div class="text-sm font-bold ui-text-main" style="word-break: break-all;">${escapeHtml(f.name)}</div><div class="text-xs ui-text-muted font-bold">Menunggu antrean analisis AI...</div>`;
       } else if (f.result.error) {
         contentBox.innerHTML = `
-          <div class="text-sm font-bold text-rose-500">${escapeHtml(f.name)}</div>
+          <div class="text-sm font-bold text-rose-500" style="word-break: break-all;">${escapeHtml(f.name)}</div>
           <div class="text-xs ui-text-muted font-bold">Error: ${escapeHtml(f.result.error)}</div>
           <button class="text-xs font-bold accent-text mt-1 underline" onclick="retrySingle('${f.id}')">Coba ulang file ini</button>
         `;
       } else {
         contentBox.innerHTML = `
           <div class="flex items-center justify-between">
-            <div class="text-xs font-black accent-text uppercase tracking-wide truncate max-w-[200px]">${escapeHtml(f.name)}</div>
+            <div class="text-xs font-black accent-text uppercase tracking-wide" style="word-break: break-all; overflow-wrap: anywhere;">${escapeHtml(f.name)}</div>
           </div>
           <div class="relative" id="wrapper-title-${f.id}">
             <div class="flex items-center justify-between mb-1">
               <label class="text-[10px] font-black ui-text-muted uppercase">Judul (Title)</label>
               <div class="relative">
-                <button onclick="copySpecificField('${f.id}', 'title')" title="Salin Judul" class="w-7 h-7 rounded-xl ui-subcard border border-gray-400/30 flex items-center justify-center hover:opacity-85 transition-all shadow-sm">
+                <button onclick="copySpecificField('${f.id}', 'title')" title="Salin Judul" class="w-7 h-7 rounded-xl ui-subcard border border-gray-500/30 flex items-center justify-center hover:opacity-85 transition-all shadow-sm">
                   <img src="${CUSTOM_COPY_ICON}" class="copy-icon">
                 </button>
                 <div id="tooltip-title-${f.id}" class="copy-tooltip">Copied!</div>
               </div>
             </div>
-            <input type="text" id="field-title-${f.id}" value="${escapeAttr(f.result.title)}" onchange="updateField('${f.id}', 'title', this.value)" class="w-full ui-subcard border border-gray-400/30 rounded-xl p-2.5 text-sm font-bold ui-text-main focus:outline-none transition-colors">
+            <input type="text" id="field-title-${f.id}" value="${escapeAttr(f.result.title)}" onchange="updateField('${f.id}', 'title', this.value)" class="w-full ui-subcard border border-gray-500/30 rounded-xl p-2.5 text-sm font-bold ui-text-main focus:outline-none transition-colors">
           </div>
           <div class="relative" id="wrapper-desc-${f.id}">
             <div class="flex items-center justify-between mb-1">
               <label class="text-[10px] font-black ui-text-muted uppercase">Deskripsi (Description)</label>
               <div class="relative">
-                <button onclick="copySpecificField('${f.id}', 'description')" title="Salin Deskripsi" class="w-7 h-7 rounded-xl ui-subcard border border-gray-400/30 flex items-center justify-center hover:opacity-85 transition-all shadow-sm">
+                <button onclick="copySpecificField('${f.id}', 'description')" title="Salin Deskripsi" class="w-7 h-7 rounded-xl ui-subcard border border-gray-500/30 flex items-center justify-center hover:opacity-85 transition-all shadow-sm">
                   <img src="${CUSTOM_COPY_ICON}" class="copy-icon">
                 </button>
                 <div id="tooltip-desc-${f.id}" class="copy-tooltip">Copied!</div>
               </div>
             </div>
-            <textarea id="field-desc-${f.id}" onchange="updateField('${f.id}', 'description', this.value)" class="w-full ui-subcard border border-gray-400/30 rounded-xl p-2.5 text-xs font-bold ui-text-main focus:outline-none resize-none h-16 transition-colors">${escapeHtml(f.result.description)}</textarea>
+            <textarea id="field-desc-${f.id}" onchange="updateField('${f.id}', 'description', this.value)" class="w-full ui-subcard border border-gray-500/30 rounded-xl p-2.5 text-xs font-bold ui-text-main focus:outline-none resize-none h-16 transition-colors">${escapeHtml(f.result.description)}</textarea>
           </div>
           <div class="relative" id="wrapper-kw-${f.id}">
             <div class="flex items-center justify-between mb-1">
               <label class="text-[10px] font-black ui-text-muted uppercase">Keyword (${f.result.keywords.length}/${maxKeywordsAllowed}) - Satu kata tunggal</label>
               <div class="relative">
-                <button onclick="copySpecificField('${f.id}', 'keywords')" title="Salin Keyword" class="w-7 h-7 rounded-xl ui-subcard border border-gray-400/30 flex items-center justify-center hover:opacity-85 transition-all shadow-sm">
+                <button onclick="copySpecificField('${f.id}', 'keywords')" title="Salin Keyword" class="w-7 h-7 rounded-xl ui-subcard border border-gray-500/30 flex items-center justify-center hover:opacity-85 transition-all shadow-sm">
                   <img src="${CUSTOM_COPY_ICON}" class="copy-icon">
                 </button>
                 <div id="tooltip-kw-${f.id}" class="copy-tooltip">Copied!</div>
               </div>
             </div>
-            <div id="field-kw-${f.id}" class="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto p-1.5 ui-subcard rounded-xl border border-gray-400/30 transition-colors">
-              ${f.result.keywords.map(kw => `<span class="ui-subcard border border-gray-400/30 ui-text-main text-[11px] font-bold px-2.5 py-1 rounded-lg">${escapeHtml(kw)}</span>`).join('')}
+            <div id="field-kw-${f.id}" class="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto p-1.5 ui-subcard rounded-xl border border-gray-500/30 transition-colors">
+              ${f.result.keywords.map(kw => `<span class="ui-subcard border border-gray-500/30 ui-text-main text-[11px] font-bold px-2.5 py-1 rounded-lg">${escapeHtml(kw)}</span>`).join('')}
             </div>
           </div>
         `;
@@ -1019,7 +1011,7 @@ async function processFile(file) {
   } else if (selectedPlatform === 'Freepik') {
     platformGuideline = "Freepik: Judul berupa satu kalimat deskriptif dalam Bahasa Inggris. Maksimal 50 tag.";
   } else if (selectedPlatform === 'The Noun Project') {
-    platformGuideline = "The Noun Project: Judul spesifik, maksimal 3 kata. Tepat 1 sampai 5 tag maksimum per ikon, masing-masing maksimal 3 kata. Jangan mengulang kata judul sebagai tag.";
+    platformGuideline = "The Noun Project: Judul spesifik, maksimal 3 kata. Tepat 1 sampai 5 tag maksimum per ikon, masing-masing maksimal 3 kata.";
   }
 
   const prompt = `Bertindak sebagai ahli metadata microstock dan pakar SEO untuk platform "${selectedPlatform}" (${catLabel}). ` +
