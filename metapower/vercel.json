@@ -1,0 +1,8 @@
+{
+  "functions": {
+    "api/metadata.js": {
+      "maxDuration": 30
+    }
+  },
+  "regions": ["sin1"]
+}

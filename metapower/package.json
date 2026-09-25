@@ -1,0 +1,8 @@
+{
+  "name": "metadata-gemini-proxy-vercel",
+  "version": "1.0.0",
+  "description": "Proxy Gemini API untuk Metadata Assistant, dideploy di Vercel",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0"
+  }
+}
