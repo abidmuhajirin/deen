@@ -38,9 +38,10 @@ module.exports = async (req, res) => {
       return;
     }
 
-    // Model aktif per September 2026. Kalau nanti di-deprecate, ganti string ini saja.
+    // Model aktif per September 2026. Dipilih yang lebih cepat (flash-lite)
+    // supaya muat di batas waktu 10 detik pada Vercel Hobby plan.
     const model = genAI.getGenerativeModel({
-      model: 'gemini-3-flash-preview',
+      model: 'gemini-3.1-flash-lite',
       generationConfig: body.generationConfig || undefined,
     });
 
