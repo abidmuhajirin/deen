@@ -49,8 +49,8 @@
 
   <style>
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-    html { background-color: var(--chrome, #F1F1F4); }
-    body { background-color: var(--chrome, #F1F1F4); display: flex; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; margin: 0; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
+    html { background-color: var(--chrome, #071D49); }
+    body { background-color: var(--chrome, #071D49); display: flex; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; margin: 0; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
     #app-content { padding-top: calc(env(safe-area-inset-top, 0px) + 1rem) !important; }
     #mobile-frame { width: 100%; max-width: 412px; height: 100vh; height: 100dvh; max-height: 100dvh; background-color: #F1F1F4; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.15); }
     @media (min-width: 640px) { body { background-color: #000000; } #mobile-frame { border-radius: 48px; height: 94vh; max-height: 890px; border: 10px solid #071D49; } }
@@ -87,10 +87,10 @@
   <div id="mobile-frame">
 
     <!-- INTRO -->
-    <div id="intro-screen" class="absolute inset-0 z-50 bg-navy flex flex-col justify-between p-7 text-white overflow-hidden smooth-anim"
-      style="padding-top: calc(env(safe-area-inset-top, 0px) + 2.5rem); background-image: linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px); background-size: 36px 36px; background-position: 0 0;">
+    <div id="intro-screen" class="absolute inset-0 z-50 bg-navy flex flex-col justify-between p-6 sm:p-7 text-white overflow-hidden smooth-anim"
+      style="padding-top: max(env(safe-area-inset-top, 0px), 1.5rem); background-image: linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px); background-size: 36px 36px; background-position: 0 0;">
 
-      <div class="relative pt-4">
+      <div class="relative pt-2">
         <svg class="w-14 h-14 rounded-2xl shadow-xl"><use href="#gdp-logo"/></svg>
       </div>
 
@@ -630,6 +630,7 @@
     }
 
     window.onload = async function () {
+      setChrome('#071D49');
       enableDragScroll(document.getElementById('pills-scroll'));
       initFullscreenControls();
       await loadProperties();
@@ -945,10 +946,20 @@
         const media = !p.videoUrl
           ? `<img src="${imgSrc(p.photos[0] || '')}" class="absolute inset-0 w-full h-full object-cover ${sold ? 'grayscale' : ''}">`
           : yt
-            ? `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=0&controls=0&loop=1&playlist=${ytId}&playsinline=1&rel=0&modestbranding=1" class="absolute inset-0 w-full h-full border-0 pointer-events-none scale-125 ${sold ? 'grayscale' : ''}" style="object-fit:cover;" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>`
+            ? `<div class="absolute inset-0 w-full h-full cursor-pointer overflow-hidden" onclick="toggleReelPlay('${p.id}')">
+                <iframe id="reel-yt-${p.id}" data-playing="false" src="https://www.youtube.com/embed/${ytId}?enablejsapi=1&autoplay=0&controls=0&loop=1&playlist=${ytId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3" class="w-full h-full border-0 pointer-events-none scale-125 ${sold ? 'grayscale' : ''}" style="object-fit:cover;" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+                <div id="reel-play-overlay-${p.id}" class="absolute inset-0 flex items-center justify-center bg-black/25 backdrop-blur-[1px] transition-opacity">
+                  <div class="w-14 h-14 rounded-full bg-brand text-navy flex items-center justify-center shadow-2xl btn-press"><i data-lucide="play" class="w-7 h-7 fill-current ml-1"></i></div>
+                </div>
+               </div>`
             : drive
               ? `<iframe src="https://drive.google.com/file/d/${driveId(p.videoUrl)}/preview" class="absolute left-0 w-full border-0 ${sold ? 'grayscale' : ''}" style="top:-56px;height:calc(100% + 56px);" allow="fullscreen" allowfullscreen></iframe>`
-              : `<video id="reel-vid-${p.id}" class="absolute inset-0 w-full h-full object-cover cursor-pointer ${sold ? 'grayscale' : ''}" muted loop playsinline preload="auto" onclick="toggleReelPlay('${p.id}')"><source src="${p.videoUrl}" type="video/mp4"></video>`;
+              : `<div class="absolute inset-0 w-full h-full cursor-pointer" onclick="toggleReelPlay('${p.id}')">
+                  <video id="reel-vid-${p.id}" class="w-full h-full object-cover ${sold ? 'grayscale' : ''}" muted loop playsinline preload="auto"><source src="${p.videoUrl}" type="video/mp4"></video>
+                  <div id="reel-play-overlay-${p.id}" class="absolute inset-0 flex items-center justify-center bg-black/25 backdrop-blur-[1px] transition-opacity">
+                    <div class="w-14 h-14 rounded-full bg-brand text-navy flex items-center justify-center shadow-2xl btn-press"><i data-lucide="play" class="w-7 h-7 fill-current ml-1"></i></div>
+                  </div>
+                 </div>`;
         const showControls = p.videoUrl && !drive && !yt;
         
         const waText = state.activeRef 
@@ -993,27 +1004,32 @@
       setupReelObserver();
     }
 
-    let isShareFromReel = false;
-
-    function openMarketerShareModal(propId, marketerId) {
-      if (marketerId) state.activeRef = marketerId;
-      openShareModalForProp(propId, false);
-    }
-
-    function openShareModalForProp(id, fromReel = false) {
-      activeDetailPropertyId = id;
-      isShareFromReel = !!fromReel;
-      sharePropertyLink();
-    }
-
     function toggleReelPlay(id) {
       const vid = document.getElementById(`reel-vid-${id}`);
-      if (!vid) return;
-      if (vid.paused) {
+      const ytIframe = document.getElementById(`reel-yt-${id}`);
+      const playOverlay = document.getElementById(`reel-play-overlay-${id}`);
+
+      if (vid) {
+        if (vid.paused) {
+          pauseAllReels();
+          vid.play().catch(() => {});
+          if (playOverlay) playOverlay.classList.add('hidden');
+        } else {
+          vid.pause();
+          if (playOverlay) playOverlay.classList.remove('hidden');
+        }
+      } else if (ytIframe) {
+        const isPlaying = ytIframe.dataset.playing === 'true';
         pauseAllReels();
-        vid.play().catch(() => {});
-      } else {
-        vid.pause();
+        if (!isPlaying) {
+          ytIframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo' }), '*');
+          ytIframe.dataset.playing = 'true';
+          if (playOverlay) playOverlay.classList.add('hidden');
+        } else {
+          ytIframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo' }), '*');
+          ytIframe.dataset.playing = 'false';
+          if (playOverlay) playOverlay.classList.remove('hidden');
+        }
       }
     }
 
@@ -1101,7 +1117,7 @@
         vid.classList.add('hidden');
         ctr.classList.add('hidden');
         wrap.classList.remove('hidden');
-        iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&controls=1&loop=1&playlist=${ytId}&playsinline=1&rel=0&modestbranding=1`;
+        iframe.src = `https://www.youtube.com/embed/${ytId}?enablejsapi=1&autoplay=1&controls=0&loop=1&playlist=${ytId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3`;
       } else if (isDrive(p.videoUrl)) {
         vid.classList.add('hidden');
         ctr.classList.add('hidden');
@@ -1511,34 +1527,43 @@
       }
 
       if (isYoutube(url)) {
-        showToast("Video YouTube tidak dapat diunduh langsung. Membuka link...");
-        window.open(url, '_blank');
+        showToast("Video YouTube tidak dapat diunduh langsung.");
         return;
       }
 
       const id = driveId(url);
       let downloadUrl = url;
-
       if (id) {
         downloadUrl = `https://drive.google.com/uc?export=download&id=${id}`;
       }
 
-      showToast("Membuka unduhan media...");
+      showToast("Mengunduh media...");
 
-      // Eksekusi klik langsung (synchronous) agar tidak diblokir oleh popup/download blocker HP
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      if (filename) link.download = filename;
-      
-      document.body.appendChild(link);
-      link.click();
-      setTimeout(() => {
-        if (document.body.contains(link)) {
-          document.body.removeChild(link);
-        }
-      }, 200);
+      fetch(downloadUrl, { mode: 'cors' })
+        .then(res => {
+          if (!res.ok) throw new Error();
+          return res.blob();
+        })
+        .then(blob => {
+          const blobUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = filename || 'gdp-media';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+        })
+        .catch(() => {
+          let iframe = document.getElementById('hidden-download-frame');
+          if (!iframe) {
+            iframe = document.createElement('iframe');
+            iframe.id = 'hidden-download-frame';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+          }
+          iframe.src = downloadUrl;
+        });
     }
 
     /* Modal Unduh Bahan Promosi (Foto HD & Video) */
@@ -1734,7 +1759,7 @@
         box.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center space-y-2 border border-neutral-200"><i data-lucide="user-x" class="w-10 h-10 mx-auto text-neutral-300"></i><p class="text-xs font-bold text-neutral-500">Marketer tidak ditemukan.</p></div>`;
         if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons(); return;
       }
-      const act = (icon, title, fn, cls) => `<button onclick="${fn}" title="${title}" class="h-9 px-3 rounded-xl flex items-center gap-1.5 text-[10px] font-semibold btn-press ${cls || 'bg-neutral-100 text-navy'}"><i data-lucide="${icon}" class="w-3.5 h-3.5"></i>${title}</button>`;
+
       box.innerHTML = list.map(m => `
         <div class="bg-white rounded-3xl p-4 border border-neutral-200/80 shadow-soft-card space-y-3">
           <div class="flex items-start gap-3">
@@ -1750,13 +1775,13 @@
             <div class="bg-softgray rounded-xl py-2"><strong class="block text-sm text-navy">${m.terjual || 0}</strong><span class="text-[9px] text-neutral-500 font-semibold">Terjual</span></div>
             <div class="bg-softgray rounded-xl py-2"><strong class="block text-sm text-navy">${m.komisi}%</strong><span class="text-[9px] text-neutral-500 font-semibold">Komisi</span></div>
           </div>
-          <div class="flex flex-wrap gap-2">
-            ${m.status === 'pending' ? act('check', 'Setujui', `setMStatus('${m.id}','aktif')`, 'bg-navy text-white') : ''}
-            ${m.status === 'aktif' ? act('pause', 'Non aktif', `setMStatus('${m.id}','nonaktif')`) : ''}
-            ${m.status === 'nonaktif' ? act('play', 'Aktifkan', `setMStatus('${m.id}','aktif')`, 'bg-navy text-white') : ''}
-            ${act('pencil', 'Edit', `openMarketerForm('${m.id}')`)}
-            ${act('message-circle', 'WA', `window.open('https://wa.me/${esc(m.wa)}','_blank')`)}
-            ${act('trash-2', 'Hapus', `confirmDeleteMarketer('${m.id}')`, 'bg-orange-50 text-orange-700')}
+          <div class="grid grid-cols-4 gap-1.5 pt-1">
+            ${m.status === 'pending' ? `<button onclick="setMStatus('${m.id}','aktif')" class="py-2 px-1 rounded-xl bg-navy text-white text-[10px] font-bold btn-press flex items-center justify-center gap-1 shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i> Setujui</button>` : ''}
+            ${m.status === 'aktif' ? `<button onclick="setMStatus('${m.id}','nonaktif')" class="py-2 px-1 rounded-xl bg-neutral-100 text-navy text-[10px] font-bold btn-press flex items-center justify-center gap-1 shrink-0"><i data-lucide="pause" class="w-3.5 h-3.5 text-orange-600"></i> Non aktif</button>` : ''}
+            ${m.status === 'nonaktif' ? `<button onclick="setMStatus('${m.id}','aktif')" class="py-2 px-1 rounded-xl bg-navy text-white text-[10px] font-bold btn-press flex items-center justify-center gap-1 shrink-0"><i data-lucide="play" class="w-3.5 h-3.5 text-brand"></i> Aktifkan</button>` : ''}
+            <button onclick="openMarketerForm('${m.id}')" class="py-2 px-1 rounded-xl bg-neutral-100 text-navy text-[10px] font-bold btn-press flex items-center justify-center gap-1 shrink-0"><i data-lucide="pencil" class="w-3.5 h-3.5"></i> Edit</button>
+            <button onclick="window.open('https://wa.me/${esc(m.wa)}','_blank')" class="py-2 px-1 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100 text-[10px] font-bold btn-press flex items-center justify-center gap-1 shrink-0"><i data-lucide="message-circle" class="w-3.5 h-3.5"></i> WA</button>
+            <button onclick="confirmDeleteMarketer('${m.id}')" class="py-2 px-1 rounded-xl bg-rose-50 text-rose-700 border border-rose-100 text-[10px] font-bold btn-press flex items-center justify-center gap-1 shrink-0"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus</button>
           </div>
           <p class="text-[9px] text-neutral-400">${esc(m.id)} · Bergabung ${fmtDate(m.joined)}</p>
         </div>`).join('');
