@@ -6,7 +6,7 @@
   <title>Guntur Dagang Property - Mobile App</title>
 
   <!-- Web App / PWA Meta Tags for Standalone Fullscreen -->
-  <meta name="theme-color" content="#071D49" id="theme-color-meta">
+  <meta name="theme-color" content="#F1F1F4" id="theme-color-meta">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -23,8 +23,21 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: { appbg: '#F1F1F4', cardbg: '#FFFFFF', darkpill: '#071D49', accentgold: '#FE5000', softgray: '#E6E6EA', brand: '#FE5000', brandlight: '#FF7A33', navy: '#071D49', mist: '#DFDFE3' },
-          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], display: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: { 
+            appbg: '#F1F1F4', 
+            cardbg: '#FFFFFF', 
+            darkpill: '#071D49', 
+            accentgold: '#FE5000', 
+            softgray: '#E6E6EA', 
+            brand: '#FE5000', 
+            brandlight: '#FF7A33', 
+            navy: '#071D49', 
+            mist: '#DFDFE3' 
+          },
+          fontFamily: { 
+            sans: ['Inter', 'system-ui', 'sans-serif'], 
+            display: ['Inter', 'system-ui', 'sans-serif'] 
+          },
           boxShadow: {
             'soft-card': '0 12px 32px -8px rgba(0, 0, 0, 0.06)',
             'float-dock': '0 20px 40px -10px rgba(0, 0, 0, 0.25)',
@@ -36,8 +49,8 @@
 
   <style>
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-    html { background-color: var(--chrome, #071D49); }
-    body { background-color: var(--chrome, #071D49); display: flex; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; margin: 0; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
+    html { background-color: var(--chrome, #F1F1F4); }
+    body { background-color: var(--chrome, #F1F1F4); display: flex; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; margin: 0; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
     #app-content { padding-top: calc(env(safe-area-inset-top, 0px) + 1rem) !important; }
     #mobile-frame { width: 100%; max-width: 412px; height: 100vh; height: 100dvh; max-height: 100dvh; background-color: #F1F1F4; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.15); }
     @media (min-width: 640px) { body { background-color: #000000; } #mobile-frame { border-radius: 48px; height: 94vh; max-height: 890px; border: 10px solid #071D49; } }
@@ -82,7 +95,7 @@
       </div>
 
       <div class="relative space-y-5">
-        <h1 class="text-[44px] font-bold tracking-tight leading-[1.02] text-white uppercase">Guntur<br>Dagang<br>Properti</h1>
+        <h1 class="text-[44px] font-bold tracking-tight leading-[1.02] text-white uppercase">GUNTUR<br>DAGANG<br>PROPERTI</h1>
         <div class="border border-white/25 bg-white/5 backdrop-blur-sm p-4 relative">
           <span class="absolute -top-1.5 -left-1.5 w-3 h-3 bg-brand"></span>
           <span class="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-brand"></span>
@@ -320,7 +333,7 @@
           <div id="form-marketer" class="bg-white p-5 rounded-3xl border border-neutral-200/80 space-y-4 shadow-sm">
             <div class="space-y-1">
               <h3 class="text-sm font-semibold text-navy font-display">Daftar Mitra Marketer</h3>
-              <p class="text-[11px] text-neutral-500">Isi data di bawah, lalu kirim ke admin via WhatsApp.</p>
+              <p class="text-[11px] text-neutral-500">Isi data di bawah untuk mendaftar sebagai mitra resmi GDP.</p>
             </div>
             <form onsubmit="handleRegisterSubmit(event)" class="space-y-3">
               <div>
@@ -336,7 +349,7 @@
                 <input type="text" required id="reg-city" placeholder="Contoh: Sleman, Yogyakarta" class="w-full text-xs bg-neutral-50 border border-neutral-200 rounded-xl p-2.5 outline-none focus:border-navy font-medium">
               </div>
               <button type="submit" class="w-full py-3.5 bg-brand hover:bg-brandlight text-navy font-bold text-xs rounded-2xl shadow-md btn-press flex items-center justify-center gap-1.5">
-                <i data-lucide="send" class="w-3.5 h-3.5"></i> Kirim Pendaftaran via WhatsApp
+                <i data-lucide="send" class="w-3.5 h-3.5"></i> Kirim Pendaftaran
               </button>
             </form>
           </div>
@@ -421,6 +434,7 @@
       </div>
     </div>
   </div>
+
   <!-- FILTER MODAL (MULTI-SELECT & LEGALITAS) -->
   <div id="filter-modal" class="fixed inset-0 z-50 hidden bg-navy/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 smooth-anim">
     <div class="bg-white rounded-t-3xl sm:rounded-3xl p-6 max-w-sm w-full space-y-4 border border-neutral-100 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
@@ -509,13 +523,15 @@
       activeLocations: [],
       searchQuery: '', 
       activeTab: 'explore', 
-      sortBy: 'default' 
+      sortBy: 'default',
+      activeRef: null
     };
 
     let reelObserver = null;
     let tempSelectedTypes = [];
     let tempSelectedLegalities = [];
     let tempSelectedLocations = [];
+
     function parseCSV(text) {
       const rows = []; let row = [], cur = '', q = false;
       for (let i = 0; i < text.length; i++) {
@@ -535,7 +551,7 @@
     }
 
     function driveId(url) {
-      const m = String(url).match(/\/d\/([a-zA-Z0-9_-]+)/) || String(url).match(/[?&]id=([a-zA-Z0-9_-]+)/);
+      const m = String(url || '').match(/\/d\/([a-zA-Z0-9_-]+)/) || String(url || '').match(/[?&]id=([a-zA-Z0-9_-]+)/);
       return m ? m[1] : null;
     }
     function isDrive(url) { return /drive\.google\.com|docs\.google\.com/.test(url || ''); }
@@ -546,7 +562,7 @@
     function isYoutube(url) { return !!youtubeId(url); }
     function imgSrc(url) {
       if (isDrive(url)) { const id = driveId(url); if (id) return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`; }
-      return url;
+      return url || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80';
     }
     function splitLinks(v) { return String(v || '').split(/[\s,;|]+/).filter(s => /^https?:\/\//i.test(s)); }
     function num(v) { const n = parseInt(String(v || '').replace(/[^\d]/g, ''), 10); return isNaN(n) ? 0 : n; }
@@ -588,14 +604,39 @@
       }
     }
 
+    function checkReferral() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref) {
+        state.activeRef = ref;
+        const m = marketers.find(x => x.id === ref || x.id.toLowerCase() === ref.toLowerCase());
+        if (m) {
+          m.lead = (m.lead || 0) + 1;
+          saveMarketers();
+        }
+      }
+    }
+
+    function navigateToReel(id) {
+      switchTab('reels');
+      setTimeout(() => {
+        const el = document.getElementById(`reel-item-${id}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          const vid = document.getElementById(`reel-vid-${id}`);
+          if (vid) vid.play().catch(() => {});
+        }
+      }, 200);
+    }
+
     window.onload = async function () {
       enableDragScroll(document.getElementById('pills-scroll'));
       initFullscreenControls();
       await loadProperties();
+      checkReferral();
       refreshLists();
-      lucide.createIcons();
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
 
-      // Autoload detail modal or reel based on URL parameters (?prop=GDP-xxx or ?reel=GDP-xxx)
       const urlParams = new URLSearchParams(window.location.search);
       const sharedReelId = urlParams.get('reel');
       const sharedPropId = urlParams.get('prop') || urlParams.get('id');
@@ -610,6 +651,7 @@
     };
 
     function enableDragScroll(el) {
+      if (!el) return;
       let down = false, sx = 0, sl = 0, moved = false;
       el.addEventListener('pointerdown', e => { if (e.pointerType === 'touch') return; down = true; moved = false; sx = e.clientX; sl = el.scrollLeft; });
       window.addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - sx; if (Math.abs(dx) > 4) moved = true; el.scrollLeft = sl - dx; });
@@ -621,7 +663,6 @@
     function getFilteredProperties(forReels) {
       let list = [...state.properties];
       
-      // Multi-select Tipe Properti
       if (Array.isArray(state.activeCategory)) {
         if (state.activeCategory.length > 0 && !state.activeCategory.includes('Any type')) {
           const selectedCatLower = state.activeCategory.map(c => c.toLowerCase());
@@ -631,28 +672,24 @@
         list = list.filter(p => p.type.toLowerCase() === state.activeCategory.toLowerCase());
       }
 
-      // Multi-select Legalitas
       if (Array.isArray(state.activeCertificates) && state.activeCertificates.length > 0) {
         const selectedCertLower = state.activeCertificates.map(c => c.toLowerCase());
         list = list.filter(p => selectedCertLower.some(cert => (p.certificate || '').toLowerCase().includes(cert)));
       }
 
-      // Multi-select Lokasi
       if (Array.isArray(state.activeLocations) && state.activeLocations.length > 0) {
         const selectedLocLower = state.activeLocations.map(l => l.toLowerCase());
         list = list.filter(p => selectedLocLower.some(loc => (p.location || '').toLowerCase().includes(loc)));
       }
 
-      // Search Query
       if (state.searchQuery) {
         const q = state.searchQuery.toLowerCase();
         list = list.filter(p => p.title.toLowerCase().includes(q) || p.location.toLowerCase().includes(q) || p.type.toLowerCase().includes(q) || (p.certificate && p.certificate.toLowerCase().includes(q)));
       }
 
-      // Sorting
       if (state.sortBy === 'price-low') list.sort((a, b) => a.price - b.price);
       else if (state.sortBy === 'price-high') list.sort((a, b) => b.price - a.price);
-      else list.reverse(); // terbaru (baris paling bawah di spreadsheet) tampil paling atas
+      else list.reverse();
 
       return list;
     }
@@ -685,16 +722,19 @@
     function resetAllFilters() {
       state.activeCategory = ['Any type']; 
       state.activeCertificates = [];
+      state.activeLocations = [];
       state.searchQuery = ''; 
       state.sortBy = 'default';
-      document.getElementById('search-input').value = '';
-      document.getElementById('filter-sort').value = 'default';
+      const input = document.getElementById('search-input');
+      if (input) input.value = '';
+      const sortSelect = document.getElementById('filter-sort');
+      if (sortSelect) sortSelect.value = 'default';
       refreshLists();
     }
 
-    /* FILTER MODAL MULTI-SELECT */
     function openFilterModal() {
-      document.getElementById('filter-sort').value = state.sortBy;
+      const sortSelect = document.getElementById('filter-sort');
+      if (sortSelect) sortSelect.value = state.sortBy;
       if (Array.isArray(state.activeCategory)) {
         tempSelectedTypes = state.activeCategory.includes('Any type') ? [] : [...state.activeCategory];
       } else {
@@ -706,14 +746,16 @@
       renderFilterTypeChips();
       renderFilterLegalityChips();
       document.getElementById('filter-modal').classList.remove('hidden');
-      lucide.createIcons();
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
     }
 
     function closeFilterModal() { document.getElementById('filter-modal').classList.add('hidden'); }
 
     function renderFilterLocationChips() {
       const locations = ['Sleman', 'Bantul', 'Yogyakarta'];
-      document.getElementById('filter-locations-container').innerHTML = locations.map(l => {
+      const container = document.getElementById('filter-locations-container');
+      if (!container) return;
+      container.innerHTML = locations.map(l => {
         const active = tempSelectedLocations.includes(l);
         return `<button type="button" onclick="toggleTempLocation('${l}')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold btn-press transition-all ${active ? 'bg-navy text-white shadow-sm' : 'bg-neutral-100 text-neutral-700 border border-neutral-200'}">${l}</button>`;
       }).join('');
@@ -728,7 +770,9 @@
 
     function renderFilterTypeChips() {
       const types = ['Rumah', 'Villa', 'Apartemen', 'Kavling', 'Tanah'];
-      document.getElementById('filter-types-container').innerHTML = types.map(t => {
+      const container = document.getElementById('filter-types-container');
+      if (!container) return;
+      container.innerHTML = types.map(t => {
         const active = tempSelectedTypes.includes(t);
         return `<button type="button" onclick="toggleTempType('${t}')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold btn-press transition-all ${active ? 'bg-navy text-white shadow-sm' : 'bg-neutral-100 text-neutral-700 border border-neutral-200'}">${t}</button>`;
       }).join('');
@@ -743,7 +787,9 @@
 
     function renderFilterLegalityChips() {
       const certs = ['SHM Pekarangan', 'SHM', 'HGB', 'Sertifikat Ready'];
-      document.getElementById('filter-legalities-container').innerHTML = certs.map(c => {
+      const container = document.getElementById('filter-legalities-container');
+      if (!container) return;
+      container.innerHTML = certs.map(c => {
         const active = tempSelectedLegalities.includes(c);
         return `<button type="button" onclick="toggleTempLegality('${c}')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold btn-press transition-all ${active ? 'bg-brand text-white shadow-sm' : 'bg-neutral-100 text-neutral-700 border border-neutral-200'}">${c}</button>`;
       }).join('');
@@ -757,7 +803,8 @@
     }
 
     function applyFilter() {
-      state.sortBy = document.getElementById('filter-sort').value;
+      const sortSelect = document.getElementById('filter-sort');
+      if (sortSelect) state.sortBy = sortSelect.value;
       state.activeCategory = tempSelectedTypes.length > 0 ? [...tempSelectedTypes] : ['Any type'];
       state.activeCertificates = [...tempSelectedLegalities];
       state.activeLocations = [...tempSelectedLocations];
@@ -774,8 +821,10 @@
       tempSelectedTypes = [];
       tempSelectedLegalities = [];
       tempSelectedLocations = [];
-      document.getElementById('search-input').value = '';
-      document.getElementById('filter-sort').value = 'default';
+      const searchInput = document.getElementById('search-input');
+      if (searchInput) searchInput.value = '';
+      const sortSelect = document.getElementById('filter-sort');
+      if (sortSelect) sortSelect.value = 'default';
       refreshLists(); 
       closeFilterModal(); 
       showToast("Filter direset");
@@ -784,7 +833,9 @@
     function renderCategoryPills() {
       const categories = ['Any type', 'Rumah', 'Villa', 'Apartemen', 'Kavling', 'Tanah'];
       const activeArr = Array.isArray(state.activeCategory) ? state.activeCategory : [state.activeCategory];
-      document.getElementById('category-pills-container').innerHTML = categories.map(cat => {
+      const container = document.getElementById('category-pills-container');
+      if (!container) return;
+      container.innerHTML = categories.map(cat => {
         const isSelected = activeArr.includes(cat);
         return `<button onclick="filterCategory('${cat}')" class="px-4 py-2 rounded-full text-xs font-bold shrink-0 btn-press transition-all ${isSelected ? 'bg-navy text-white shadow-md' : 'bg-white text-neutral-700 border border-neutral-200'}">${cat === 'Any type' ? 'Semua' : cat}</button>`;
       }).join('');
@@ -794,20 +845,24 @@
     function switchTab(tab) {
       state.activeTab = tab;
       pauseAllReels();
-      document.getElementById('global-header-section').classList.toggle('hidden', !(tab === 'explore' || tab === 'reels'));
+      const globalHeader = document.getElementById('global-header-section');
+      if (globalHeader) globalHeader.classList.toggle('hidden', !(tab === 'explore' || tab === 'reels'));
       ['explore', 'reels', 'services', 'profile'].forEach(t => {
         const btn = document.getElementById(`dock-${t}`);
-        btn.className = t === tab
-          ? 'w-10 h-10 rounded-full flex items-center justify-center text-white bg-white/20 btn-press'
-          : 'w-10 h-10 rounded-full flex items-center justify-center text-neutral-400 hover:text-white btn-press';
-        document.getElementById(`view-${t}`).classList.toggle('hidden', t !== tab);
+        if (btn) {
+          btn.className = t === tab
+            ? 'w-10 h-10 rounded-full flex items-center justify-center text-white bg-white/20 btn-press'
+            : 'w-10 h-10 rounded-full flex items-center justify-center text-neutral-400 hover:text-white btn-press';
+        }
+        const v = document.getElementById(`view-${t}`);
+        if (v) v.classList.toggle('hidden', t !== tab);
       });
-      document.getElementById('app-content').scrollTop = 0;
+      const appContent = document.getElementById('app-content');
+      if (appContent) appContent.scrollTop = 0;
       if (tab === 'reels') setupReelObserver();
-      lucide.createIcons();
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
     }
 
-    /* Warna area status bar / chrome browser mengikuti layar yang tampil */
     function setChrome(color) {
       document.documentElement.style.setProperty('--chrome', color);
       const m = document.getElementById('theme-color-meta');
@@ -816,12 +871,12 @@
 
     function dismissIntro() {
       const el = document.getElementById('intro-screen');
+      if (!el) return;
       el.classList.add('opacity-0', 'pointer-events-none');
       setChrome('#F1F1F4');
       setTimeout(() => el.classList.add('hidden'), 300);
     }
 
-    /* =============== UTIL & HELPERS =============== */
     function formatRupiah(n) {
       if (n >= 1000000000) return 'Rp ' + (n / 1000000000).toFixed(2).replace(/\.?0+$/, '') + ' M';
       if (n >= 1000000) return 'Rp ' + (n / 1000000).toFixed(0) + ' Jt';
@@ -836,9 +891,10 @@
     function renderProperties() {
       const list = getFilteredProperties(false);
       const container = document.getElementById('property-list-container');
+      if (!container) return;
       if (list.length === 0) {
         container.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center space-y-2 border border-neutral-200"><i data-lucide="search-x" class="w-10 h-10 mx-auto text-neutral-300"></i><p class="text-xs font-bold text-neutral-500">Properti tidak ditemukan.</p></div>`;
-        lucide.createIcons(); return;
+        if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons(); return;
       }
       container.innerHTML = list.map(p => {
         const sold = isSold(p.status);
@@ -866,17 +922,18 @@
           </div>
         </div>`;
       }).join('');
-      lucide.createIcons();
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
     }
 
     /* =============== REELS =============== */
     function renderInlineReels() {
       const container = document.getElementById('reels-content-inline');
+      if (!container) return;
       const filtered = getFilteredProperties(true);
 
       if (filtered.length === 0) {
         container.innerHTML = `<div class="bg-navy p-8 rounded-3xl text-center space-y-2 border border-white/10 text-white"><i data-lucide="video-off" class="w-10 h-10 mx-auto text-neutral-500"></i><p class="text-xs font-bold text-neutral-400">Video Reels tidak ditemukan untuk kriteria ini.</p></div>`;
-        lucide.createIcons(); return;
+        if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons(); return;
       }
 
       container.innerHTML = filtered.map(p => {
@@ -893,6 +950,11 @@
               ? `<iframe src="https://drive.google.com/file/d/${driveId(p.videoUrl)}/preview" class="absolute left-0 w-full border-0 ${sold ? 'grayscale' : ''}" style="top:-56px;height:calc(100% + 56px);" allow="autoplay; fullscreen" allowfullscreen></iframe>`
               : `<video id="reel-vid-${p.id}" class="absolute inset-0 w-full h-full object-cover cursor-pointer ${sold ? 'grayscale' : ''}" muted loop playsinline preload="auto" onclick="toggleReelPlay('${p.id}')"><source src="${p.videoUrl}" type="video/mp4"></video>`;
         const showControls = p.videoUrl && !drive && !yt;
+        
+        const waText = state.activeRef 
+          ? `Halo GDP, saya lihat video Reels properti: ${p.title} (${formatRupiah(p.price)}) [Ref: ${state.activeRef}]`
+          : `Halo GDP, saya lihat video Reels properti: ${p.title} (${formatRupiah(p.price)})`;
+
         return `
         <div id="reel-item-${p.id}" class="relative w-full aspect-[9/16] rounded-3xl overflow-hidden bg-navy border border-white/10 shadow-2xl flex flex-col justify-between p-4 text-left text-white">
           ${media}
@@ -918,16 +980,16 @@
             <p class="text-xs font-bold text-brandlight">${formatRupiah(p.price)}</p>
             <p class="text-[10px] text-neutral-300 line-clamp-2">${p.description}</p>
             <div class="pt-2 pointer-events-auto flex items-center gap-2">
-              <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo GDP, saya lihat video Reels properti: ' + p.title + ' (' + formatRupiah(p.price) + ')')}" target="_blank" class="flex-grow py-2.5 bg-[#25D366] text-white font-semibold text-xs rounded-2xl flex items-center justify-center gap-2 btn-press shadow-md">
+              <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waText)}" target="_blank" class="flex-grow py-2.5 bg-[#25D366] text-white font-semibold text-xs rounded-2xl flex items-center justify-center gap-2 btn-press shadow-md">
                 <i data-lucide="message-circle" class="w-4 h-4"></i> Tanya via WA
               </a>
-              <button onclick="openShareModalForProp('${p.id}')" class="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur text-white flex items-center justify-center btn-press shrink-0 shadow-md" title="Bagikan"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+              <button onclick="openShareModalForProp('${p.id}', true)" class="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur text-white flex items-center justify-center btn-press shrink-0 shadow-md" title="Bagikan"><i data-lucide="share-2" class="w-4 h-4"></i></button>
             </div>
           </div>
         </div>`;
       }).join('');
 
-      lucide.createIcons();
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
       setupReelObserver();
     }
 
@@ -950,12 +1012,6 @@
       }
     }
 
-    function syncReelIcon(id, isPlaying) {
-      const btn = document.getElementById(`play-btn-${id}`);
-      if (!btn) return;
-      btn.style.opacity = isPlaying ? '0.3' : '1';
-    }
-
     function toggleReelMute(id) {
       const vid = document.getElementById(`reel-vid-${id}`);
       const btn = document.getElementById(`mute-btn-${id}`);
@@ -963,7 +1019,7 @@
       vid.muted = !vid.muted;
       if (btn) {
         btn.innerHTML = vid.muted ? `<i data-lucide="volume-x" class="w-3.5 h-3.5"></i>` : `<i data-lucide="volume-2" class="w-3.5 h-3.5"></i>`;
-        lucide.createIcons();
+        if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
       }
     }
 
@@ -993,9 +1049,11 @@
     }
     function fsIcons() {
       const v = document.getElementById('fullscreen-reel-video');
-      document.getElementById('fs-play').innerHTML = `<i data-lucide="${v.paused ? 'play' : 'pause'}" class="w-4 h-4"></i>`;
-      document.getElementById('fs-mute').innerHTML = `<i data-lucide="${v.muted ? 'volume-x' : 'volume-2'}" class="w-4 h-4"></i>`;
-      lucide.createIcons();
+      const playBtn = document.getElementById('fs-play');
+      const muteBtn = document.getElementById('fs-mute');
+      if (playBtn) playBtn.innerHTML = `<i data-lucide="${v.paused ? 'play' : 'pause'}" class="w-4 h-4"></i>`;
+      if (muteBtn) muteBtn.innerHTML = `<i data-lucide="${v.muted ? 'volume-x' : 'volume-2'}" class="w-4 h-4"></i>`;
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
     }
     function fsTogglePlay() {
       const v = document.getElementById('fullscreen-reel-video');
@@ -1011,11 +1069,17 @@
     }
     function initFullscreenControls() {
       const v = document.getElementById('fullscreen-reel-video');
+      if (!v) return;
       v.addEventListener('timeupdate', () => {
-        if (v.duration) document.getElementById('fs-seek').value = v.currentTime / v.duration * 1000;
-        document.getElementById('fs-cur').textContent = fmtTime(v.currentTime);
+        const seek = document.getElementById('fs-seek');
+        const cur = document.getElementById('fs-cur');
+        if (v.duration && seek) seek.value = v.currentTime / v.duration * 1000;
+        if (cur) cur.textContent = fmtTime(v.currentTime);
       });
-      v.addEventListener('loadedmetadata', () => { document.getElementById('fs-dur').textContent = fmtTime(v.duration); });
+      v.addEventListener('loadedmetadata', () => { 
+        const dur = document.getElementById('fs-dur');
+        if (dur) dur.textContent = fmtTime(v.duration); 
+      });
       v.addEventListener('play', fsIcons);
       v.addEventListener('pause', fsIcons);
     }
@@ -1054,7 +1118,7 @@
       }
       setChrome('#000000');
       modal.classList.remove('hidden');
-      lucide.createIcons();
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
     }
 
     function closeFullscreenReel() {
@@ -1074,15 +1138,7 @@
 
     function goToPropertyReel(id) {
       closeDetailModal();
-      switchTab('reels');
-      setTimeout(() => {
-        const el = document.getElementById(`reel-item-${id}`);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          const vid = document.getElementById(`reel-vid-${id}`);
-          if (vid) vid.play().catch(() => {});
-        }
-      }, 150);
+      navigateToReel(id);
     }
 
     function openDetailModal(id) {
@@ -1091,6 +1147,10 @@
       activeDetailPropertyId = id;
       const sold = isSold(p.status);
       const photos = p.photos.length ? p.photos : [''];
+      const waText = state.activeRef 
+        ? `Halo GDP, saya berminat dengan: ${p.title} (${formatRupiah(p.price)}) [Ref: ${state.activeRef}]`
+        : `Halo GDP, saya berminat dengan: ${p.title} (${formatRupiah(p.price)})`;
+
       document.getElementById('detail-modal-content').innerHTML = `
         <div class="relative w-full bg-black rounded-b-[32px] overflow-hidden shadow-md" style="padding-top: env(safe-area-inset-top, 0px);">
           <div id="detail-slider" onscroll="updateSliderDots()" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar">
@@ -1113,22 +1173,22 @@
             <div class="bg-white p-2 rounded-2xl border border-neutral-200 shadow-sm flex flex-col items-center justify-between min-h-[76px]">
               <i data-lucide="bed" class="w-4 h-4 text-neutral-700"></i>
               <span class="text-[9px] text-neutral-400 font-bold leading-tight my-auto">Kamar Tidur</span>
-              <strong class="text-xs text-navy">${p.bedrooms || '-'}</strong>
+              <strong class="text-xs text-navy mt-auto">${p.bedrooms || '-'}</strong>
             </div>
             <div class="bg-white p-2 rounded-2xl border border-neutral-200 shadow-sm flex flex-col items-center justify-between min-h-[76px]">
               <i data-lucide="bath" class="w-4 h-4 text-neutral-700"></i>
               <span class="text-[9px] text-neutral-400 font-bold leading-tight my-auto">Kamar Mandi</span>
-              <strong class="text-xs text-navy">${p.bathrooms || '-'}</strong>
+              <strong class="text-xs text-navy mt-auto">${p.bathrooms || '-'}</strong>
             </div>
             <div class="bg-white p-2 rounded-2xl border border-neutral-200 shadow-sm flex flex-col items-center justify-between min-h-[76px]">
               <i data-lucide="car" class="w-4 h-4 text-neutral-700"></i>
               <span class="text-[9px] text-neutral-400 font-bold leading-tight my-auto">Garasi</span>
-              <strong class="text-xs text-navy">${p.garage || '-'}</strong>
+              <strong class="text-xs text-navy mt-auto">${p.garage || '-'}</strong>
             </div>
             <div class="bg-white p-2 rounded-2xl border border-neutral-200 shadow-sm flex flex-col items-center justify-between min-h-[76px]">
               <i data-lucide="maximize" class="w-4 h-4 text-neutral-700"></i>
               <span class="text-[9px] text-neutral-400 font-bold leading-tight my-auto">Luas Tanah</span>
-              <strong class="text-xs text-navy">${p.landArea}m²</strong>
+              <strong class="text-xs text-navy mt-auto">${p.landArea}m²</strong>
             </div>
           </div>
           <div class="flex items-center gap-2 text-[11px] font-bold text-neutral-700">
@@ -1147,7 +1207,7 @@
                 <p class="text-[10px] text-[#1D9BF0] font-semibold">Verified · Langsung Pemilik</p>
               </div>
             </div>
-            <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo GDP, saya berminat dengan: ' + p.title + ' ' + formatRupiah(p.price))}" target="_blank" class="px-4 py-2 bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-bold rounded-full btn-press flex items-center gap-1.5 shadow-sm shrink-0">
+            <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waText)}" target="_blank" class="px-4 py-2 bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-bold rounded-full btn-press flex items-center gap-1.5 shadow-sm shrink-0">
               <i data-lucide="message-circle" class="w-4 h-4"></i> Hubungi
             </a>
           </div>
@@ -1158,7 +1218,7 @@
         </div>`;
       setChrome('#000000');
       document.getElementById('detail-modal').classList.remove('hidden');
-      lucide.createIcons();
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
       updateSliderDots();
     }
 
@@ -1191,12 +1251,17 @@
 
       const baseUrl = window.location.href.split('?')[0].split('#')[0];
       const paramKey = isShareFromReel ? 'reel' : 'prop';
-      const realShareUrl = `${baseUrl}?${paramKey}=${encodeURIComponent(p.id)}`;
+      let realShareUrl = `${baseUrl}?${paramKey}=${encodeURIComponent(p.id)}`;
+      if (state.activeRef) {
+        realShareUrl += `&ref=${encodeURIComponent(state.activeRef)}`;
+      }
+
       const shareText = isShareFromReel 
         ? `Lihat video Reels properti ${p.title} (${formatRupiah(p.price)}) di Guntur Dagang Property:` 
         : `Lihat properti ${p.title} (${formatRupiah(p.price)}) di Guntur Dagang Property:`;
 
       const bodyEl = document.getElementById('share-modal-body');
+      if (!bodyEl) return;
       bodyEl.innerHTML = `
         <div class="bg-neutral-50 p-3 rounded-2xl border border-neutral-200/80 flex items-center gap-3">
           <img src="${imgSrc(p.photos[0] || '')}" class="w-12 h-12 rounded-xl object-cover bg-neutral-200 shrink-0">
@@ -1238,7 +1303,7 @@
       `;
 
       document.getElementById('share-modal').classList.remove('hidden');
-      lucide.createIcons();
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
     }
 
     function closeShareModal() {
@@ -1251,7 +1316,9 @@
       if (!p) return;
       const baseUrl = window.location.href.split('?')[0].split('#')[0];
       const paramKey = isShareFromReel ? 'reel' : 'prop';
-      const realShareUrl = `${baseUrl}?${paramKey}=${encodeURIComponent(p.id)}`;
+      let realShareUrl = `${baseUrl}?${paramKey}=${encodeURIComponent(p.id)}`;
+      if (state.activeRef) realShareUrl += `&ref=${encodeURIComponent(state.activeRef)}`;
+
       const shareText = isShareFromReel
         ? `Lihat video Reels properti ${p.title} (${formatRupiah(p.price)}) di GDP:`
         : `Lihat properti ${p.title} (${formatRupiah(p.price)}) di GDP:`;
@@ -1276,12 +1343,12 @@
     }
 
     /* =============== LOGIN POPUP + DASHBOARD =============== */
-    function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); lucide.createIcons(); }
-    function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
-    function fillDemo(role) {
-      document.getElementById('login-email').value = role === 'admin' ? 'admin@guntur.com' : 'marketer@guntur.com';
-      document.getElementById('login-pass').value = 'demo1234';
+    function openLoginModal() { 
+      document.getElementById('login-modal').classList.remove('hidden'); 
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons(); 
     }
+    function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
+    
     function handleLoginSubmit(e) {
       e.preventDefault();
       const email = document.getElementById('login-email').value.trim();
@@ -1296,7 +1363,7 @@
       if (role === 'admin') { adminUI.name = name; adminUI.tab = 'ringkasan'; adminUI.filter = 'all'; adminUI.q = ''; renderAdminShell(); }
       else renderMarketerDash(name);
       el.classList.remove('hidden');
-      lucide.createIcons();
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
     }
 
     function closeDashboard() {
@@ -1305,31 +1372,58 @@
       showToast("Berhasil keluar");
     }
 
-    /* ---------- Dashboard Marketer (demo, akan dipisah) ---------- */
+    /* ---------- Dashboard Marketer ---------- */
     function renderMarketerDash(name) {
+      const currentM = marketers.find(m => m.email.toLowerCase().includes(name.toLowerCase())) || { id: 'MKT-DEMO', lead: 12, terjual: 1, komisi: 2.5 };
       const tile = (icon, label, val) => `<div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm text-center"><i data-lucide="${icon}" class="w-4 h-4 mx-auto text-orange-600 mb-1"></i><strong class="block text-base font-bold text-navy">${val}</strong><span class="text-[9px] text-neutral-500 font-bold">${label}</span></div>`;
-      const items = state.properties.map(p => `
-        <div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm flex items-center gap-3">
-          <img src="${imgSrc(p.photos[0] || '')}" class="w-14 h-14 rounded-xl object-cover bg-neutral-100 shrink-0">
-          <div class="min-w-0 flex-grow"><h5 class="text-xs font-semibold text-navy truncate">${esc(p.title)}</h5><p class="text-[10px] text-neutral-500">${formatRupiah(p.price)} · ${esc(p.certificate)}</p></div>
-          <button onclick="showToast('Caption disalin')" class="px-3 py-1.5 rounded-xl bg-navy text-white text-[10px] font-bold btn-press shrink-0">Salin Caption</button>
-        </div>`).join('');
+      const baseUrl = window.location.href.split('?')[0].split('#')[0];
+      const mLink = `${baseUrl}?ref=${currentM.id}`;
+
+      const items = state.properties.map(p => {
+        const pLink = `${baseUrl}?ref=${currentM.id}&prop=${p.id}`;
+        const caption = `🏡 *${p.title}*\n📍 Lokasi: ${p.location}\n💰 Harga: ${formatRupiah(p.price)}\n📜 Legalitas: ${p.certificate}\n\nInfo lengkap & survey lokasi hubungi saya di:\n👉 ${pLink}`;
+        return `
+        <div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm space-y-2">
+          <div class="flex items-center gap-3">
+            <img src="${imgSrc(p.photos[0] || '')}" class="w-12 h-12 rounded-xl object-cover bg-neutral-100 shrink-0">
+            <div class="min-w-0 flex-grow">
+              <h5 class="text-xs font-semibold text-navy truncate">${esc(p.title)}</h5>
+              <p class="text-[10px] text-neutral-500">${formatRupiah(p.price)} · ${esc(p.certificate)}</p>
+            </div>
+          </div>
+          <div class="flex gap-2 pt-1 border-t border-neutral-100">
+            <button onclick="copyText(${JSON.stringify(caption).replace(/"/g, '&quot;')})" class="flex-grow py-2 rounded-xl bg-navy text-white text-[10px] font-bold btn-press flex items-center justify-center gap-1"><i data-lucide="copy" class="w-3 h-3"></i> Salin Caption Promosi</button>
+            <button onclick="copyText(${JSON.stringify(pLink).replace(/"/g, '&quot;')})" class="px-3 py-2 rounded-xl bg-orange-50 text-orange-700 border border-orange-200 text-[10px] font-bold btn-press"><i data-lucide="link" class="w-3 h-3"></i> Tautan</button>
+          </div>
+        </div>`;
+      }).join('');
+
       document.getElementById('dashboard-screen').innerHTML = `
         <div class="h-full overflow-y-auto no-scrollbar px-5 pt-10 pb-10 space-y-5">
           <div class="flex justify-between items-center">
             <div><span class="px-2.5 py-0.5 rounded-full bg-brand text-navy font-bold text-[9px] uppercase tracking-wider">Dashboard Marketer</span><h3 class="text-lg font-bold text-navy mt-1.5">Halo, ${esc(name)}!</h3></div>
             <button onclick="closeDashboard()" class="px-3.5 py-2 rounded-full bg-navy text-white text-[10px] font-bold flex items-center gap-1.5 btn-press"><i data-lucide="log-out" class="w-3.5 h-3.5"></i> Keluar</button>
           </div>
-          <div class="grid grid-cols-3 gap-2">${tile('building-2', 'Properti Aktif', state.properties.length) + tile('message-circle', 'Lead Saya', '12') + tile('wallet', 'Komisi', 'Rp 0')}</div>
-          <div class="space-y-2.5"><h4 class="text-xs font-semibold text-navy uppercase tracking-wider">Materi Promosi</h4>${items}</div>
+
+          <div class="bg-navy text-white p-4 rounded-2xl space-y-2 shadow-md">
+            <span class="text-[10px] font-bold text-brand uppercase tracking-wider block">Link Referral Utama Anda</span>
+            <div class="flex items-center gap-2 bg-white/10 p-2 rounded-xl border border-white/20">
+              <input type="text" readonly value="${esc(mLink)}" class="w-full text-xs bg-transparent outline-none text-white font-mono truncate">
+              <button onclick="copyText('${esc(mLink)}')" class="px-3 py-1.5 bg-brand text-navy font-bold text-[10px] rounded-lg shrink-0 btn-press">Salin Link</button>
+            </div>
+            <p class="text-[9px] text-neutral-300 leading-tight">Setiap calon pembeli yang mengeklik link ini akan otomatis terdata sebagai Lead Anda.</p>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2">${tile('building-2', 'Properti Aktif', state.properties.length) + tile('message-circle', 'Lead Saya', currentM.lead || 0) + tile('wallet', 'Komisi', currentM.komisi + '%')}</div>
+          
+          <div class="space-y-2.5">
+            <h4 class="text-xs font-semibold text-navy uppercase tracking-wider">Materi Promosi & Tautan</h4>
+            ${items}
+          </div>
         </div>`;
     }
 
-    /* =====================================================================
-       DASHBOARD ADMIN: tambah & kelola marketer
-       Data demo disimpan di localStorage browser. Versi produksi perlu backend.
-       Password TIDAK disimpan, hanya ditampilkan sekali saat dibuat/direset.
-       ===================================================================== */
+    /* =============== DASHBOARD ADMIN =============== */
     const MKEY = 'gdp_marketers_v1';
     const SEED_MARKETERS = [
       { id: 'MKT-001', nama: 'Rina Wulandari', email: 'rina@mail.com', wa: '6281234500001', kota: 'Sleman', komisi: 2.5, status: 'aktif', joined: '2026-08-14', lead: 21, terjual: 3 },
@@ -1349,7 +1443,8 @@
 
     const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     const STATUS_LABEL = { aktif: 'Aktif', pending: 'Menunggu', nonaktif: 'Nonaktif' };
-    const STATUS_CLASS = { aktif: 'bg-[#DCE3F1] text-navy', pending: 'bg-orange-100 text-orange-700', nonaktif: 'bg-neutral-200 text-neutral-600' };
+    const STATUS_CLASS = { aktif: 'bg-emerald-100 text-emerald-800', pending: 'bg-orange-100 text-orange-700', nonaktif: 'bg-neutral-200 text-neutral-600' };
+    
     function normWA(v) { let d = String(v).replace(/\D/g, ''); if (d.startsWith('0')) d = '62' + d.slice(1); else if (d.startsWith('8')) d = '62' + d; return d; }
     function genPassword() {
       const set = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
@@ -1383,7 +1478,7 @@
         </div>`;
       renderAdminBody();
     }
-    function setAdminTab(t) { adminUI.tab = t; renderAdminShell(); lucide.createIcons(); }
+    function setAdminTab(t) { adminUI.tab = t; renderAdminShell(); if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons(); }
 
     function renderAdminBody() {
       const body = document.getElementById('admin-body');
@@ -1392,7 +1487,7 @@
       else if (adminUI.tab === 'marketer') { body.innerHTML = adminMarketerHTML(); renderMarketerList(); }
       else body.innerHTML = adminListingHTML();
       body.scrollTop = 0;
-      lucide.createIcons();
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
     }
 
     function statTile(icon, label, val, dark) {
@@ -1430,8 +1525,7 @@
               <div class="w-7 h-7 rounded-full bg-navy text-brand text-xs font-bold flex items-center justify-center shrink-0">${i + 1}</div>
               <div class="min-w-0 flex-grow"><h5 class="text-xs font-semibold text-navy truncate">${esc(m.nama)}</h5><p class="text-[10px] text-neutral-500">${m.lead} lead · ${m.terjual} terjual</p></div>
             </div>`).join('') : `<div class="bg-white rounded-2xl p-4 border border-neutral-200 text-center text-[11px] text-neutral-500">Belum ada data.</div>`}
-        </div>
-        <p class="text-[10px] text-neutral-400 text-center pb-2">Data marketer di halaman ini adalah demo (tersimpan di browser).</p>`;
+        </div>`;
     }
 
     function adminMarketerHTML() {
@@ -1460,22 +1554,22 @@
       if (adminUI.q) list = list.filter(m => (m.nama + ' ' + m.email + ' ' + m.kota + ' ' + m.id).toLowerCase().includes(adminUI.q));
       if (!list.length) {
         box.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center space-y-2 border border-neutral-200"><i data-lucide="user-x" class="w-10 h-10 mx-auto text-neutral-300"></i><p class="text-xs font-bold text-neutral-500">Marketer tidak ditemukan.</p></div>`;
-        lucide.createIcons(); return;
+        if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons(); return;
       }
       const act = (icon, title, fn, cls) => `<button onclick="${fn}" title="${title}" class="h-9 px-3 rounded-xl flex items-center gap-1.5 text-[10px] font-semibold btn-press ${cls || 'bg-neutral-100 text-navy'}"><i data-lucide="${icon}" class="w-3.5 h-3.5"></i>${title}</button>`;
       box.innerHTML = list.map(m => `
         <div class="bg-white rounded-3xl p-4 border border-neutral-200/80 shadow-soft-card space-y-3">
           <div class="flex items-start gap-3">
-            <div class="w-11 h-11 rounded-full ${m.status === 'aktif' ? 'bg-navy text-brand' : m.status === 'pending' ? 'bg-orange-100 text-orange-700' : 'bg-neutral-200 text-neutral-500'} font-bold flex items-center justify-center shrink-0">${esc(m.nama.charAt(0).toUpperCase())}</div>
+            <div class="w-11 h-11 rounded-full ${m.status === 'aktif' ? 'bg-emerald-600 text-white' : m.status === 'pending' ? 'bg-orange-100 text-orange-700' : 'bg-neutral-200 text-neutral-500'} font-bold flex items-center justify-center shrink-0">${esc(m.nama.charAt(0).toUpperCase())}</div>
             <div class="min-w-0 flex-grow">
-              <div class="flex items-center gap-2 flex-wrap"><h5 class="text-sm font-semibold text-navy truncate">${esc(m.nama)}</h5><span class="px-2 py-0.5 rounded-full text-[9px] font-semibold ${STATUS_CLASS[m.status]}">${STATUS_LABEL[m.status]}</span></div>
+              <div class="flex items-center gap-2 flex-wrap"><h5 class="text-sm font-semibold text-navy truncate">${esc(m.nama)}</h5><span class="px-2 py-0.5 rounded-full text-[9px] font-semibold ${STATUS_CLASS[m.status] || 'bg-neutral-100 text-neutral-700'}">${STATUS_LABEL[m.status] || m.status}</span></div>
               <p class="text-[10px] text-neutral-500 truncate">${esc(m.email)}</p>
               <p class="text-[10px] text-neutral-500 truncate">+${esc(m.wa)} · ${esc(m.kota)}</p>
             </div>
           </div>
           <div class="grid grid-cols-3 gap-2 text-center">
-            <div class="bg-softgray rounded-xl py-2"><strong class="block text-sm text-navy">${m.lead}</strong><span class="text-[9px] text-neutral-500 font-semibold">Lead</span></div>
-            <div class="bg-softgray rounded-xl py-2"><strong class="block text-sm text-navy">${m.terjual}</strong><span class="text-[9px] text-neutral-500 font-semibold">Terjual</span></div>
+            <div class="bg-softgray rounded-xl py-2"><strong class="block text-sm text-navy">${m.lead || 0}</strong><span class="text-[9px] text-neutral-500 font-semibold">Lead</span></div>
+            <div class="bg-softgray rounded-xl py-2"><strong class="block text-sm text-navy">${m.terjual || 0}</strong><span class="text-[9px] text-neutral-500 font-semibold">Terjual</span></div>
             <div class="bg-softgray rounded-xl py-2"><strong class="block text-sm text-navy">${m.komisi}%</strong><span class="text-[9px] text-neutral-500 font-semibold">Komisi</span></div>
           </div>
           <div class="flex flex-wrap gap-2">
@@ -1488,7 +1582,7 @@
           </div>
           <p class="text-[9px] text-neutral-400">${esc(m.id)} · Bergabung ${fmtDate(m.joined)}</p>
         </div>`).join('');
-      lucide.createIcons();
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
     }
 
     function adminListingHTML() {
@@ -1496,19 +1590,30 @@
         <div class="flex justify-between items-center">
           <div>
             <h3 class="text-base font-bold text-navy">Daftar Listing</h3>
-            <p class="text-[10px] text-neutral-500">Perubahan foto & video disesuaikan via Google Spreadsheet.</p>
+            <p class="text-[10px] text-neutral-500">Gunakan tombol pensil untuk merubah detail properti.</p>
           </div>
         </div>
-        ${state.properties.map(p => `
-          <div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm flex items-center gap-3">
-            <img src="${imgSrc(p.photos[0] || '')}" class="w-14 h-14 rounded-xl object-cover bg-neutral-100 shrink-0">
-            <div class="min-w-0 flex-grow">
-              <h5 class="text-xs font-semibold text-navy truncate">${esc(p.title)}</h5>
-              <p class="text-[10px] text-neutral-500">${formatRupiah(p.price)} · ${esc(p.certificate)}</p>
-              <button onclick="openRevisionModal('${p.id}')" class="text-[10px] font-bold text-orange-600 underline hover:text-navy mt-1 inline-block btn-press">Revisi Listing</button>
+        ${state.properties.map(p => {
+          const sold = isSold(p.status);
+          return `
+          <div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm space-y-2">
+            <div class="flex justify-between items-center border-b border-neutral-100 pb-2">
+              <span class="px-2.5 py-0.5 rounded-full text-[9px] font-bold ${sold ? 'bg-black text-white' : 'bg-[#DCE3F1] text-navy'}">${esc(p.status)}</span>
+              <div class="flex items-center gap-1">
+                <button onclick="openRevisionModal('${p.id}')" class="w-7 h-7 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center btn-press" title="Revisi Listing"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                <button onclick="openShareModalForProp('${p.id}')" class="w-7 h-7 rounded-xl bg-neutral-100 text-navy flex items-center justify-center btn-press" title="Bagikan"><i data-lucide="share-2" class="w-3.5 h-3.5"></i></button>
+              </div>
             </div>
-            <span class="px-2 py-1 rounded-full text-[9px] font-semibold shrink-0 ${isSold(p.status) ? 'bg-black text-white' : 'bg-[#DCE3F1] text-navy'}">${esc(p.status)}</span>
-          </div>`).join('')}`;
+            <div class="flex items-center gap-3">
+              <img src="${imgSrc(p.photos[0] || '')}" class="w-14 h-14 rounded-xl object-cover bg-neutral-100 shrink-0">
+              <div class="min-w-0 flex-grow">
+                <h5 class="text-xs font-semibold text-navy truncate">${esc(p.title)}</h5>
+                <p class="text-[10px] text-neutral-400 font-medium truncate">${esc(p.location)} · ${esc(p.certificate)}</p>
+                <p class="text-xs font-bold font-display text-brand mt-0.5">${formatRupiah(p.price)}</p>
+              </div>
+            </div>
+          </div>`;
+        }).join('')}`;
     }
 
     function openRevisionModal(id) {
@@ -1520,7 +1625,7 @@
           <button onclick="closeAdminSheet()" class="w-8 h-8 rounded-full bg-neutral-100 text-navy flex items-center justify-center btn-press" title="Tutup"><i data-lucide="x" class="w-4 h-4"></i></button>
         </div>
         <p class="text-[10px] text-orange-700 bg-orange-50 p-2.5 rounded-xl border border-orange-200 mb-3">
-          Teks informasi properti dapat direvisi langsung di bawah ini. Untuk perubahan foto & video tetap dilakukan melalui Google Spreadsheet.
+          Teks informasi properti dapat direvisi langsung di bawah ini. Untuk perubahan foto & video dapat dilakukan melalui Google Spreadsheet.
         </p>
         <form onsubmit="submitPropertyRevision(event, '${p.id}')" class="space-y-3">
           ${fld('Judul Properti', 'rev-title', p.title, 'required')}
@@ -1560,7 +1665,6 @@
       showToast('Revisi listing berhasil disimpan!');
     }
 
-    /* ---------- Aksi marketer ---------- */
     function setMStatus(id, status) {
       const m = marketers.find(x => x.id === id);
       if (!m) return;
@@ -1569,11 +1673,16 @@
     }
 
     function openAdminSheet(html) {
-      document.getElementById('admin-sheet-box').innerHTML = html;
-      document.getElementById('admin-sheet').classList.remove('hidden');
-      lucide.createIcons();
+      const box = document.getElementById('admin-sheet-box');
+      if (box) box.innerHTML = html;
+      const sheet = document.getElementById('admin-sheet');
+      if (sheet) sheet.classList.remove('hidden');
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
     }
-    function closeAdminSheet() { const s = document.getElementById('admin-sheet'); if (s) s.classList.add('hidden'); }
+    function closeAdminSheet() { 
+      const s = document.getElementById('admin-sheet'); 
+      if (s) s.classList.add('hidden'); 
+    }
 
     function fld(label, id, val, attrs) {
       return `<div><label class="text-[10px] font-bold text-neutral-700 block mb-1">${label}</label><input id="${id}" value="${esc(val)}" ${attrs || ''} class="w-full text-xs bg-neutral-50 border border-neutral-200 rounded-xl p-3 outline-none focus:border-navy font-medium"></div>`;
@@ -1650,17 +1759,6 @@
         </div>`);
     }
 
-    function copyText(t) {
-      const done = () => showToast('Pesan disalin');
-      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(done, () => fallbackCopy(t, done));
-      else fallbackCopy(t, done);
-    }
-    function fallbackCopy(t, cb) {
-      const el = document.createElement('textarea'); el.value = t; document.body.appendChild(el); el.select();
-      try { document.execCommand('copy'); cb(); } catch (e) { showToast('Gagal menyalin'); }
-      document.body.removeChild(el);
-    }
-
     function confirmDeleteMarketer(id) {
       const m = marketers.find(x => x.id === id);
       if (!m) return;
@@ -1683,21 +1781,67 @@
     /* =============== REGISTER =============== */
     function handleRegisterSubmit(e) {
       e.preventDefault();
-      const name = document.getElementById('reg-name').value;
-      const phone = document.getElementById('reg-phone').value;
-      const city = document.getElementById('reg-city').value;
-      const waMsg = `Halo Admin GDP, saya ingin mendaftar sebagai Mitra Marketer Properti GDP:\n\nNama: ${name}\nWhatsApp: ${phone}\nDomisili: ${city}`;
-      window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waMsg)}`, '_blank');
-      showToast("Mengarahkan ke WhatsApp Admin...");
+      const name = document.getElementById('reg-name').value.trim();
+      const phone = document.getElementById('reg-phone').value.trim();
+      const city = document.getElementById('reg-city').value.trim();
+      if (!name || !phone || !city) return;
+
+      const wa = normWA(phone);
+      const n = marketers.reduce((a, x) => Math.max(a, parseInt(String(x.id).replace(/\D/g, ''), 10) || 0), 0) + 1;
+      const newM = {
+        id: 'MKT-' + String(n).padStart(3, '0'),
+        nama: name,
+        email: (name.toLowerCase().replace(/\s+/g, '') + '@mail.com'),
+        wa: wa,
+        kota: city,
+        komisi: 2.0,
+        status: 'pending',
+        joined: new Date().toISOString().slice(0, 10),
+        lead: 0,
+        terjual: 0
+      };
+
+      marketers.unshift(newM);
+      saveMarketers();
+
+      const regForm = document.querySelector('#form-marketer form');
+      if (regForm) regForm.reset();
+
+      openAdminSheet(`
+        <div class="text-center space-y-3 p-2">
+          <div class="w-12 h-12 mx-auto rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center"><i data-lucide="check-circle-2" class="w-7 h-7"></i></div>
+          <h3 class="text-base font-bold text-navy">Pendaftaran Berhasil!</h3>
+          <p class="text-xs text-neutral-600 leading-relaxed">Terima kasih, <strong class="text-navy">${esc(name)}</strong>. Data pendaftaran Anda telah tersimpan di sistem kami.</p>
+          <div class="bg-neutral-50 p-3 rounded-2xl border border-neutral-200 text-left space-y-1 text-[11px]">
+            <div class="flex justify-between"><span class="text-neutral-500">Nama:</span><strong class="text-navy">${esc(name)}</strong></div>
+            <div class="flex justify-between"><span class="text-neutral-500">Kota:</span><strong class="text-navy">${esc(city)}</strong></div>
+            <div class="flex justify-between"><span class="text-neutral-500">Status:</span><span class="px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-[9px] font-bold">Menunggu Persetujuan</span></div>
+          </div>
+          <p class="text-[10px] text-neutral-400">Akun Anda akan ditinjau dan disetujui oleh Admin GDP.</p>
+          <button onclick="closeAdminSheet()" class="w-full py-3 bg-navy text-white font-bold text-xs rounded-2xl btn-press">Selesai</button>
+        </div>
+      `);
+    }
+
+    function copyText(t) {
+      const done = () => showToast('Teks disalin');
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(done, () => fallbackCopy(t, done));
+      else fallbackCopy(t, done);
+    }
+    function fallbackCopy(t, cb) {
+      const el = document.createElement('textarea'); el.value = t; document.body.appendChild(el); el.select();
+      try { document.execCommand('copy'); cb(); } catch (e) { showToast('Gagal menyalin'); }
+      document.body.removeChild(el);
     }
 
     function showToast(msg) {
       const container = document.getElementById('toast-container');
+      if (!container) return;
       const toast = document.createElement('div');
       toast.className = 'bg-navy text-white px-4 py-2.5 rounded-full text-xs font-bold shadow-2xl flex items-center justify-between border border-white/20 smooth-anim pointer-events-auto';
       toast.innerHTML = `<span>${msg}</span><i data-lucide="check" class="w-3.5 h-3.5 text-brand ml-2"></i>`;
       container.appendChild(toast);
-      lucide.createIcons();
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
       setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 200); }, 2200);
     }
   </script>
