@@ -595,10 +595,15 @@
       refreshLists();
       lucide.createIcons();
 
-      // Autoload detail modal if shared parameter exists in URL (?prop=GDP-xxx)
+      // Autoload detail modal or reel based on URL parameters (?prop=GDP-xxx or ?reel=GDP-xxx)
       const urlParams = new URLSearchParams(window.location.search);
+      const sharedReelId = urlParams.get('reel');
       const sharedPropId = urlParams.get('prop') || urlParams.get('id');
-      if (sharedPropId && state.properties.some(p => p.id === sharedPropId)) {
+
+      if (sharedReelId && state.properties.some(p => p.id === sharedReelId)) {
+        dismissIntro();
+        navigateToReel(sharedReelId);
+      } else if (sharedPropId && state.properties.some(p => p.id === sharedPropId)) {
         dismissIntro();
         setTimeout(() => openDetailModal(sharedPropId), 250);
       }
@@ -889,7 +894,7 @@
               : `<video id="reel-vid-${p.id}" class="absolute inset-0 w-full h-full object-cover cursor-pointer ${sold ? 'grayscale' : ''}" muted loop playsinline preload="auto" onclick="toggleReelPlay('${p.id}')"><source src="${p.videoUrl}" type="video/mp4"></video>`;
         const showControls = p.videoUrl && !drive && !yt;
         return `
-        <div class="relative w-full aspect-[9/16] rounded-3xl overflow-hidden bg-navy border border-white/10 shadow-2xl flex flex-col justify-between p-4 text-left text-white">
+        <div id="reel-item-${p.id}" class="relative w-full aspect-[9/16] rounded-3xl overflow-hidden bg-navy border border-white/10 shadow-2xl flex flex-col justify-between p-4 text-left text-white">
           ${media}
           <div class="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent pointer-events-none"></div>
 
@@ -926,8 +931,11 @@
       setupReelObserver();
     }
 
-    function openShareModalForProp(id) {
+    let isShareFromReel = false;
+
+    function openShareModalForProp(id, fromReel = false) {
       activeDetailPropertyId = id;
+      isShareFromReel = !!fromReel;
       sharePropertyLink();
     }
 
@@ -1064,6 +1072,19 @@
     /* =============== DETAIL =============== */
     let activeDetailPropertyId = null;
 
+    function goToPropertyReel(id) {
+      closeDetailModal();
+      switchTab('reels');
+      setTimeout(() => {
+        const el = document.getElementById(`reel-item-${id}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          const vid = document.getElementById(`reel-vid-${id}`);
+          if (vid) vid.play().catch(() => {});
+        }
+      }, 150);
+    }
+
     function openDetailModal(id) {
       const p = state.properties.find(x => x.id === id);
       if (!p) return;
@@ -1076,9 +1097,9 @@
             ${photos.map(u => `<div class="w-full shrink-0 snap-center aspect-square bg-black"><img src="${imgSrc(u)}" class="w-full h-full object-cover ${sold ? 'grayscale' : ''}"></div>`).join('')}
           </div>
           ${sold ? `<div class="absolute top-16 left-4 px-3 py-1 rounded-full bg-black/85 backdrop-blur text-white text-[10px] font-extrabold uppercase tracking-widest shadow-lg border border-white/20">Terjual</div>` : ''}
-          ${photos.length > 1 ? `<button id="detail-prev" onclick="slideDetail(-1)" class="absolute left-3 w-8 h-8 rounded-full bg-black/45 backdrop-blur text-white flex items-center justify-center btn-press" style="top:calc(50% - 16px);" title="Sebelumnya"><i data-lucide="chevron-left" class="w-4 h-4"></i></button><button id="detail-next" onclick="slideDetail(1)" class="absolute right-3 w-8 h-8 rounded-full bg-black/45 backdrop-blur text-white flex items-center justify-center btn-press" style="top:calc(50% - 16px);" title="Berikutnya"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>` : ''}
+          ${photos.length > 1 ? `<button id="detail-prev" onclick="slideDetail(-1)" class="absolute left-3 z-10 w-8 h-8 rounded-full bg-black/45 backdrop-blur text-white flex items-center justify-center btn-press" style="top:calc(50% - 16px);" title="Sebelumnya"><i data-lucide="chevron-left" class="w-4 h-4"></i></button><button id="detail-next" onclick="slideDetail(1)" class="absolute right-3 z-10 w-8 h-8 rounded-full bg-black/45 backdrop-blur text-white flex items-center justify-center btn-press" style="top:calc(50% - 16px);" title="Berikutnya"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>` : ''}
           <div id="detail-dots" class="absolute bottom-4 inset-x-0 flex justify-center gap-1.5 pointer-events-none"></div>
-          ${p.videoUrl ? `<button onclick="closeDetailModal(); switchTab('reels');" class="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur text-navy flex items-center justify-center shadow-lg btn-press" title="Tonton Video Reels"><i data-lucide="video" class="w-5 h-5 text-brand"></i></button>` : ''}
+          ${p.videoUrl ? `<button onclick="closeDetailModal(); goToPropertyReel('${p.id}');" class="absolute bottom-4 right-4 z-10 w-10 h-10 rounded-full bg-white/90 backdrop-blur text-navy flex items-center justify-center shadow-lg btn-press" title="Tonton Video Reels"><i data-lucide="video" class="w-5 h-5 text-brand"></i></button>` : ''}
         </div>
         <div class="p-5 space-y-5">
           <div class="flex justify-between items-start gap-3 border-b border-neutral-200/60 pb-3">
@@ -1153,9 +1174,6 @@
       const n = sl.children.length;
       const i = Math.min(n - 1, Math.max(0, Math.round(sl.scrollLeft / (sl.clientWidth || 1))));
       dots.innerHTML = n > 1 ? Array.from({ length: n }, (_, k) => `<span class="h-1.5 rounded-full transition-all ${k === i ? 'w-4 bg-white' : 'w-1.5 bg-white/50'}"></span>`).join('') : '';
-      const prev = document.getElementById('detail-prev'), next = document.getElementById('detail-next');
-      if (prev) prev.style.opacity = i <= 0 ? '0.3' : '1';
-      if (next) next.style.opacity = i >= n - 1 ? '0.3' : '1';
     }
 
     function closeDetailModal() {
@@ -1172,8 +1190,11 @@
       }
 
       const baseUrl = window.location.href.split('?')[0].split('#')[0];
-      const realShareUrl = `${baseUrl}?prop=${encodeURIComponent(p.id)}`;
-      const shareText = `Lihat properti ${p.title} (${formatRupiah(p.price)}) di Guntur Dagang Property:`;
+      const paramKey = isShareFromReel ? 'reel' : 'prop';
+      const realShareUrl = `${baseUrl}?${paramKey}=${encodeURIComponent(p.id)}`;
+      const shareText = isShareFromReel 
+        ? `Lihat video Reels properti ${p.title} (${formatRupiah(p.price)}) di Guntur Dagang Property:` 
+        : `Lihat properti ${p.title} (${formatRupiah(p.price)}) di Guntur Dagang Property:`;
 
       const bodyEl = document.getElementById('share-modal-body');
       bodyEl.innerHTML = `
@@ -1182,6 +1203,7 @@
           <div class="min-w-0 flex-grow">
             <h4 class="text-xs font-bold text-navy truncate">${esc(p.title)}</h4>
             <p class="text-[10px] text-brand font-bold">${formatRupiah(p.price)} · ${esc(p.location)}</p>
+            ${isShareFromReel ? '<span class="text-[9px] font-semibold text-orange-600">Video Reels</span>' : ''}
           </div>
         </div>
 
@@ -1207,7 +1229,7 @@
         </div>
 
         <div class="space-y-1.5 pt-1">
-          <label class="text-[10px] font-bold text-neutral-600 block">Tautan Langsung Properti (Aktif)</label>
+          <label class="text-[10px] font-bold text-neutral-600 block">Tautan Langsung ${isShareFromReel ? 'Video Reels' : 'Properti'} (Aktif)</label>
           <div class="flex items-center gap-2 bg-neutral-100 p-1.5 rounded-2xl border border-neutral-200">
             <input type="text" readonly value="${esc(realShareUrl)}" class="w-full text-[10px] bg-transparent outline-none px-2 font-mono text-neutral-700 truncate">
             <button onclick="copyShareLink('${esc(realShareUrl)}')" class="px-3 py-2 bg-navy text-white text-[10px] font-bold rounded-xl btn-press shrink-0 flex items-center gap-1"><i data-lucide="copy" class="w-3 h-3"></i> Salin</button>
@@ -1228,11 +1250,15 @@
       const p = state.properties.find(x => x.id === id);
       if (!p) return;
       const baseUrl = window.location.href.split('?')[0].split('#')[0];
-      const realShareUrl = `${baseUrl}?prop=${encodeURIComponent(p.id)}`;
+      const paramKey = isShareFromReel ? 'reel' : 'prop';
+      const realShareUrl = `${baseUrl}?${paramKey}=${encodeURIComponent(p.id)}`;
+      const shareText = isShareFromReel
+        ? `Lihat video Reels properti ${p.title} (${formatRupiah(p.price)}) di GDP:`
+        : `Lihat properti ${p.title} (${formatRupiah(p.price)}) di GDP:`;
       if (navigator.share) {
         navigator.share({
           title: p.title,
-          text: `Lihat properti ${p.title} (${formatRupiah(p.price)}) di GDP:`,
+          text: shareText,
           url: realShareUrl
         }).then(() => {
           showToast("Berhasil dibagikan!");
