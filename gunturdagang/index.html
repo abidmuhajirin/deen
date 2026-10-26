@@ -1520,6 +1520,61 @@
       return url;
     }
 
+    function downloadImageViaCanvas(url, filename, fallbackFn) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = function() {
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.naturalWidth || img.width;
+          canvas.height = img.naturalHeight || img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob(function(blob) {
+            if (blob) {
+              const blobUrl = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = blobUrl;
+              a.download = filename;
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+              setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+            } else {
+              fallbackFn();
+            }
+          }, 'image/jpeg', 0.95);
+        } catch(e) {
+          fallbackFn();
+        }
+      };
+      img.onerror = function() {
+        fallbackFn();
+      };
+      img.src = url;
+    }
+
+    function fetchBlobAndDownload(url, filename, fallback) {
+      fetch(url)
+        .then(res => {
+          if (!res.ok) throw new Error('Network error');
+          return res.blob();
+        })
+        .then(blob => {
+          const blobUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+        })
+        .catch(() => {
+          fallback();
+        });
+    }
+
     function downloadSingleMedia(url, filename) {
       if (!url) {
         showToast("Tautan media tidak tersedia");
@@ -1531,39 +1586,34 @@
         return;
       }
 
+      showToast("Mengunduh media...");
+
       const id = driveId(url);
       let downloadUrl = url;
       if (id) {
         downloadUrl = `https://drive.google.com/uc?export=download&id=${id}`;
       }
 
-      showToast("Mengunduh media...");
+      const cleanFilename = filename || 'gdp-media';
+      const isImg = /\.(jpg|jpeg|png|webp)|unsplash\.com/i.test(url) && !id;
 
-      fetch(downloadUrl, { mode: 'cors' })
-        .then(res => {
-          if (!res.ok) throw new Error();
-          return res.blob();
-        })
-        .then(blob => {
-          const blobUrl = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = blobUrl;
-          a.download = filename || 'gdp-media';
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
-        })
-        .catch(() => {
-          let iframe = document.getElementById('hidden-download-frame');
-          if (!iframe) {
-            iframe = document.createElement('iframe');
-            iframe.id = 'hidden-download-frame';
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-          }
-          iframe.src = downloadUrl;
+      const directDownloadFallback = () => {
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = cleanFilename;
+        a.target = '_self';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      };
+
+      if (isImg) {
+        downloadImageViaCanvas(downloadUrl, cleanFilename, () => {
+          fetchBlobAndDownload(downloadUrl, cleanFilename, directDownloadFallback);
         });
+      } else {
+        fetchBlobAndDownload(downloadUrl, cleanFilename, directDownloadFallback);
+      }
     }
 
     /* Modal Unduh Bahan Promosi (Foto HD & Video) */
