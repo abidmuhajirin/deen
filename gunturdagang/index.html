@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full bg-navy">
+<html lang="id" class="h-full bg-appbg">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Guntur Dagang Property - Mobile App</title>
+
+  <!-- Web App / PWA Meta Tags for Standalone Fullscreen -->
+  <meta name="theme-color" content="#F1F1F4">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="GDP Property">
+  <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Guntur%20Dagang%20Property%22,%22short_name%22:%22GDP%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%23F1F1F4%22,%22theme_color%22:%22%23F1F1F4%22}">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,8 +36,8 @@
 
   <style>
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-    body { background-color: #071D49; display: flex; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; margin: 0; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
-    #mobile-frame { width: 100%; max-width: 412px; height: 100vh; height: 100dvh; max-height: 100dvh; background-color: #F1F1F4; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8); }
+    body { background-color: #F1F1F4; display: flex; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; margin: 0; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
+    #mobile-frame { width: 100%; max-width: 412px; height: 100vh; height: 100dvh; max-height: 100dvh; background-color: #F1F1F4; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.15); }
     @media (min-width: 640px) { body { background-color: #000000; } #mobile-frame { border-radius: 48px; height: 94vh; max-height: 890px; border: 10px solid #071D49; } }
     .smooth-anim { will-change: transform, opacity; transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
     .btn-press { will-change: transform; transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease; }
@@ -359,8 +368,8 @@
       <button onclick="closeLoginModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 text-neutral-500 flex items-center justify-center btn-press"><i data-lucide="x" class="w-4 h-4"></i></button>
       <div class="space-y-2 text-center">
         <div class="w-12 h-12 mx-auto rounded-full bg-navy text-brand font-bold text-xs flex items-center justify-center">GDP</div>
-        <h3 class="text-lg font-bold font-display text-navy">Login Portal GDP</h3>
-        <p class="text-[11px] text-neutral-500">Masuk sebagai Marketer atau Admin.</p>
+        <h3 class="text-lg font-bold font-display text-navy">Login GDP</h3>
+        <p class="text-[11px] text-neutral-500">Masuk sebagai marketer.</p>
       </div>
       <form onsubmit="handleLoginSubmit(event)" class="space-y-3">
         <div>
@@ -385,7 +394,7 @@
     <div class="bg-appbg w-full max-w-md h-full sm:h-[840px] rounded-t-[32px] sm:rounded-[40px] overflow-hidden flex flex-col relative border border-neutral-200/80 shadow-2xl">
       <div class="absolute top-4 inset-x-4 z-30 flex justify-between items-center pointer-events-auto">
         <button onclick="closeDetailModal()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-navy btn-press"><i data-lucide="arrow-left" class="w-4 h-4"></i></button>
-        <button onclick="sharePropertyLink()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-navy btn-press"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+        <button id="detail-share-btn" onclick="sharePropertyLink()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-navy btn-press"><i data-lucide="share-2" class="w-4 h-4"></i></button>
       </div>
       <div id="detail-modal-content" class="flex-grow overflow-y-auto no-scrollbar pb-24 pt-0"></div>
     </div>
@@ -758,7 +767,7 @@
             <img src="${imgSrc(p.photos[0] || '')}" loading="lazy" class="w-full h-full object-cover aspect-square-thumb group-hover:scale-105 transition-transform duration-500 ${sold ? 'grayscale contrast-125' : ''}">
             <div class="absolute top-3 left-3 bg-white/90 backdrop-blur text-navy px-3 py-1 rounded-full text-[10px] font-semibold shadow-sm">${p.type}</div>
             <div class="absolute top-3 right-3 bg-navy/80 backdrop-blur text-brand px-2.5 py-1 rounded-full text-[10px] font-semibold shadow-md uppercase">${p.certificate}</div>
-            ${sold ? `<div class="absolute inset-0 bg-black/55 backdrop-blur-[1px] flex flex-col items-center justify-center gap-1"><span class="px-4 py-1.5 rounded-full bg-black text-white text-xs font-extrabold tracking-widest border border-white/30 shadow-2xl">SOLD / TERJUAL</span></div>` : ''}
+            ${sold ? `<div class="absolute inset-0 bg-black/55 backdrop-blur-[1px] flex flex-col items-center justify-center gap-1"><span class="px-4 py-1.5 rounded-full bg-black text-white text-xs font-extrabold tracking-widest border border-white/30 shadow-2xl">Terjual</span></div>` : ''}
           </div>
           <div class="px-1 space-y-2">
             <div class="flex justify-between items-start gap-2">
@@ -816,14 +825,14 @@
           <div class="relative z-10 space-y-2 pointer-events-none">
             <div class="flex items-center gap-2">
               <span class="px-2.5 py-0.5 rounded-full bg-brand text-navy text-[9px] font-bold uppercase tracking-wider inline-block">${p.certificate}</span>
-              ${sold ? `<span class="px-2.5 py-0.5 rounded-full bg-black text-white border border-white/30 text-[9px] font-extrabold uppercase tracking-widest inline-block">SOLD</span>` : ''}
+              ${sold ? `<span class="px-2.5 py-0.5 rounded-full bg-black text-white border border-white/30 text-[9px] font-extrabold uppercase tracking-widest inline-block">Terjual</span>` : ''}
             </div>
             <h3 class="text-base font-semibold font-display leading-tight text-white">${p.title}</h3>
             <p class="text-xs font-bold text-brandlight">${formatRupiah(p.price)}</p>
             <p class="text-[10px] text-neutral-300 line-clamp-2">${p.description}</p>
             <div class="pt-2 pointer-events-auto">
-              <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo GDP, saya lihat video Reels properti: ' + p.title + ' (' + formatRupiah(p.price) + ')')}" target="_blank" class="w-full py-2.5 bg-brand text-navy font-semibold text-xs rounded-2xl flex items-center justify-center gap-2 btn-press shadow-md">
-                <i data-lucide="phone" class="w-3.5 h-3.5"></i> Tanya via WA
+              <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo GDP, saya lihat video Reels properti: ' + p.title + ' (' + formatRupiah(p.price) + ')')}" target="_blank" class="w-full py-2.5 bg-[#25D366] text-white font-semibold text-xs rounded-2xl flex items-center justify-center gap-2 btn-press shadow-md">
+                <i data-lucide="message-circle" class="w-4 h-4"></i> Tanya via WA
               </a>
             </div>
           </div>
@@ -913,9 +922,12 @@
     }
 
     /* =============== DETAIL =============== */
+    let activeDetailPropertyId = null;
+
     function openDetailModal(id) {
       const p = state.properties.find(x => x.id === id);
       if (!p) return;
+      activeDetailPropertyId = id;
       const sold = isSold(p.status);
       const photos = p.photos.length ? p.photos : [''];
       document.getElementById('detail-modal-content').innerHTML = `
@@ -923,7 +935,7 @@
           <div class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar">
             ${photos.map(u => `<img src="${imgSrc(u)}" class="w-full shrink-0 snap-center aspect-[4/3] object-cover ${sold ? 'grayscale' : ''}">`).join('')}
           </div>
-          ${sold ? `<div class="absolute top-16 left-4 px-3 py-1 rounded-full bg-black/85 backdrop-blur text-white text-[10px] font-extrabold uppercase tracking-widest shadow-lg border border-white/20">SOLD / TERJUAL</div>` : ''}
+          ${sold ? `<div class="absolute top-16 left-4 px-3 py-1 rounded-full bg-black/85 backdrop-blur text-white text-[10px] font-extrabold uppercase tracking-widest shadow-lg border border-white/20">Terjual</div>` : ''}
           ${photos.length > 1 ? `<span class="absolute top-16 right-4 px-2.5 py-1 rounded-full bg-black/55 text-white text-[10px] font-bold">Geser · ${photos.length} foto</span>` : ''}
           ${p.videoUrl ? `<button onclick="closeDetailModal(); switchTab('reels');" class="absolute bottom-4 right-4 px-3 py-1.5 rounded-full bg-navy/80 backdrop-blur text-brand font-semibold text-xs flex items-center gap-1.5 shadow-lg btn-press"><i data-lucide="video" class="w-4 h-4"></i> Tonton Video Reels</button>` : ''}
         </div>
@@ -948,10 +960,14 @@
           </div>
           <div class="bg-white p-3.5 rounded-2xl border border-neutral-200 flex items-center justify-between shadow-sm">
             <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-navy text-brand font-bold flex items-center justify-center text-sm">G</div>
-              <div><h5 class="text-xs font-bold text-navy">Guntur Dagang Property</h5><span class="text-[10px] text-orange-700 font-semibold block">✨ Dagangan A1 Lur! Langsung Pemilik</span></div>
+              <div class="w-10 h-10 rounded-full bg-navy text-brand font-bold flex items-center justify-center text-sm shrink-0">G</div>
+              <div>
+                <h5 class="text-xs font-bold text-navy flex items-center gap-1">Guntur Dagang Property <i data-lucide="badge-check" class="w-4 h-4 text-blue-500 inline-block fill-blue-500/20"></i></h5>
+              </div>
             </div>
-            <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo GDP, saya berminat dengan: ' + p.title + ' ' + formatRupiah(p.price))}" target="_blank" class="px-4 py-2 bg-navy text-white text-xs font-bold rounded-full btn-press">Hubungi</a>
+            <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo GDP, saya berminat dengan: ' + p.title + ' ' + formatRupiah(p.price))}" target="_blank" class="px-4 py-2 bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-bold rounded-full btn-press flex items-center gap-1.5 shadow-sm">
+              <i data-lucide="message-circle" class="w-4 h-4"></i> Hubungi
+            </a>
           </div>
           <div class="space-y-1.5">
             <h4 class="text-xs font-semibold text-navy font-display uppercase tracking-wider">Deskripsi Properti</h4>
@@ -960,6 +976,30 @@
         </div>`;
       document.getElementById('detail-modal').classList.remove('hidden');
       lucide.createIcons();
+    }
+
+    function closeDetailModal() { document.getElementById('detail-modal').classList.add('hidden'); activeDetailPropertyId = null; }
+
+    function sharePropertyLink() {
+      const p = activeDetailPropertyId ? state.properties.find(x => x.id === activeDetailPropertyId) : null;
+      const title = p ? p.title : 'Guntur Dagang Property';
+      const shareUrl = window.location.href;
+      const shareText = p ? `Lihat properti ${p.title} (${formatRupiah(p.price)}) di Guntur Dagang Property:` : 'Cari & Temukan Properti Pilihan di Guntur Dagang Property:';
+
+      if (navigator.share) {
+        navigator.share({
+          title: title,
+          text: shareText,
+          url: shareUrl
+        }).then(() => showToast("Berhasil dibagikan!")).catch(() => fallbackShareCopy(shareUrl));
+      } else {
+        fallbackShareCopy(shareUrl);
+      }
+    }
+
+    function fallbackShareCopy(url) {
+      copyText(url);
+      showToast("Tautan properti disalin!");
     }
     function closeDetailModal() { document.getElementById('detail-modal').classList.add('hidden'); }
     function sharePropertyLink() { showToast("Tautan properti disalin!"); }
