@@ -27,9 +27,9 @@
 
   <style>
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-    body { background-color: #000000; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
-    #mobile-frame { width: 100%; max-width: 412px; height: 100vh; max-height: 890px; background-color: #F1F1F4; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8); }
-    @media (min-width: 640px) { #mobile-frame { border-radius: 48px; height: 94vh; border: 10px solid #071D49; } }
+    body { background-color: #071D49; display: flex; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; margin: 0; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
+    #mobile-frame { width: 100%; max-width: 412px; height: 100vh; height: 100dvh; max-height: 100dvh; background-color: #F1F1F4; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8); }
+    @media (min-width: 640px) { body { background-color: #000000; } #mobile-frame { border-radius: 48px; height: 94vh; max-height: 890px; border: 10px solid #071D49; } }
     .smooth-anim { will-change: transform, opacity; transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
     .btn-press { will-change: transform; transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease; }
     .btn-press:active { transform: scale(0.95); }
@@ -62,16 +62,6 @@
 
   <div id="mobile-frame">
 
-    <!-- STATUS BAR -->
-    <div class="pt-3 px-6 pb-1 flex justify-between items-center text-[11px] font-bold text-navy z-30 shrink-0">
-      <span>9:41</span>
-      <div class="flex items-center gap-1.5">
-        <i data-lucide="signal" class="w-3 h-3"></i>
-        <i data-lucide="wifi" class="w-3 h-3"></i>
-        <i data-lucide="battery" class="w-3.5 h-3.5"></i>
-      </div>
-    </div>
-
     <!-- INTRO -->
     <div id="intro-screen" class="absolute inset-0 z-50 bg-navy flex flex-col justify-between p-7 text-white overflow-hidden smooth-anim"
       style="background-image: linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px); background-size: 36px 36px; background-position: 0 0;">
@@ -98,7 +88,7 @@
     </div>
 
     <!-- MAIN -->
-    <main id="app-content" class="flex-grow overflow-y-auto no-scrollbar px-5 pb-28 pt-2 space-y-5">
+    <main id="app-content" class="flex-grow overflow-y-auto no-scrollbar px-5 pb-28 pt-4 space-y-5">
 
       <!-- HEADER GLOBAL (Home & Reels) -->
       <div id="global-header-section" class="space-y-4">
@@ -353,7 +343,12 @@
     </nav>
 
     <!-- DASHBOARD DEMO -->
-    <div id="dashboard-screen" class="hidden absolute inset-0 z-[55] bg-appbg overflow-y-auto no-scrollbar px-5 pt-10 pb-10 space-y-5"></div>
+    <div id="dashboard-screen" class="hidden absolute inset-0 z-[55] bg-appbg overflow-hidden"></div>
+
+    <!-- SHEET ADMIN (form/konfirmasi) -->
+    <div id="admin-sheet" class="hidden absolute inset-0 z-[58] bg-navy/70 backdrop-blur-sm flex items-end" onclick="if(event.target===this)closeAdminSheet()">
+      <div id="admin-sheet-box" class="bg-white w-full rounded-t-[32px] p-5 pb-7 max-h-[90%] overflow-y-auto no-scrollbar"></div>
+    </div>
 
     <div id="toast-container" class="absolute top-12 inset-x-4 z-[70] flex flex-col gap-2 pointer-events-none"></div>
   </div>
@@ -387,12 +382,12 @@
 
   <!-- DETAIL MODAL -->
   <div id="detail-modal" class="fixed inset-0 z-50 hidden bg-navy/80 backdrop-blur-sm flex justify-center items-end sm:items-center p-0 sm:p-4 smooth-anim">
-    <div class="bg-appbg w-full max-w-md h-[92vh] sm:h-[840px] rounded-t-[40px] sm:rounded-[40px] overflow-hidden flex flex-col relative border border-neutral-200/80 shadow-2xl">
-      <div class="absolute top-4 inset-x-4 z-20 flex justify-between items-center">
+    <div class="bg-appbg w-full max-w-md h-full sm:h-[840px] rounded-t-[32px] sm:rounded-[40px] overflow-hidden flex flex-col relative border border-neutral-200/80 shadow-2xl">
+      <div class="absolute top-4 inset-x-4 z-30 flex justify-between items-center pointer-events-auto">
         <button onclick="closeDetailModal()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-navy btn-press"><i data-lucide="arrow-left" class="w-4 h-4"></i></button>
         <button onclick="sharePropertyLink()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-navy btn-press"><i data-lucide="share-2" class="w-4 h-4"></i></button>
       </div>
-      <div id="detail-modal-content" class="flex-grow overflow-y-auto no-scrollbar pb-24"></div>
+      <div id="detail-modal-content" class="flex-grow overflow-y-auto no-scrollbar pb-24 pt-0"></div>
     </div>
   </div>
 
@@ -758,7 +753,7 @@
       container.innerHTML = list.map(p => {
         const sold = isSold(p.status);
         return `
-        <div onclick="openDetailModal('${p.id}')" class="bg-cardbg rounded-[32px] p-3 shadow-soft-card border border-neutral-200/80 space-y-3 cursor-pointer btn-press group ${sold ? 'opacity-90' : ''}">
+        <div onclick="openDetailModal('${p.id}')" class="bg-cardbg rounded-[32px] p-3 shadow-soft-card border border-neutral-200/80 space-y-3 cursor-pointer group ${sold ? 'opacity-90' : ''}">
           <div class="relative w-full aspect-square rounded-[24px] overflow-hidden bg-neutral-100">
             <img src="${imgSrc(p.photos[0] || '')}" loading="lazy" class="w-full h-full object-cover aspect-square-thumb group-hover:scale-105 transition-transform duration-500 ${sold ? 'grayscale contrast-125' : ''}">
             <div class="absolute top-3 left-3 bg-white/90 backdrop-blur text-navy px-3 py-1 rounded-full text-[10px] font-semibold shadow-sm">${p.type}</div>
@@ -924,12 +919,12 @@
       const sold = isSold(p.status);
       const photos = p.photos.length ? p.photos : [''];
       document.getElementById('detail-modal-content').innerHTML = `
-        <div class="relative w-full bg-neutral-100 rounded-b-[36px] overflow-hidden">
+        <div class="relative w-full bg-neutral-100 rounded-b-[36px] overflow-hidden pt-0">
           <div class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar">
             ${photos.map(u => `<img src="${imgSrc(u)}" class="w-full shrink-0 snap-center aspect-[4/3] object-cover ${sold ? 'grayscale' : ''}">`).join('')}
           </div>
-          ${sold ? `<div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/85 backdrop-blur text-white text-[10px] font-extrabold uppercase tracking-widest shadow-lg border border-white/20">SOLD / TERJUAL</div>` : ''}
-          ${photos.length > 1 ? `<span class="absolute top-4 right-16 px-2.5 py-1 rounded-full bg-black/55 text-white text-[10px] font-bold">Geser · ${photos.length} foto</span>` : ''}
+          ${sold ? `<div class="absolute top-16 left-4 px-3 py-1 rounded-full bg-black/85 backdrop-blur text-white text-[10px] font-extrabold uppercase tracking-widest shadow-lg border border-white/20">SOLD / TERJUAL</div>` : ''}
+          ${photos.length > 1 ? `<span class="absolute top-16 right-4 px-2.5 py-1 rounded-full bg-black/55 text-white text-[10px] font-bold">Geser · ${photos.length} foto</span>` : ''}
           ${p.videoUrl ? `<button onclick="closeDetailModal(); switchTab('reels');" class="absolute bottom-4 right-4 px-3 py-1.5 rounded-full bg-navy/80 backdrop-blur text-brand font-semibold text-xs flex items-center gap-1.5 shadow-lg btn-press"><i data-lucide="video" class="w-4 h-4"></i> Tonton Video Reels</button>` : ''}
         </div>
         <div class="p-5 space-y-5">
@@ -987,45 +982,392 @@
 
     function openDashboard(role, name) {
       const el = document.getElementById('dashboard-screen');
-      const isAdmin = role === 'admin';
-      const tile = (icon, label, val) => `<div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm text-center"><i data-lucide="${icon}" class="w-4 h-4 mx-auto text-orange-600 mb-1"></i><strong class="block text-base font-bold font-display text-navy">${val}</strong><span class="text-[9px] text-neutral-500 font-bold">${label}</span></div>`;
+      if (role === 'admin') { adminUI.name = name; adminUI.tab = 'ringkasan'; adminUI.filter = 'all'; adminUI.q = ''; renderAdminShell(); }
+      else renderMarketerDash(name);
+      el.classList.remove('hidden');
+      lucide.createIcons();
+    }
 
-      const listItems = state.properties.map(p => `
+    function closeDashboard() {
+      closeAdminSheet();
+      document.getElementById('dashboard-screen').classList.add('hidden');
+      showToast("Berhasil keluar");
+    }
+
+    /* ---------- Dashboard Marketer (demo, akan dipisah) ---------- */
+    function renderMarketerDash(name) {
+      const tile = (icon, label, val) => `<div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm text-center"><i data-lucide="${icon}" class="w-4 h-4 mx-auto text-orange-600 mb-1"></i><strong class="block text-base font-bold text-navy">${val}</strong><span class="text-[9px] text-neutral-500 font-bold">${label}</span></div>`;
+      const items = state.properties.map(p => `
         <div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm flex items-center gap-3">
           <img src="${imgSrc(p.photos[0] || '')}" class="w-14 h-14 rounded-xl object-cover bg-neutral-100 shrink-0">
-          <div class="min-w-0 flex-grow">
-            <h5 class="text-xs font-semibold text-navy truncate">${p.title}</h5>
-            <p class="text-[10px] text-neutral-500">${formatRupiah(p.price)} · ${p.certificate}</p>
-          </div>
-          ${isAdmin
-            ? `<span class="px-2 py-1 rounded-full text-[9px] font-semibold ${/terjual/i.test(p.status) ? 'bg-black text-white' : 'bg-[#DCE3F1] text-navy'}">${p.status}</span>`
-            : `<button onclick="showToast('Caption disalin')" class="px-3 py-1.5 rounded-xl bg-navy text-white text-[10px] font-bold btn-press shrink-0">Salin Caption</button>`}
+          <div class="min-w-0 flex-grow"><h5 class="text-xs font-semibold text-navy truncate">${esc(p.title)}</h5><p class="text-[10px] text-neutral-500">${formatRupiah(p.price)} · ${esc(p.certificate)}</p></div>
+          <button onclick="showToast('Caption disalin')" class="px-3 py-1.5 rounded-xl bg-navy text-white text-[10px] font-bold btn-press shrink-0">Salin Caption</button>
         </div>`).join('');
-
-      el.innerHTML = `
-        <div class="flex justify-between items-center">
-          <div>
-            <span class="px-2.5 py-0.5 rounded-full bg-brand text-navy font-bold text-[9px] uppercase tracking-wider">${isAdmin ? 'Dashboard Admin' : 'Dashboard Marketer'}</span>
-            <h3 class="text-lg font-bold font-display text-navy mt-1.5">Halo, ${name}!</h3>
+      document.getElementById('dashboard-screen').innerHTML = `
+        <div class="h-full overflow-y-auto no-scrollbar px-5 pt-10 pb-10 space-y-5">
+          <div class="flex justify-between items-center">
+            <div><span class="px-2.5 py-0.5 rounded-full bg-brand text-navy font-bold text-[9px] uppercase tracking-wider">Dashboard Marketer</span><h3 class="text-lg font-bold text-navy mt-1.5">Halo, ${esc(name)}!</h3></div>
+            <button onclick="closeDashboard()" class="px-3.5 py-2 rounded-full bg-navy text-white text-[10px] font-bold flex items-center gap-1.5 btn-press"><i data-lucide="log-out" class="w-3.5 h-3.5"></i> Keluar</button>
           </div>
-          <button onclick="closeDashboard()" class="px-3.5 py-2 rounded-full bg-navy text-white text-[10px] font-bold flex items-center gap-1.5 btn-press"><i data-lucide="log-out" class="w-3.5 h-3.5"></i> Keluar</button>
-        </div>
+          <div class="grid grid-cols-3 gap-2">${tile('building-2', 'Properti Aktif', state.properties.length) + tile('message-circle', 'Lead Saya', '12') + tile('wallet', 'Komisi', 'Rp 0')}</div>
+          <div class="space-y-2.5"><h4 class="text-xs font-semibold text-navy uppercase tracking-wider">Materi Promosi</h4>${items}</div>
+        </div>`;
+    }
 
-        <div class="grid grid-cols-3 gap-2">
-          ${isAdmin
-            ? tile('building-2', 'Properti', state.properties.length) + tile('users', 'Mitra', '24') + tile('message-circle', 'Lead', '58')
-            : tile('building-2', 'Properti Aktif', state.properties.length) + tile('message-circle', 'Lead Saya', '12') + tile('wallet', 'Komisi', 'Rp 0')}
+    /* =====================================================================
+       DASHBOARD ADMIN: tambah & kelola marketer
+       Data demo disimpan di localStorage browser. Versi produksi perlu backend.
+       Password TIDAK disimpan, hanya ditampilkan sekali saat dibuat/direset.
+       ===================================================================== */
+    const MKEY = 'gdp_marketers_v1';
+    const SEED_MARKETERS = [
+      { id: 'MKT-001', nama: 'Rina Wulandari', email: 'rina@mail.com', wa: '6281234500001', kota: 'Sleman', komisi: 2.5, status: 'aktif', joined: '2026-08-14', lead: 21, terjual: 3 },
+      { id: 'MKT-002', nama: 'Bagas Pratama', email: 'bagas@mail.com', wa: '6281234500002', kota: 'Bantul', komisi: 2.5, status: 'aktif', joined: '2026-09-02', lead: 14, terjual: 1 },
+      { id: 'MKT-003', nama: 'Dewi Anjani', email: 'dewi@mail.com', wa: '6281234500003', kota: 'Yogyakarta', komisi: 2, status: 'aktif', joined: '2026-09-20', lead: 9, terjual: 0 },
+      { id: 'MKT-004', nama: 'Fajar Nugroho', email: 'fajar@mail.com', wa: '6281234500004', kota: 'Kulon Progo', komisi: 2, status: 'pending', joined: '2026-10-23', lead: 0, terjual: 0 },
+      { id: 'MKT-005', nama: 'Maya Sari', email: 'maya@mail.com', wa: '6281234500005', kota: 'Gunungkidul', komisi: 2, status: 'pending', joined: '2026-10-25', lead: 0, terjual: 0 },
+      { id: 'MKT-006', nama: 'Yoga Aditya', email: 'yoga@mail.com', wa: '6281234500006', kota: 'Sleman', komisi: 2.5, status: 'nonaktif', joined: '2026-07-05', lead: 6, terjual: 0 }
+    ];
+    function loadMarketers() {
+      try { const r = localStorage.getItem(MKEY); if (r) return JSON.parse(r); } catch (e) {}
+      return SEED_MARKETERS.map(x => ({ ...x }));
+    }
+    function saveMarketers() { try { localStorage.setItem(MKEY, JSON.stringify(marketers)); } catch (e) {} }
+    let marketers = loadMarketers();
+    const adminUI = { tab: 'ringkasan', filter: 'all', q: '', name: 'Admin' };
+
+    const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const STATUS_LABEL = { aktif: 'Aktif', pending: 'Menunggu', nonaktif: 'Nonaktif' };
+    const STATUS_CLASS = { aktif: 'bg-[#DCE3F1] text-navy', pending: 'bg-orange-100 text-orange-700', nonaktif: 'bg-neutral-200 text-neutral-600' };
+    function normWA(v) { let d = String(v).replace(/\D/g, ''); if (d.startsWith('0')) d = '62' + d.slice(1); else if (d.startsWith('8')) d = '62' + d; return d; }
+    function genPassword() {
+      const set = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
+      const buf = new Uint32Array(10); crypto.getRandomValues(buf);
+      return Array.from(buf, n => set[n % set.length]).join('');
+    }
+    function mCounts() {
+      const c = { all: marketers.length, aktif: 0, pending: 0, nonaktif: 0 };
+      marketers.forEach(m => { c[m.status] = (c[m.status] || 0) + 1; });
+      return c;
+    }
+    function fmtDate(d) {
+      try { return new Date(d + 'T00:00:00').toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }); } catch (e) { return d; }
+    }
+
+    function renderAdminShell() {
+      const tabs = [['ringkasan', 'layout-dashboard', 'Ringkasan'], ['marketer', 'users', 'Marketer'], ['listing', 'building-2', 'Listing']];
+      document.getElementById('dashboard-screen').innerHTML = `
+        <div class="h-full flex flex-col relative">
+          <div class="px-5 pt-10 pb-3 flex justify-between items-center shrink-0">
+            <div class="flex items-center gap-2.5">
+              <svg class="w-9 h-9 shrink-0 rounded-xl shadow-md"><use href="#gdp-logo"/></svg>
+              <div><span class="px-2.5 py-0.5 rounded-full bg-brand text-navy font-bold text-[9px] uppercase tracking-wider">Admin</span><h3 class="text-sm font-bold text-navy mt-1 leading-none">Halo, ${esc(adminUI.name)}</h3></div>
+            </div>
+            <button onclick="closeDashboard()" class="px-3.5 py-2 rounded-full bg-navy text-white text-[10px] font-bold flex items-center gap-1.5 btn-press"><i data-lucide="log-out" class="w-3.5 h-3.5"></i> Keluar</button>
+          </div>
+          <div id="admin-body" class="flex-grow overflow-y-auto no-scrollbar px-5 pb-28 space-y-4"></div>
+          <nav class="absolute bottom-5 inset-x-6 h-14 floating-dock rounded-full flex items-center justify-around px-2 shadow-float-dock border border-white/10">
+            ${tabs.map(([k, ic, lb]) => `<button onclick="setAdminTab('${k}')" class="h-10 px-4 rounded-full flex items-center gap-1.5 text-[11px] font-semibold btn-press ${adminUI.tab === k ? 'bg-white text-navy' : 'text-neutral-300'}"><i data-lucide="${ic}" class="w-4 h-4"></i>${adminUI.tab === k ? lb : ''}</button>`).join('')}
+          </nav>
+        </div>`;
+      renderAdminBody();
+    }
+    function setAdminTab(t) { adminUI.tab = t; renderAdminShell(); lucide.createIcons(); }
+
+    function renderAdminBody() {
+      const body = document.getElementById('admin-body');
+      if (!body) return;
+      if (adminUI.tab === 'ringkasan') body.innerHTML = adminOverviewHTML();
+      else if (adminUI.tab === 'marketer') { body.innerHTML = adminMarketerHTML(); renderMarketerList(); }
+      else body.innerHTML = adminListingHTML();
+      body.scrollTop = 0;
+      lucide.createIcons();
+    }
+
+    function statTile(icon, label, val, dark) {
+      return `<div class="rounded-2xl p-3.5 border shadow-sm ${dark ? 'bg-navy text-white border-white/10' : 'bg-white text-navy border-neutral-200'}"><i data-lucide="${icon}" class="w-4 h-4 ${dark ? 'text-brand' : 'text-orange-600'} mb-2"></i><strong class="block text-2xl font-bold leading-none">${val}</strong><span class="text-[10px] font-semibold ${dark ? 'text-neutral-300' : 'text-neutral-500'}">${label}</span></div>`;
+    }
+
+    function adminOverviewHTML() {
+      const c = mCounts();
+      const pending = marketers.filter(m => m.status === 'pending');
+      const top = [...marketers].filter(m => m.status === 'aktif').sort((a, b) => b.terjual - a.terjual || b.lead - a.lead).slice(0, 3);
+      return `
+        <div class="grid grid-cols-2 gap-3">
+          ${statTile('users', 'Total Marketer', c.all, true)}
+          ${statTile('user-check', 'Marketer Aktif', c.aktif)}
+          ${statTile('hourglass', 'Menunggu Persetujuan', c.pending)}
+          ${statTile('building-2', 'Listing Properti', state.properties.length)}
+        </div>
+        <button onclick="openMarketerForm()" class="w-full py-3.5 bg-brand text-navy font-bold text-sm rounded-full flex items-center justify-center gap-2 btn-press shadow-lg"><i data-lucide="user-plus" class="w-4 h-4"></i> Tambah Marketer</button>
+
+        <div class="space-y-2.5">
+          <div class="flex justify-between items-center"><h4 class="text-xs font-semibold text-navy uppercase tracking-wider">Menunggu Persetujuan</h4>${pending.length ? `<span class="text-[10px] font-bold text-orange-700">${pending.length} pengajuan</span>` : ''}</div>
+          ${pending.length ? pending.map(m => `
+            <div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-700 font-bold text-sm flex items-center justify-center shrink-0">${esc(m.nama.charAt(0).toUpperCase())}</div>
+              <div class="min-w-0 flex-grow"><h5 class="text-xs font-semibold text-navy truncate">${esc(m.nama)}</h5><p class="text-[10px] text-neutral-500 truncate">${esc(m.kota)} · daftar ${fmtDate(m.joined)}</p></div>
+              <button onclick="setMStatus('${m.id}','aktif')" class="w-9 h-9 rounded-full bg-navy text-white flex items-center justify-center btn-press shrink-0" title="Setujui"><i data-lucide="check" class="w-4 h-4"></i></button>
+              <button onclick="confirmDeleteMarketer('${m.id}')" class="w-9 h-9 rounded-full bg-neutral-100 text-navy flex items-center justify-center btn-press shrink-0" title="Tolak"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>`).join('') : `<div class="bg-white rounded-2xl p-4 border border-neutral-200 text-center text-[11px] text-neutral-500">Tidak ada pengajuan baru.</div>`}
         </div>
 
         <div class="space-y-2.5">
-          <h4 class="text-xs font-semibold text-navy font-display uppercase tracking-wider">${isAdmin ? 'Daftar Listing' : 'Materi Promosi'}</h4>
-          ${listItems}
-        </div>`;
-      el.classList.remove('hidden');
-      el.scrollTop = 0;
+          <h4 class="text-xs font-semibold text-navy uppercase tracking-wider">Marketer Terbaik</h4>
+          ${top.length ? top.map((m, i) => `
+            <div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm flex items-center gap-3">
+              <div class="w-7 h-7 rounded-full bg-navy text-brand text-xs font-bold flex items-center justify-center shrink-0">${i + 1}</div>
+              <div class="min-w-0 flex-grow"><h5 class="text-xs font-semibold text-navy truncate">${esc(m.nama)}</h5><p class="text-[10px] text-neutral-500">${m.lead} lead · ${m.terjual} terjual</p></div>
+            </div>`).join('') : `<div class="bg-white rounded-2xl p-4 border border-neutral-200 text-center text-[11px] text-neutral-500">Belum ada data.</div>`}
+        </div>
+        <p class="text-[10px] text-neutral-400 text-center pb-2">Data marketer di halaman ini adalah demo (tersimpan di browser).</p>`;
+    }
+
+    function adminMarketerHTML() {
+      const c = mCounts();
+      const chips = [['all', 'Semua'], ['aktif', 'Aktif'], ['pending', 'Menunggu'], ['nonaktif', 'Nonaktif']];
+      return `
+        <div class="flex justify-between items-center">
+          <h3 class="text-base font-bold text-navy">Kelola Marketer</h3>
+          <button onclick="openMarketerForm()" class="px-3.5 py-2 rounded-full bg-brand text-navy text-[11px] font-bold flex items-center gap-1.5 btn-press shadow-md"><i data-lucide="user-plus" class="w-3.5 h-3.5"></i> Tambah</button>
+        </div>
+        <div class="bg-white rounded-full px-4 py-3 border border-neutral-200/80 shadow-sm flex items-center gap-2.5 focus-within:border-navy transition-all">
+          <i data-lucide="search" class="w-4 h-4 text-neutral-400 shrink-0"></i>
+          <input type="text" value="${esc(adminUI.q)}" placeholder="Cari nama, email, kota..." oninput="adminUI.q=this.value.trim().toLowerCase();renderMarketerList()" class="w-full text-xs bg-transparent outline-none font-medium text-navy placeholder-neutral-400">
+        </div>
+        <div class="flex gap-2 overflow-x-auto no-scrollbar -mx-5 px-5 py-0.5" style="scroll-behavior:smooth;">
+          ${chips.map(([k, l]) => `<button onclick="setMFilter('${k}')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold shrink-0 btn-press ${adminUI.filter === k ? 'bg-navy text-white shadow-md' : 'bg-white text-neutral-700 border border-neutral-200'}">${l} <span class="opacity-60">${c[k] || 0}</span></button>`).join('')}
+        </div>
+        <div id="marketer-list" class="space-y-3"></div>`;
+    }
+    function setMFilter(f) { adminUI.filter = f; renderAdminBody(); }
+
+    function renderMarketerList() {
+      const box = document.getElementById('marketer-list');
+      if (!box) return;
+      let list = marketers.filter(m => adminUI.filter === 'all' || m.status === adminUI.filter);
+      if (adminUI.q) list = list.filter(m => (m.nama + ' ' + m.email + ' ' + m.kota + ' ' + m.id).toLowerCase().includes(adminUI.q));
+      if (!list.length) {
+        box.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center space-y-2 border border-neutral-200"><i data-lucide="user-x" class="w-10 h-10 mx-auto text-neutral-300"></i><p class="text-xs font-bold text-neutral-500">Marketer tidak ditemukan.</p></div>`;
+        lucide.createIcons(); return;
+      }
+      const act = (icon, title, fn, cls) => `<button onclick="${fn}" title="${title}" class="h-9 px-3 rounded-xl flex items-center gap-1.5 text-[10px] font-semibold btn-press ${cls || 'bg-neutral-100 text-navy'}"><i data-lucide="${icon}" class="w-3.5 h-3.5"></i>${title}</button>`;
+      box.innerHTML = list.map(m => `
+        <div class="bg-white rounded-3xl p-4 border border-neutral-200/80 shadow-soft-card space-y-3">
+          <div class="flex items-start gap-3">
+            <div class="w-11 h-11 rounded-full ${m.status === 'aktif' ? 'bg-navy text-brand' : m.status === 'pending' ? 'bg-orange-100 text-orange-700' : 'bg-neutral-200 text-neutral-500'} font-bold flex items-center justify-center shrink-0">${esc(m.nama.charAt(0).toUpperCase())}</div>
+            <div class="min-w-0 flex-grow">
+              <div class="flex items-center gap-2 flex-wrap"><h5 class="text-sm font-semibold text-navy truncate">${esc(m.nama)}</h5><span class="px-2 py-0.5 rounded-full text-[9px] font-semibold ${STATUS_CLASS[m.status]}">${STATUS_LABEL[m.status]}</span></div>
+              <p class="text-[10px] text-neutral-500 truncate">${esc(m.email)}</p>
+              <p class="text-[10px] text-neutral-500 truncate">+${esc(m.wa)} · ${esc(m.kota)}</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="bg-softgray rounded-xl py-2"><strong class="block text-sm text-navy">${m.lead}</strong><span class="text-[9px] text-neutral-500 font-semibold">Lead</span></div>
+            <div class="bg-softgray rounded-xl py-2"><strong class="block text-sm text-navy">${m.terjual}</strong><span class="text-[9px] text-neutral-500 font-semibold">Terjual</span></div>
+            <div class="bg-softgray rounded-xl py-2"><strong class="block text-sm text-navy">${m.komisi}%</strong><span class="text-[9px] text-neutral-500 font-semibold">Komisi</span></div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            ${m.status === 'pending' ? act('check', 'Setujui', `setMStatus('${m.id}','aktif')`, 'bg-navy text-white') : ''}
+            ${m.status === 'aktif' ? act('pause', 'Nonaktifkan', `setMStatus('${m.id}','nonaktif')`) : ''}
+            ${m.status === 'nonaktif' ? act('play', 'Aktifkan', `setMStatus('${m.id}','aktif')`, 'bg-navy text-white') : ''}
+            ${act('pencil', 'Edit', `openMarketerForm('${m.id}')`)}
+            ${act('message-circle', 'WA', `window.open('https://wa.me/${esc(m.wa)}','_blank')`)}
+            ${act('trash-2', 'Hapus', `confirmDeleteMarketer('${m.id}')`, 'bg-orange-50 text-orange-700')}
+          </div>
+          <p class="text-[9px] text-neutral-400">${esc(m.id)} · Bergabung ${fmtDate(m.joined)}</p>
+        </div>`).join('');
       lucide.createIcons();
     }
-    function closeDashboard() { document.getElementById('dashboard-screen').classList.add('hidden'); showToast("Berhasil keluar"); }
+
+    function adminListingHTML() {
+      return `
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-base font-bold text-navy">Daftar Listing</h3>
+            <p class="text-[10px] text-neutral-500">Perubahan foto & video disesuaikan via Google Spreadsheet.</p>
+          </div>
+        </div>
+        ${state.properties.map(p => `
+          <div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm flex items-center gap-3">
+            <img src="${imgSrc(p.photos[0] || '')}" class="w-14 h-14 rounded-xl object-cover bg-neutral-100 shrink-0">
+            <div class="min-w-0 flex-grow">
+              <h5 class="text-xs font-semibold text-navy truncate">${esc(p.title)}</h5>
+              <p class="text-[10px] text-neutral-500">${formatRupiah(p.price)} · ${esc(p.certificate)}</p>
+              <button onclick="openRevisionModal('${p.id}')" class="text-[10px] font-bold text-orange-600 underline hover:text-navy mt-1 inline-block btn-press">Revisi Listing</button>
+            </div>
+            <span class="px-2 py-1 rounded-full text-[9px] font-semibold shrink-0 ${isSold(p.status) ? 'bg-black text-white' : 'bg-[#DCE3F1] text-navy'}">${esc(p.status)}</span>
+          </div>`).join('')}`;
+    }
+
+    function openRevisionModal(id) {
+      const p = state.properties.find(x => x.id === id);
+      if (!p) return;
+      openAdminSheet(`
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-base font-bold text-navy">Revisi Listing</h3>
+          <button onclick="closeAdminSheet()" class="w-8 h-8 rounded-full bg-neutral-100 text-navy flex items-center justify-center btn-press" title="Tutup"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+        <p class="text-[10px] text-orange-700 bg-orange-50 p-2.5 rounded-xl border border-orange-200 mb-3">
+          Teks informasi properti dapat direvisi langsung di bawah ini. Untuk perubahan foto & video tetap dilakukan melalui Google Spreadsheet.
+        </p>
+        <form onsubmit="submitPropertyRevision(event, '${p.id}')" class="space-y-3">
+          ${fld('Judul Properti', 'rev-title', p.title, 'required')}
+          ${fld('Harga (Rp)', 'rev-price', p.price, 'required type="number"')}
+          ${fld('Lokasi', 'rev-location', p.location, 'required')}
+          <div>
+            <label class="text-[10px] font-bold text-neutral-700 block mb-1">Status Properti</label>
+            <select id="rev-status" class="w-full text-xs bg-neutral-50 border border-neutral-200 rounded-xl p-3 outline-none font-semibold">
+              <option value="Tersedia" ${p.status === 'Tersedia' ? 'selected' : ''}>Tersedia</option>
+              <option value="Terjual" ${isSold(p.status) ? 'selected' : ''}>Terjual (SOLD)</option>
+              <option value="Negosiasi" ${p.status === 'Negosiasi' ? 'selected' : ''}>Negosiasi</option>
+            </select>
+          </div>
+          ${fld('Legalitas', 'rev-cert', p.certificate, 'required')}
+          <div>
+            <label class="text-[10px] font-bold text-neutral-700 block mb-1">Deskripsi</label>
+            <textarea id="rev-desc" rows="3" class="w-full text-xs bg-neutral-50 border border-neutral-200 rounded-xl p-3 outline-none focus:border-navy font-medium">${esc(p.description)}</textarea>
+          </div>
+          <button type="submit" class="w-full py-3.5 bg-navy text-white font-bold text-xs rounded-2xl btn-press">Simpan Revisi</button>
+        </form>
+      `);
+    }
+
+    function submitPropertyRevision(e, id) {
+      e.preventDefault();
+      const p = state.properties.find(x => x.id === id);
+      if (!p) return;
+      p.title = document.getElementById('rev-title').value.trim();
+      p.price = parseInt(document.getElementById('rev-price').value, 10) || 0;
+      p.location = document.getElementById('rev-location').value.trim();
+      p.status = document.getElementById('rev-status').value;
+      p.certificate = document.getElementById('rev-cert').value.trim();
+      p.description = document.getElementById('rev-desc').value.trim();
+      closeAdminSheet();
+      refreshLists();
+      renderAdminBody();
+      showToast('Revisi listing berhasil disimpan!');
+    }
+
+    /* ---------- Aksi marketer ---------- */
+    function setMStatus(id, status) {
+      const m = marketers.find(x => x.id === id);
+      if (!m) return;
+      m.status = status; saveMarketers(); renderAdminBody();
+      showToast(status === 'aktif' ? `${m.nama} diaktifkan` : `${m.nama} dinonaktifkan`);
+    }
+
+    function openAdminSheet(html) {
+      document.getElementById('admin-sheet-box').innerHTML = html;
+      document.getElementById('admin-sheet').classList.remove('hidden');
+      lucide.createIcons();
+    }
+    function closeAdminSheet() { const s = document.getElementById('admin-sheet'); if (s) s.classList.add('hidden'); }
+
+    function fld(label, id, val, attrs) {
+      return `<div><label class="text-[10px] font-bold text-neutral-700 block mb-1">${label}</label><input id="${id}" value="${esc(val)}" ${attrs || ''} class="w-full text-xs bg-neutral-50 border border-neutral-200 rounded-xl p-3 outline-none focus:border-navy font-medium"></div>`;
+    }
+
+    function openMarketerForm(id) {
+      const m = id ? marketers.find(x => x.id === id) : null;
+      openAdminSheet(`
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-base font-bold text-navy">${m ? 'Edit Marketer' : 'Tambah Marketer'}</h3>
+          <button onclick="closeAdminSheet()" class="w-8 h-8 rounded-full bg-neutral-100 text-navy flex items-center justify-center btn-press" title="Tutup"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+        <form onsubmit="submitMarketerForm(event,${m ? `'${m.id}'` : 'null'})" class="space-y-3">
+          ${fld('Nama Lengkap', 'mf-nama', m ? m.nama : '', 'required placeholder="Nama sesuai KTP"')}
+          ${fld('Email (untuk login)', 'mf-email', m ? m.email : '', 'required type="email" placeholder="nama@email.com"')}
+          ${fld('Nomor WhatsApp', 'mf-wa', m ? m.wa : '', 'required type="tel" placeholder="081234567890"')}
+          ${fld('Kota / Domisili', 'mf-kota', m ? m.kota : '', 'required placeholder="Contoh: Sleman"')}
+          <div class="grid grid-cols-2 gap-3">
+            ${fld('Komisi (%)', 'mf-komisi', m ? m.komisi : 2.5, 'required type="number" step="0.1" min="0" max="100"')}
+            <div><label class="text-[10px] font-bold text-neutral-700 block mb-1">Status</label>
+              <select id="mf-status" class="w-full text-xs bg-neutral-50 border border-neutral-200 rounded-xl p-3 outline-none font-semibold">
+                ${['aktif', 'pending', 'nonaktif'].map(s => `<option value="${s}" ${(m ? m.status : 'aktif') === s ? 'selected' : ''}>${STATUS_LABEL[s]}</option>`).join('')}
+              </select></div>
+          </div>
+          ${m ? `<button type="button" onclick="resetMarketerPassword('${m.id}')" class="w-full py-2.5 bg-neutral-100 text-navy text-[11px] font-semibold rounded-xl flex items-center justify-center gap-1.5 btn-press"><i data-lucide="key-round" class="w-3.5 h-3.5"></i> Reset Password</button>`
+              : `<p class="text-[10px] text-neutral-500 bg-softgray rounded-xl p-2.5 leading-snug">Password sementara dibuat otomatis setelah disimpan, lalu bisa dikirim ke marketer lewat WhatsApp.</p>`}
+          <button type="submit" class="w-full py-3.5 bg-navy text-white font-bold text-xs rounded-2xl btn-press">${m ? 'Simpan Perubahan' : 'Simpan & Buat Akun'}</button>
+        </form>`);
+    }
+
+    function submitMarketerForm(e, id) {
+      e.preventDefault();
+      const v = k => document.getElementById('mf-' + k).value.trim();
+      const email = v('email').toLowerCase();
+      const wa = normWA(v('wa'));
+      const komisi = parseFloat(v('komisi'));
+      if (wa.length < 10) { showToast('Nomor WhatsApp tidak valid'); return; }
+      if (isNaN(komisi) || komisi < 0 || komisi > 100) { showToast('Komisi harus 0 - 100'); return; }
+      if (marketers.some(x => x.email.toLowerCase() === email && x.id !== id)) { showToast('Email sudah terdaftar'); return; }
+      if (id) {
+        const m = marketers.find(x => x.id === id);
+        Object.assign(m, { nama: v('nama'), email, wa, kota: v('kota'), komisi, status: v('status') });
+        saveMarketers(); closeAdminSheet(); renderAdminBody(); showToast('Perubahan disimpan');
+      } else {
+        const n = marketers.reduce((a, x) => Math.max(a, parseInt(String(x.id).replace(/\D/g, ''), 10) || 0), 0) + 1;
+        const m = { id: 'MKT-' + String(n).padStart(3, '0'), nama: v('nama'), email, wa, kota: v('kota'), komisi, status: v('status'), joined: new Date().toISOString().slice(0, 10), lead: 0, terjual: 0 };
+        marketers.unshift(m); saveMarketers(); renderAdminBody();
+        showCredentials(m, genPassword(), 'Akun marketer dibuat');
+      }
+    }
+
+    function resetMarketerPassword(id) {
+      const m = marketers.find(x => x.id === id);
+      if (m) showCredentials(m, genPassword(), 'Password direset');
+    }
+
+    function showCredentials(m, pass, title) {
+      const msg = `Halo ${m.nama}, akun Marketer GDP Anda siap.\n\nEmail: ${m.email}\nPassword sementara: ${pass}\n\nSilakan login lewat ikon profil di aplikasi GDP dan segera ganti password Anda.`;
+      openAdminSheet(`
+        <div class="text-center space-y-3">
+          <div class="w-12 h-12 mx-auto rounded-full bg-navy text-brand flex items-center justify-center"><i data-lucide="check" class="w-6 h-6"></i></div>
+          <h3 class="text-base font-bold text-navy">${title}</h3>
+          <p class="text-[11px] text-neutral-500">Password hanya ditampilkan sekali. Salin atau kirim sekarang.</p>
+        </div>
+        <div class="mt-4 bg-softgray rounded-2xl p-4 space-y-2 text-xs">
+          <div class="flex justify-between gap-3"><span class="text-neutral-500">Nama</span><strong class="text-navy text-right">${esc(m.nama)}</strong></div>
+          <div class="flex justify-between gap-3"><span class="text-neutral-500">Email</span><strong class="text-navy text-right break-all">${esc(m.email)}</strong></div>
+          <div class="flex justify-between items-center gap-3"><span class="text-neutral-500">Password</span><strong class="text-navy font-mono tracking-wider select-text">${esc(pass)}</strong></div>
+        </div>
+        <div class="mt-4 space-y-2">
+          <a href="https://wa.me/${esc(m.wa)}?text=${encodeURIComponent(msg)}" target="_blank" class="w-full py-3 bg-brand text-navy font-bold text-xs rounded-2xl flex items-center justify-center gap-2 btn-press"><i data-lucide="send" class="w-3.5 h-3.5"></i> Kirim via WhatsApp</a>
+          <button onclick="copyText(${JSON.stringify(msg).replace(/"/g, '&quot;')})" class="w-full py-3 bg-neutral-100 text-navy font-semibold text-xs rounded-2xl flex items-center justify-center gap-2 btn-press"><i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Pesan</button>
+          <button onclick="closeAdminSheet()" class="w-full py-3 bg-navy text-white font-bold text-xs rounded-2xl btn-press">Selesai</button>
+        </div>`);
+    }
+
+    function copyText(t) {
+      const done = () => showToast('Pesan disalin');
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(done, () => fallbackCopy(t, done));
+      else fallbackCopy(t, done);
+    }
+    function fallbackCopy(t, cb) {
+      const el = document.createElement('textarea'); el.value = t; document.body.appendChild(el); el.select();
+      try { document.execCommand('copy'); cb(); } catch (e) { showToast('Gagal menyalin'); }
+      document.body.removeChild(el);
+    }
+
+    function confirmDeleteMarketer(id) {
+      const m = marketers.find(x => x.id === id);
+      if (!m) return;
+      openAdminSheet(`
+        <div class="text-center space-y-3">
+          <div class="w-12 h-12 mx-auto rounded-full bg-orange-100 text-orange-700 flex items-center justify-center"><i data-lucide="trash-2" class="w-6 h-6"></i></div>
+          <h3 class="text-base font-bold text-navy">Hapus ${esc(m.nama)}?</h3>
+          <p class="text-[11px] text-neutral-500">${m.status === 'pending' ? 'Pengajuan ini akan ditolak dan dihapus.' : 'Akun marketer akan dihapus permanen.'} Tindakan ini tidak bisa dibatalkan.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-2 mt-5">
+          <button onclick="closeAdminSheet()" class="py-3 bg-neutral-100 text-navy font-semibold text-xs rounded-2xl btn-press">Batal</button>
+          <button onclick="deleteMarketer('${m.id}')" class="py-3 bg-brand text-navy font-bold text-xs rounded-2xl btn-press">Ya, Hapus</button>
+        </div>`);
+    }
+    function deleteMarketer(id) {
+      marketers = marketers.filter(x => x.id !== id);
+      saveMarketers(); closeAdminSheet(); renderAdminBody(); showToast('Marketer dihapus');
+    }
 
     /* =============== REGISTER =============== */
     function handleRegisterSubmit(e) {
