@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full bg-navy">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Guntur Dagang Property - Mobile App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { appbg: '#F1F1F4', cardbg: '#FFFFFF', darkpill: '#071D49', accentgold: '#FE5000', softgray: '#E6E6EA', brand: '#FE5000', brandlight: '#FF7A33', navy: '#071D49', mist: '#DFDFE3' },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], display: ['Inter', 'system-ui', 'sans-serif'] },
+          boxShadow: {
+            'soft-card': '0 12px 32px -8px rgba(0, 0, 0, 0.06)',
+            'float-dock': '0 20px 40px -10px rgba(0, 0, 0, 0.25)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+    body { background-color: #000000; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
+    #mobile-frame { width: 100%; max-width: 412px; height: 100vh; max-height: 890px; background-color: #F1F1F4; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8); }
+    @media (min-width: 640px) { #mobile-frame { border-radius: 48px; height: 94vh; border: 10px solid #071D49; } }
+    .smooth-anim { will-change: transform, opacity; transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
+    .btn-press { will-change: transform; transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease; }
+    .btn-press:active { transform: scale(0.95); }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .aspect-square-thumb { aspect-ratio: 1 / 1; object-fit: cover; }
+    .floating-dock { background: rgba(7, 29, 73, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+    .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    input, textarea { user-select: text; -webkit-user-select: text; }
+
+    /* Efek harga mencolok */
+    @keyframes shimmer { 0% { transform: translateX(-130%) skewX(-20deg); } 100% { transform: translateX(330%) skewX(-20deg); } }
+    @keyframes glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(254, 80, 0, 0.55), 0 14px 30px -10px rgba(254, 80, 0, 0.55); } 50% { box-shadow: 0 0 0 10px rgba(254, 80, 0, 0), 0 14px 36px -8px rgba(254, 80, 0, 0.85); } }
+    .shimmer { position: relative; overflow: hidden; }
+    .shimmer::after { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 35%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent); animation: shimmer 2.8s infinite; pointer-events: none; }
+    .glow { animation: glow 2.2s ease-in-out infinite; }
+    .pills-scroll { cursor: grab; }
+    .pills-scroll:active { cursor: grabbing; }
+  </style>
+</head>
+<body class="antialiased select-none text-navy">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="gdp-logo" viewBox="0 0 48 48">
+      <rect width="48" height="48" rx="11" fill="#FE5000"/>
+      <path d="M11 25 L24 13 L37 25" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="24" y="39" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="700" font-size="11.5" letter-spacing="0.6" fill="#fff">GDP</text>
+    </symbol>
+  </svg>
+
+  <div id="mobile-frame">
+
+    <!-- STATUS BAR -->
+    <div class="pt-3 px-6 pb-1 flex justify-between items-center text-[11px] font-bold text-navy z-30 shrink-0">
+      <span>9:41</span>
+      <div class="flex items-center gap-1.5">
+        <i data-lucide="signal" class="w-3 h-3"></i>
+        <i data-lucide="wifi" class="w-3 h-3"></i>
+        <i data-lucide="battery" class="w-3.5 h-3.5"></i>
+      </div>
+    </div>
+
+    <!-- INTRO -->
+    <div id="intro-screen" class="absolute inset-0 z-50 bg-navy flex flex-col justify-between p-7 text-white overflow-hidden smooth-anim"
+      style="background-image: linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px); background-size: 36px 36px; background-position: 0 0;">
+
+      <div class="relative pt-8">
+        <svg class="w-14 h-14 rounded-2xl shadow-xl"><use href="#gdp-logo"/></svg>
+      </div>
+
+      <div class="relative space-y-5">
+        <h1 class="text-[46px] font-bold tracking-tight leading-[1.02] text-white">Guntur<br>Dagang<br>Properti</h1>
+        <div class="border border-white/25 bg-white/5 backdrop-blur-sm p-4 relative">
+          <span class="absolute -top-1.5 -left-1.5 w-3 h-3 bg-brand"></span>
+          <span class="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-brand"></span>
+          <p class="text-lg font-medium leading-snug text-white/90">Semua Properti yang ditampilkan <span class="text-brand font-semibold">Langsung Pemilik</span></p>
+        </div>
+      </div>
+
+      <div class="relative pb-4">
+        <button onclick="dismissIntro()" class="w-full bg-white text-navy p-2 pl-6 pr-2 rounded-full flex items-center justify-between font-semibold text-sm btn-press shadow-lg">
+          <span>Mulai Jelajahi</span>
+          <div class="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center"><i data-lucide="arrow-right" class="w-5 h-5"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <main id="app-content" class="flex-grow overflow-y-auto no-scrollbar px-5 pb-28 pt-2 space-y-5">
+
+      <!-- HEADER GLOBAL (Home & Reels) -->
+      <div id="global-header-section" class="space-y-4">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-2.5">
+            <svg class="w-9 h-9 shrink-0 rounded-xl shadow-md"><use href="#gdp-logo"/></svg>
+            <h2 class="text-xs font-bold font-display text-navy tracking-wider uppercase leading-snug">DAGANGAN A1<br>LANGSUNG PEMILIK</h2>
+          </div>
+          <button onclick="openLoginModal()" class="w-9 h-9 rounded-full bg-white border border-neutral-200 flex items-center justify-center shadow-sm text-navy btn-press shrink-0" title="Login">
+            <i data-lucide="user" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <div class="flex-grow bg-white rounded-full px-4 py-3 border border-neutral-200/80 shadow-sm flex items-center gap-2.5 focus-within:border-navy transition-all">
+            <i data-lucide="search" class="w-4 h-4 text-neutral-400 shrink-0"></i>
+            <input id="search-input" type="text" placeholder="Cari rumah, villa, lokasi..." oninput="handleSearch(this.value)" class="w-full text-xs bg-transparent outline-none font-medium text-navy placeholder-neutral-400">
+          </div>
+          <button onclick="openFilterModal()" class="w-11 h-11 rounded-full bg-white border border-neutral-200 shadow-sm flex items-center justify-center text-navy shrink-0 btn-press">
+            <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Kategori (Multi-select slider smooth) -->
+        <div id="pills-scroll" class="pills-scroll w-full min-w-0 overflow-x-auto no-scrollbar py-1 touch-pan-x" style="-webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; scroll-behavior: smooth;">
+          <div id="category-pills-container" class="flex gap-2 w-max px-0.5"></div>
+        </div>
+      </div>
+
+      <div id="tab-views-container" class="space-y-5">
+
+        <!-- ============ HOME ============ -->
+        <div id="view-explore" class="space-y-5">
+
+          <!-- Banner Jasa Video -->
+          <div class="bg-navy text-white p-5 rounded-[32px] shadow-2xl border border-white/10 space-y-4 relative overflow-hidden">
+            <div class="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-brand/20 blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-20 -left-16 w-44 h-44 rounded-full bg-brand/10 blur-3xl pointer-events-none"></div>
+
+            <div class="relative flex items-center gap-3">
+              <div class="w-11 h-11 rounded-2xl bg-brand text-navy flex items-center justify-center shrink-0"><i data-lucide="video" class="w-5 h-5"></i></div>
+              <h3 class="text-lg font-bold font-display text-white leading-tight">Jasa Take Video Properti</h3>
+            </div>
+
+            <!-- HARGA MENCOLOK -->
+            <div class="relative shimmer glow rounded-3xl p-4 bg-gradient-to-br from-brandlight via-brand to-[#E04600] text-navy flex items-center justify-between">
+              <div>
+                <span class="text-[10px] font-semibold tracking-widest uppercase block opacity-70">Hanya</span>
+                <span class="text-4xl font-bold font-display leading-none tracking-tight">Rp 500rb</span>
+              </div>
+              <div class="px-3.5 py-2 rounded-2xl bg-navy text-brand font-bold text-sm">/ Properti</div>
+            </div>
+
+            <p class="relative text-xs text-neutral-300 leading-relaxed">Solusi video promosi properti profesional untuk mengoptimalkan penjualan properti Anda! Tampilan sinematik terbukti meningkatkan daya tarik pembeli hingga 3x lipat.</p>
+
+            <div class="relative grid grid-cols-3 gap-2.5">
+              <div class="bg-[#0C2557] p-3 rounded-2xl border border-white/10 text-center flex flex-col items-center space-y-1">
+                <i data-lucide="camera" class="w-5 h-5 text-brand"></i>
+                <span class="font-bold text-white text-[11px] block leading-tight">Kamera Darat</span>
+                <span class="text-[8px] text-neutral-400 block">Gimbal Stabilizer</span>
+              </div>
+              <div class="bg-[#0C2557] p-3 rounded-2xl border border-white/10 text-center flex flex-col items-center space-y-1">
+                <i data-lucide="plane" class="w-5 h-5 text-brand"></i>
+                <span class="font-bold text-white text-[11px] block leading-tight">Kamera Udara</span>
+                <span class="text-[8px] text-neutral-400 block">4K Drone Shot</span>
+              </div>
+              <div class="bg-[#0C2557] p-3 rounded-2xl border border-white/10 text-center flex flex-col items-center space-y-1">
+                <i data-lucide="film" class="w-5 h-5 text-brand"></i>
+                <span class="font-bold text-white text-[11px] block leading-tight">Video 1 Menit</span>
+                <span class="text-[8px] text-neutral-400 block">Reels & TikTok Ready</span>
+              </div>
+            </div>
+
+            <a href="https://wa.me/6281234567890?text=Halo%20Admin%20GDP,%20saya%20mau%20pesan%20Jasa%20Take%20Video%20Properti%20(Rp%20500rb/properti)" target="_blank" class="relative w-full py-3.5 bg-white hover:bg-orange-50 text-navy font-bold text-xs rounded-full flex items-center justify-center gap-2 btn-press shadow-lg">
+              <i data-lucide="phone" class="w-4 h-4"></i> Order Jasa Video via WhatsApp
+            </a>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <h3 class="text-sm font-semibold text-navy font-display">Best Offers</h3>
+              <button onclick="resetAllFilters()" class="text-xs font-bold text-neutral-400 hover:text-navy btn-press">See all</button>
+            </div>
+            <div id="property-list-container" class="space-y-4"></div>
+          </div>
+
+          <div class="bg-gradient-to-r from-orange-100 to-orange-50 p-4 rounded-3xl border border-orange-200/80 flex items-center justify-between gap-3 shadow-sm">
+            <div class="space-y-0.5">
+              <h4 class="text-xs font-semibold text-navy">Ingin Komisi Penjualan?</h4>
+              <p class="text-[10px] text-neutral-600">Gabung Mitra Marketer GDP & Akses Materi Promosi Siap Pakai.</p>
+            </div>
+            <button onclick="switchTab('profile')" class="px-4 py-2 bg-navy text-white text-[10px] font-semibold rounded-2xl shrink-0 btn-press">Daftar</button>
+          </div>
+        </div>
+
+        <!-- ============ REELS ============ -->
+        <div id="view-reels" class="hidden space-y-5">
+          <div id="reels-content-inline" class="space-y-6"></div>
+        </div>
+
+        <!-- ============ LAYANAN UTAMA GDP ============ -->
+        <div id="view-services" class="hidden space-y-5">
+          <div class="relative overflow-hidden rounded-[32px] bg-navy text-white p-6 border border-brand/20 shadow-2xl">
+            <div class="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-brand/25 blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-20 w-56 h-56 rounded-full bg-brand/15 blur-3xl pointer-events-none"></div>
+
+            <div class="relative space-y-4">
+              <div class="w-14 h-14 rounded-3xl bg-gradient-to-br from-brandlight to-brand text-navy flex items-center justify-center shadow-lg">
+                <i data-lucide="video" class="w-7 h-7"></i>
+              </div>
+              <div class="space-y-1.5">
+                <h3 class="text-2xl font-bold font-display leading-tight">Jasa Take Video<br><span class="text-brand">Properti Sinematik</span></h3>
+                <p class="text-xs text-neutral-300 leading-relaxed">Bikin properti Anda tampil memukau di Reels, TikTok & Shorts. Tampilan sinematik terbukti meningkatkan daya tarik pembeli hingga 3x lipat.</p>
+              </div>
+
+              <div class="shimmer glow rounded-3xl p-4 bg-gradient-to-br from-brandlight via-brand to-[#E04600] text-navy flex items-center justify-between">
+                <div>
+                  <span class="text-[10px] font-semibold tracking-widest uppercase block opacity-70">Hanya</span>
+                  <span class="text-4xl font-bold font-display leading-none tracking-tight">Rp 500rb</span>
+                </div>
+                <div class="px-3.5 py-2 rounded-2xl bg-navy text-brand font-bold text-sm">/ Properti</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h4 class="text-sm font-semibold text-navy font-display">Yang Anda Dapatkan</h4>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-white rounded-3xl p-4 border border-neutral-200/80 shadow-sm space-y-2">
+                <div class="w-9 h-9 rounded-2xl bg-orange-100 text-orange-700 flex items-center justify-center"><i data-lucide="camera" class="w-4 h-4"></i></div>
+                <h5 class="text-xs font-semibold text-navy">Kamera Darat</h5>
+                <p class="text-[10px] text-neutral-500 leading-snug">Gimbal stabilizer, angle ruangan presisi dengan pencahayaan terbaik.</p>
+              </div>
+              <div class="bg-white rounded-3xl p-4 border border-neutral-200/80 shadow-sm space-y-2">
+                <div class="w-9 h-9 rounded-2xl bg-orange-100 text-orange-700 flex items-center justify-center"><i data-lucide="plane" class="w-4 h-4"></i></div>
+                <h5 class="text-xs font-semibold text-navy">Kamera Udara</h5>
+                <p class="text-[10px] text-neutral-500 leading-snug">4K drone shot: kawasan sekitar, akses jalan, dan luas lokasi.</p>
+              </div>
+              <div class="bg-white rounded-3xl p-4 border border-neutral-200/80 shadow-sm space-y-2">
+                <div class="w-9 h-9 rounded-2xl bg-orange-100 text-orange-700 flex items-center justify-center"><i data-lucide="film" class="w-4 h-4"></i></div>
+                <h5 class="text-xs font-semibold text-navy">Video 1 Menit</h5>
+                <p class="text-[10px] text-neutral-500 leading-snug">Rasio 9:16, siap posting ke Reels, TikTok & Shorts.</p>
+              </div>
+              <div class="bg-white rounded-3xl p-4 border border-neutral-200/80 shadow-sm space-y-2">
+                <div class="w-9 h-9 rounded-2xl bg-orange-100 text-orange-700 flex items-center justify-center"><i data-lucide="message-circle" class="w-4 h-4"></i></div>
+                <h5 class="text-xs font-semibold text-navy">Konsultasi Gratis</h5>
+                <p class="text-[10px] text-neutral-500 leading-snug">Panduan penataan ruang sebelum pengambilan video dimulai.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl p-5 border border-neutral-200/80 shadow-sm space-y-4">
+            <h4 class="text-sm font-semibold text-navy font-display">Alur Pengerjaan</h4>
+            <div class="space-y-4">
+              <div class="flex gap-3 items-start"><div class="w-7 h-7 rounded-full bg-navy text-brand text-xs font-bold flex items-center justify-center shrink-0">1</div><div><h5 class="text-xs font-semibold text-navy">Hubungi via WhatsApp</h5><p class="text-[10px] text-neutral-500">Kirim lokasi & jenis properti Anda.</p></div></div>
+              <div class="flex gap-3 items-start"><div class="w-7 h-7 rounded-full bg-navy text-brand text-xs font-bold flex items-center justify-center shrink-0">2</div><div><h5 class="text-xs font-semibold text-navy">Jadwal & Konsultasi</h5><p class="text-[10px] text-neutral-500">Tentukan waktu terbaik dan tata ruang.</p></div></div>
+              <div class="flex gap-3 items-start"><div class="w-7 h-7 rounded-full bg-navy text-brand text-xs font-bold flex items-center justify-center shrink-0">3</div><div><h5 class="text-xs font-semibold text-navy">Take Video Darat + Drone</h5><p class="text-[10px] text-neutral-500">Tim GDP datang dan merekam properti Anda.</p></div></div>
+              <div class="flex gap-3 items-start"><div class="w-7 h-7 rounded-full bg-navy text-brand text-xs font-bold flex items-center justify-center shrink-0">4</div><div><h5 class="text-xs font-semibold text-navy">Video Siap Tayang</h5><p class="text-[10px] text-neutral-500">Terima video 1 menit dan tayang di Reels GDP.</p></div></div>
+            </div>
+          </div>
+
+          <div class="bg-orange-50 p-4 rounded-2xl border border-orange-200 text-[10px] text-orange-900 space-y-1">
+            <p class="font-bold flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5 text-orange-600"></i> Catatan Lokasi</p>
+            <p class="leading-relaxed">Harga Rp 500rb per properti berlaku untuk area Yogyakarta. Untuk properti di luar Jogja, biaya transport & akomodasi ditanggung penuh oleh pemilik properti. (Tidak include foto properti).</p>
+          </div>
+
+          <div class="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-brandlight via-brand to-[#E04600] p-6 text-navy shadow-xl space-y-3 text-center">
+            <div class="w-12 h-12 mx-auto rounded-full bg-navy text-brand flex items-center justify-center"><i data-lucide="video" class="w-6 h-6"></i></div>
+            <h4 class="text-lg font-bold font-display leading-tight">Siap tampilkan properti Anda lebih menarik?</h4>
+            <p class="text-xs font-medium opacity-80">Rp 500rb / properti. Pesan sekarang, tim kami langsung hubungi Anda.</p>
+            <a href="https://wa.me/6281234567890?text=Halo%20Admin%20GDP,%20saya%20mau%20pesan%20Jasa%20Take%20Video%20Properti%20(Rp%20500rb/properti)" target="_blank" class="w-full py-3.5 bg-navy text-white font-bold text-sm rounded-full flex items-center justify-center gap-2 btn-press shadow-lg">
+              <i data-lucide="phone" class="w-4 h-4"></i> Pesan via WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <!-- ============ PORTAL MARKETER ============ -->
+        <div id="view-profile" class="hidden space-y-5">
+          <div class="relative overflow-hidden rounded-[32px] bg-navy text-white p-6 border border-brand/20 shadow-2xl">
+            <div class="absolute -top-20 -right-16 w-60 h-60 rounded-full bg-brand/25 blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-20 w-56 h-56 rounded-full bg-brand/15 blur-3xl pointer-events-none"></div>
+            <div class="relative space-y-4">
+              <span class="px-3 py-1 rounded-full bg-brand/15 border border-brand/30 text-brandlight font-bold text-[10px] uppercase tracking-wider inline-flex items-center gap-1.5"><i data-lucide="handshake" class="w-3 h-3"></i> Program Mitra GDP</span>
+              <h3 class="text-3xl font-bold font-display leading-[1.05]">Jual Properti,<br><span class="text-brand">Raih Komisi.</span></h3>
+              <p class="text-xs text-neutral-300 leading-relaxed">Gabung jadi Mitra Marketer Guntur Dagang Property. Pasarkan properti <strong class="text-white">Dagangan A1 Lur! Langsung Pemilik</strong> dan dapatkan komisi dari setiap penjualan.</p>
+              <button onclick="document.getElementById('form-marketer').scrollIntoView({behavior:'smooth'})" class="w-full py-3.5 bg-brand hover:bg-brandlight text-navy font-bold text-sm rounded-full flex items-center justify-center gap-2 btn-press shadow-lg shimmer">
+                <i data-lucide="rocket" class="w-4 h-4"></i> Daftar Jadi Marketer
+              </button>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h4 class="text-sm font-semibold text-navy font-display">Kenapa Gabung GDP?</h4>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-white rounded-3xl p-4 border border-neutral-200/80 shadow-sm space-y-2">
+                <div class="w-9 h-9 rounded-2xl bg-orange-100 text-orange-700 flex items-center justify-center"><i data-lucide="wallet" class="w-4 h-4"></i></div>
+                <h5 class="text-xs font-semibold text-navy">Komisi Kompetitif</h5>
+                <p class="text-[10px] text-neutral-500 leading-snug">Komisi penjualan terbuka dan jelas untuk setiap properti yang terjual.</p>
+              </div>
+              <div class="bg-white rounded-3xl p-4 border border-neutral-200/80 shadow-sm space-y-2">
+                <div class="w-9 h-9 rounded-2xl bg-orange-100 text-orange-700 flex items-center justify-center"><i data-lucide="badge-check" class="w-4 h-4"></i></div>
+                <h5 class="text-xs font-semibold text-navy">Langsung Pemilik</h5>
+                <p class="text-[10px] text-neutral-500 leading-snug">Listing A1 langsung dari pemilik, tanpa perantara berlapis.</p>
+              </div>
+              <div class="bg-white rounded-3xl p-4 border border-neutral-200/80 shadow-sm space-y-2">
+                <div class="w-9 h-9 rounded-2xl bg-[#DCE3F1] text-navy flex items-center justify-center"><i data-lucide="images" class="w-4 h-4"></i></div>
+                <h5 class="text-xs font-semibold text-navy">Materi Siap Pakai</h5>
+                <p class="text-[10px] text-neutral-500 leading-snug">Foto HD, video drone & caption promosi tinggal posting.</p>
+              </div>
+              <div class="bg-white rounded-3xl p-4 border border-neutral-200/80 shadow-sm space-y-2">
+                <div class="w-9 h-9 rounded-2xl bg-[#DCE3F1] text-navy flex items-center justify-center"><i data-lucide="users" class="w-4 h-4"></i></div>
+                <h5 class="text-xs font-semibold text-navy">Pendampingan Tim</h5>
+                <p class="text-[10px] text-neutral-500 leading-snug">Dukungan survey lokasi dan closing dari tim GDP.</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="form-marketer" class="bg-white p-5 rounded-3xl border border-neutral-200/80 space-y-4 shadow-sm">
+            <div class="space-y-1">
+              <h3 class="text-sm font-semibold text-navy font-display">Daftar Mitra Marketer</h3>
+              <p class="text-[11px] text-neutral-500">Isi data di bawah, lalu kirim ke admin via WhatsApp.</p>
+            </div>
+            <form onsubmit="handleRegisterSubmit(event)" class="space-y-3">
+              <div>
+                <label class="text-[10px] font-bold text-neutral-700 block mb-1">Nama Lengkap</label>
+                <input type="text" required id="reg-name" placeholder="Masukkan nama sesuai KTP" class="w-full text-xs bg-neutral-50 border border-neutral-200 rounded-xl p-2.5 outline-none focus:border-navy font-medium">
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-neutral-700 block mb-1">Nomor WhatsApp</label>
+                <input type="tel" required id="reg-phone" placeholder="081234567890" class="w-full text-xs bg-neutral-50 border border-neutral-200 rounded-xl p-2.5 outline-none focus:border-navy font-medium">
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-neutral-700 block mb-1">Kota / Domisili</label>
+                <input type="text" required id="reg-city" placeholder="Contoh: Sleman, Yogyakarta" class="w-full text-xs bg-neutral-50 border border-neutral-200 rounded-xl p-2.5 outline-none focus:border-navy font-medium">
+              </div>
+              <button type="submit" class="w-full py-3.5 bg-brand hover:bg-brandlight text-navy font-bold text-xs rounded-2xl shadow-md btn-press flex items-center justify-center gap-1.5">
+                <i data-lucide="send" class="w-3.5 h-3.5"></i> Kirim Pendaftaran via WhatsApp
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- DOCK -->
+    <nav class="absolute bottom-5 inset-x-6 h-14 floating-dock rounded-full flex items-center justify-around px-2 z-40 shadow-float-dock border border-white/10">
+      <button onclick="switchTab('explore')" id="dock-explore" class="w-10 h-10 rounded-full flex items-center justify-center text-white bg-white/20 btn-press" title="Home"><i data-lucide="home" class="w-4 h-4"></i></button>
+      <button onclick="switchTab('reels')" id="dock-reels" class="w-10 h-10 rounded-full flex items-center justify-center text-neutral-400 hover:text-white btn-press" title="Video Reels"><i data-lucide="clapperboard" class="w-4 h-4"></i></button>
+      <button onclick="switchTab('services')" id="dock-services" class="w-10 h-10 rounded-full flex items-center justify-center text-neutral-400 hover:text-white btn-press" title="Layanan Utama GDP"><i data-lucide="video" class="w-4 h-4"></i></button>
+      <button onclick="switchTab('profile')" id="dock-profile" class="w-10 h-10 rounded-full flex items-center justify-center text-neutral-400 hover:text-white btn-press" title="Jadi Marketer"><i data-lucide="user" class="w-4 h-4"></i></button>
+    </nav>
+
+    <!-- DASHBOARD DEMO -->
+    <div id="dashboard-screen" class="hidden absolute inset-0 z-[55] bg-appbg overflow-y-auto no-scrollbar px-5 pt-10 pb-10 space-y-5"></div>
+
+    <div id="toast-container" class="absolute top-12 inset-x-4 z-[70] flex flex-col gap-2 pointer-events-none"></div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="login-modal" class="fixed inset-0 z-[60] hidden bg-navy/80 backdrop-blur-sm flex items-center justify-center p-5">
+    <div class="bg-white rounded-[32px] p-6 w-full max-w-sm space-y-4 shadow-2xl relative">
+      <button onclick="closeLoginModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 text-neutral-500 flex items-center justify-center btn-press"><i data-lucide="x" class="w-4 h-4"></i></button>
+      <div class="space-y-2 text-center">
+        <div class="w-12 h-12 mx-auto rounded-full bg-navy text-brand font-bold text-xs flex items-center justify-center">GDP</div>
+        <h3 class="text-lg font-bold font-display text-navy">Login Portal GDP</h3>
+        <p class="text-[11px] text-neutral-500">Masuk sebagai Marketer atau Admin.</p>
+      </div>
+      <form onsubmit="handleLoginSubmit(event)" class="space-y-3">
+        <div>
+          <label class="text-[10px] font-bold text-neutral-700 block mb-1">Email</label>
+          <input type="email" required id="login-email" placeholder="marketer@guntur.com" class="w-full text-xs bg-neutral-50 border border-neutral-200 rounded-xl p-3 outline-none focus:border-navy font-medium">
+        </div>
+        <div>
+          <label class="text-[10px] font-bold text-neutral-700 block mb-1">Password</label>
+          <input type="password" required id="login-pass" placeholder="••••••••" class="w-full text-xs bg-neutral-50 border border-neutral-200 rounded-xl p-3 outline-none focus:border-navy font-medium">
+        </div>
+        <button type="submit" class="w-full py-3.5 bg-navy text-white font-semibold text-xs rounded-2xl shadow-md btn-press">Login</button>
+      </form>
+      <div class="text-center space-y-1.5 text-[11px] text-neutral-500">
+        <p>Belum Punya Akun? <button onclick="closeLoginModal(); switchTab('profile')" class="font-semibold text-orange-700 underline">Daftar Jadi Marketer</button></p>
+        <p>Lupa Password? <a href="https://wa.me/6281234567890?text=Halo%20Admin%20GDP,%20saya%20lupa%20password%20akun%20saya" target="_blank" class="font-semibold text-orange-700 underline">Hubungi Admin</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DETAIL MODAL -->
+  <div id="detail-modal" class="fixed inset-0 z-50 hidden bg-navy/80 backdrop-blur-sm flex justify-center items-end sm:items-center p-0 sm:p-4 smooth-anim">
+    <div class="bg-appbg w-full max-w-md h-[92vh] sm:h-[840px] rounded-t-[40px] sm:rounded-[40px] overflow-hidden flex flex-col relative border border-neutral-200/80 shadow-2xl">
+      <div class="absolute top-4 inset-x-4 z-20 flex justify-between items-center">
+        <button onclick="closeDetailModal()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-navy btn-press"><i data-lucide="arrow-left" class="w-4 h-4"></i></button>
+        <button onclick="sharePropertyLink()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-navy btn-press"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+      </div>
+      <div id="detail-modal-content" class="flex-grow overflow-y-auto no-scrollbar pb-24"></div>
+    </div>
+  </div>
+
+  <!-- FULLSCREEN REEL -->
+  <div id="fullscreen-reel-modal" class="fixed inset-0 z-[65] hidden bg-black flex flex-col justify-between p-4">
+    <div class="absolute top-4 right-4 z-30">
+      <button onclick="closeFullscreenReel()" class="w-10 h-10 rounded-full bg-black/60 text-white backdrop-blur flex items-center justify-center btn-press"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    <div class="relative w-full h-full flex items-center justify-center">
+      <video id="fullscreen-reel-video" class="hidden max-h-full max-w-full rounded-2xl object-contain" loop playsinline controls></video>
+      <iframe id="fullscreen-reel-iframe" class="hidden w-full h-full max-w-md rounded-2xl" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- FILTER MODAL (MULTI-SELECT & LEGALITAS) -->
+  <div id="filter-modal" class="fixed inset-0 z-50 hidden bg-navy/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 smooth-anim">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl p-6 max-w-sm w-full space-y-4 border border-neutral-100 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
+      <div class="flex justify-between items-center border-b pb-3 sticky top-0 bg-white z-10">
+        <h3 class="font-semibold text-navy text-base font-display">Filter Properti</h3>
+        <button onclick="closeFilterModal()" class="w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 text-navy flex items-center justify-center btn-press" title="Tutup">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <label class="text-xs font-bold text-neutral-700 block mb-1.5">Urutkan Berdasarkan</label>
+          <select id="filter-sort" class="w-full text-xs bg-neutral-100 border border-neutral-200 rounded-xl p-2.5 outline-none font-semibold">
+            <option value="default">Default</option>
+            <option value="price-low">Harga Terendah</option>
+            <option value="price-high">Harga Tertinggi</option>
+          </select>
+        </div>
+        
+        <div>
+          <label class="text-xs font-bold text-neutral-700 block mb-1.5">Tipe Properti (Bisa Pilih >1)</label>
+          <div id="filter-types-container" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-neutral-700 block mb-1.5">Legalitas (Bisa Pilih >1)</label>
+          <div id="filter-legalities-container" class="flex flex-wrap gap-1.5"></div>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 border-t">
+        <button onclick="resetFilter()" class="w-1/2 py-2.5 rounded-2xl bg-neutral-100 text-neutral-700 font-bold text-xs btn-press">Reset</button>
+        <button onclick="applyFilter()" class="w-1/2 py-2.5 rounded-2xl bg-darkpill text-white font-bold text-xs btn-press">Terapkan</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SHEET_CSV_URL = "";
+    const WA_NUMBER = "6281234567890";
+
+    const DEMO_PROPERTIES = [
+      { id: "GDP-001", title: "Redwood Villas Kaliurang", type: "Villa", location: "Kaliurang, Sleman", price: 2850000000, landArea: 320, buildingArea: 250, bedrooms: 4, bathrooms: 5, garage: 2, certificate: "SHM Pekarangan", status: "Tersedia",
+        photos: ["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80"],
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+        description: "Villa resort modern 2 lantai dengan pemandangan alami, kolam renang pribadi, dan akses jalan lebar. Sangat potensial untuk sewa harian." },
+      { id: "GDP-002", title: "Brookside Haven Damai", type: "Rumah", location: "Jl. Damai, Sleman", price: 980000000, landArea: 120, buildingArea: 90, bedrooms: 3, bathrooms: 2, garage: 1, certificate: "SHM Pekarangan", status: "Tersedia",
+        photos: ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"],
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+        description: "Rumah minimalis scandinavian siap huni. Lingkungan nyaman, 5 menit ke kampus UGM & kawasan bisnis." },
+      { id: "GDP-003", title: "Skyline Apartemen Student Castle", type: "Apartemen", location: "Seturan, Depok, Sleman", price: 450000000, landArea: 36, buildingArea: 36, bedrooms: 1, bathrooms: 1, garage: 1, certificate: "SHM Pekarangan", status: "Tersedia",
+        photos: ["https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80"],
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+        description: "Unit studio fully furnished di pusat mahasiswa Jogja. Passive income tinggi dari sewa bulanan." },
+      { id: "GDP-004", title: "Kavling Matang Strategis Jakal", type: "Kavling", location: "Jakal Km 12, Sleman", price: 395000000, landArea: 140, buildingArea: 0, bedrooms: 0, bathrooms: 0, garage: 0, certificate: "SHM Pekarangan", status: "Tersedia",
+        photos: ["https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80"],
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+        description: "Tanah pekarangan siap bangun SHM. Akses jalan mobil papasan, cocok untuk hunian atau kos-kosan." },
+      { id: "GDP-005", title: "Tanah Luas View Sawah Kasihan", type: "Tanah", location: "Kasihan, Bantul", price: 650000000, landArea: 280, buildingArea: 0, bedrooms: 0, bathrooms: 0, garage: 0, certificate: "SHM Pekarangan", status: "Tersedia",
+        photos: ["https://images.unsplash.com/photo-1524813686514-a57563d77965?auto=format&fit=crop&w=800&q=80"],
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+        description: "Tanah pekarangan asri view sawah abadi. Hanya 10 menit ke kampus UMY." }
+    ];
+
+    const state = { 
+      properties: DEMO_PROPERTIES, 
+      activeCategory: ['Any type'], 
+      activeCertificates: [],
+      searchQuery: '', 
+      activeTab: 'explore', 
+      sortBy: 'default' 
+    };
+
+    let reelObserver = null;
+    let tempSelectedTypes = [];
+    let tempSelectedLegalities = [];
+
+    /* =============== GOOGLE SHEETS =============== */
+    function parseCSV(text) {
+      const rows = []; let row = [], cur = '', q = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        if (q) {
+          if (c === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else q = false; }
+          else cur += c;
+        } else {
+          if (c === '"') q = true;
+          else if (c === ',') { row.push(cur); cur = ''; }
+          else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; row.push(cur); cur = ''; rows.push(row); row = []; }
+          else cur += c;
+        }
+      }
+      if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
+      return rows;
+    }
+
+    function driveId(url) {
+      const m = String(url).match(/\/d\/([a-zA-Z0-9_-]+)/) || String(url).match(/[?&]id=([a-zA-Z0-9_-]+)/);
+      return m ? m[1] : null;
+    }
+    function isDrive(url) { return /drive\.google\.com|docs\.google\.com/.test(url || ''); }
+    function imgSrc(url) {
+      if (isDrive(url)) { const id = driveId(url); if (id) return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`; }
+      return url;
+    }
+    function splitLinks(v) { return String(v || '').split(/[\s,;|]+/).filter(s => /^https?:\/\//i.test(s)); }
+    function num(v) { const n = parseInt(String(v || '').replace(/[^\d]/g, ''), 10); return isNaN(n) ? 0 : n; }
+
+    function rowsToProperties(rows) {
+      if (rows.length < 2) return [];
+      const head = rows[0].map(h => h.trim().toLowerCase());
+      const col = name => head.indexOf(name);
+      const get = (r, name) => { const i = col(name); return i >= 0 ? (r[i] || '').trim() : ''; };
+      return rows.slice(1).filter(r => get(r, 'judul') && get(r, 'tampil').toLowerCase() !== 'tidak').map((r, i) => ({
+        id: get(r, 'id') || ('GDP-' + (i + 1)),
+        title: get(r, 'judul'),
+        type: get(r, 'tipe') || 'Rumah',
+        location: get(r, 'lokasi'),
+        price: num(get(r, 'harga')),
+        landArea: num(get(r, 'luas_tanah')),
+        buildingArea: num(get(r, 'luas_bangunan')),
+        bedrooms: num(get(r, 'kamar_tidur')),
+        bathrooms: num(get(r, 'kamar_mandi')),
+        garage: num(get(r, 'garasi')),
+        certificate: get(r, 'legalitas') || 'SHM Pekarangan',
+        status: get(r, 'status') || 'Tersedia',
+        photos: splitLinks(get(r, 'link_foto')),
+        videoUrl: splitLinks(get(r, 'link_video'))[0] || '',
+        description: get(r, 'deskripsi')
+      }));
+    }
+
+    async function loadProperties() {
+      if (!SHEET_CSV_URL) return;
+      try {
+        const url = SHEET_CSV_URL + (SHEET_CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now();
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(res.status);
+        const list = rowsToProperties(parseCSV(await res.text()));
+        if (list.length) state.properties = list;
+      } catch (e) {
+        showToast("Gagal memuat data spreadsheet");
+      }
+    }
+
+    window.onload = async function () {
+      enableDragScroll(document.getElementById('pills-scroll'));
+      await loadProperties();
+      refreshLists();
+      lucide.createIcons();
+    };
+
+    function enableDragScroll(el) {
+      let down = false, sx = 0, sl = 0, moved = false;
+      el.addEventListener('pointerdown', e => { if (e.pointerType === 'touch') return; down = true; moved = false; sx = e.clientX; sl = el.scrollLeft; });
+      window.addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - sx; if (Math.abs(dx) > 4) moved = true; el.scrollLeft = sl - dx; });
+      window.addEventListener('pointerup', () => { down = false; });
+      el.addEventListener('click', e => { if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; } }, true);
+    }
+
+    /* =============== FILTERING =============== */
+    function getFilteredProperties(forReels) {
+      let list = [...state.properties];
+      
+      // Multi-select Tipe Properti
+      if (Array.isArray(state.activeCategory)) {
+        if (state.activeCategory.length > 0 && !state.activeCategory.includes('Any type')) {
+          const selectedCatLower = state.activeCategory.map(c => c.toLowerCase());
+          list = list.filter(p => selectedCatLower.includes(p.type.toLowerCase()));
+        }
+      } else if (state.activeCategory && state.activeCategory !== 'Any type') {
+        list = list.filter(p => p.type.toLowerCase() === state.activeCategory.toLowerCase());
+      }
+
+      // Multi-select Legalitas
+      if (Array.isArray(state.activeCertificates) && state.activeCertificates.length > 0) {
+        const selectedCertLower = state.activeCertificates.map(c => c.toLowerCase());
+        list = list.filter(p => selectedCertLower.some(cert => (p.certificate || '').toLowerCase().includes(cert)));
+      }
+
+      // Search Query
+      if (state.searchQuery) {
+        const q = state.searchQuery.toLowerCase();
+        list = list.filter(p => p.title.toLowerCase().includes(q) || p.location.toLowerCase().includes(q) || p.type.toLowerCase().includes(q) || (p.certificate && p.certificate.toLowerCase().includes(q)));
+      }
+
+      // Sorting
+      if (state.sortBy === 'price-low') list.sort((a, b) => a.price - b.price);
+      else if (state.sortBy === 'price-high') list.sort((a, b) => b.price - a.price);
+      else if (forReels) list.reverse();
+
+      return list;
+    }
+
+    function refreshLists() { renderCategoryPills(); renderProperties(); renderInlineReels(); }
+    
+    function filterCategory(cat) {
+      if (!Array.isArray(state.activeCategory)) {
+        state.activeCategory = [state.activeCategory];
+      }
+      if (cat === 'Any type') {
+        state.activeCategory = ['Any type'];
+      } else {
+        state.activeCategory = state.activeCategory.filter(c => c !== 'Any type');
+        const idx = state.activeCategory.indexOf(cat);
+        if (idx > -1) {
+          state.activeCategory.splice(idx, 1);
+        } else {
+          state.activeCategory.push(cat);
+        }
+        if (state.activeCategory.length === 0) {
+          state.activeCategory = ['Any type'];
+        }
+      }
+      refreshLists();
+    }
+
+    function handleSearch(val) { state.searchQuery = val.trim(); renderProperties(); renderInlineReels(); }
+
+    function resetAllFilters() {
+      state.activeCategory = ['Any type']; 
+      state.activeCertificates = [];
+      state.searchQuery = ''; 
+      state.sortBy = 'default';
+      document.getElementById('search-input').value = '';
+      document.getElementById('filter-sort').value = 'default';
+      refreshLists();
+    }
+
+    /* FILTER MODAL MULTI-SELECT */
+    function openFilterModal() {
+      document.getElementById('filter-sort').value = state.sortBy;
+      if (Array.isArray(state.activeCategory)) {
+        tempSelectedTypes = state.activeCategory.includes('Any type') ? [] : [...state.activeCategory];
+      } else {
+        tempSelectedTypes = state.activeCategory === 'Any type' ? [] : [state.activeCategory];
+      }
+      tempSelectedLegalities = Array.isArray(state.activeCertificates) ? [...state.activeCertificates] : [];
+      renderFilterTypeChips();
+      renderFilterLegalityChips();
+      document.getElementById('filter-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeFilterModal() { document.getElementById('filter-modal').classList.add('hidden'); }
+
+    function renderFilterTypeChips() {
+      const types = ['Rumah', 'Villa', 'Apartemen', 'Kavling', 'Tanah'];
+      document.getElementById('filter-types-container').innerHTML = types.map(t => {
+        const active = tempSelectedTypes.includes(t);
+        return `<button type="button" onclick="toggleTempType('${t}')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold btn-press transition-all ${active ? 'bg-navy text-white shadow-sm' : 'bg-neutral-100 text-neutral-700 border border-neutral-200'}">${t}</button>`;
+      }).join('');
+    }
+
+    function toggleTempType(t) {
+      const idx = tempSelectedTypes.indexOf(t);
+      if (idx > -1) tempSelectedTypes.splice(idx, 1);
+      else tempSelectedTypes.push(t);
+      renderFilterTypeChips();
+    }
+
+    function renderFilterLegalityChips() {
+      const certs = ['SHM Pekarangan', 'SHM', 'HGB', 'Sertifikat Ready'];
+      document.getElementById('filter-legalities-container').innerHTML = certs.map(c => {
+        const active = tempSelectedLegalities.includes(c);
+        return `<button type="button" onclick="toggleTempLegality('${c}')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold btn-press transition-all ${active ? 'bg-brand text-white shadow-sm' : 'bg-neutral-100 text-neutral-700 border border-neutral-200'}">${c}</button>`;
+      }).join('');
+    }
+
+    function toggleTempLegality(c) {
+      const idx = tempSelectedLegalities.indexOf(c);
+      if (idx > -1) tempSelectedLegalities.splice(idx, 1);
+      else tempSelectedLegalities.push(c);
+      renderFilterLegalityChips();
+    }
+
+    function applyFilter() {
+      state.sortBy = document.getElementById('filter-sort').value;
+      state.activeCategory = tempSelectedTypes.length > 0 ? [...tempSelectedTypes] : ['Any type'];
+      state.activeCertificates = [...tempSelectedLegalities];
+      refreshLists(); 
+      closeFilterModal(); 
+      showToast("Filter diterapkan");
+    }
+
+    function resetFilter() {
+      state.sortBy = 'default';
+      state.activeCategory = ['Any type'];
+      state.activeCertificates = [];
+      tempSelectedTypes = [];
+      tempSelectedLegalities = [];
+      document.getElementById('search-input').value = '';
+      document.getElementById('filter-sort').value = 'default';
+      refreshLists(); 
+      closeFilterModal(); 
+      showToast("Filter direset");
+    }
+
+    function renderCategoryPills() {
+      const categories = ['Any type', 'Rumah', 'Villa', 'Apartemen', 'Kavling', 'Tanah'];
+      const activeArr = Array.isArray(state.activeCategory) ? state.activeCategory : [state.activeCategory];
+      document.getElementById('category-pills-container').innerHTML = categories.map(cat => {
+        const isSelected = activeArr.includes(cat);
+        return `<button onclick="filterCategory('${cat}')" class="px-4 py-2 rounded-full text-xs font-bold shrink-0 btn-press transition-all ${isSelected ? 'bg-navy text-white shadow-md' : 'bg-white text-neutral-700 border border-neutral-200'}">${cat === 'Any type' ? 'Semua' : cat}</button>`;
+      }).join('');
+    }
+
+    /* =============== TABS =============== */
+    function switchTab(tab) {
+      state.activeTab = tab;
+      pauseAllReels();
+      document.getElementById('global-header-section').classList.toggle('hidden', !(tab === 'explore' || tab === 'reels'));
+      ['explore', 'reels', 'services', 'profile'].forEach(t => {
+        const btn = document.getElementById(`dock-${t}`);
+        btn.className = t === tab
+          ? 'w-10 h-10 rounded-full flex items-center justify-center text-white bg-white/20 btn-press'
+          : 'w-10 h-10 rounded-full flex items-center justify-center text-neutral-400 hover:text-white btn-press';
+        document.getElementById(`view-${t}`).classList.toggle('hidden', t !== tab);
+      });
+      document.getElementById('app-content').scrollTop = 0;
+      if (tab === 'reels') setupReelObserver();
+      lucide.createIcons();
+    }
+
+    function dismissIntro() {
+      const el = document.getElementById('intro-screen');
+      el.classList.add('opacity-0', 'pointer-events-none');
+      setTimeout(() => el.classList.add('hidden'), 300);
+    }
+
+    /* =============== HOME LIST =============== */
+    function renderProperties() {
+      const list = getFilteredProperties(false);
+      const container = document.getElementById('property-list-container');
+      if (list.length === 0) {
+        container.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center space-y-2 border border-neutral-200"><i data-lucide="search-x" class="w-10 h-10 mx-auto text-neutral-300"></i><p class="text-xs font-bold text-neutral-500">Properti tidak ditemukan.</p></div>`;
+        lucide.createIcons(); return;
+      }
+      container.innerHTML = list.map(p => `
+        <div onclick="openDetailModal('${p.id}')" class="bg-cardbg rounded-[32px] p-3 shadow-soft-card border border-neutral-200/80 space-y-3 cursor-pointer btn-press group">
+          <div class="relative w-full aspect-square rounded-[24px] overflow-hidden bg-neutral-100">
+            <img src="${imgSrc(p.photos[0] || '')}" loading="lazy" class="w-full h-full object-cover aspect-square-thumb group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-3 left-3 bg-white/90 backdrop-blur text-navy px-3 py-1 rounded-full text-[10px] font-semibold shadow-sm">${p.type}</div>
+            <div class="absolute top-3 right-3 bg-navy/80 backdrop-blur text-brand px-2.5 py-1 rounded-full text-[10px] font-semibold shadow-md uppercase">${p.certificate}</div>
+            ${/terjual/i.test(p.status) ? `<div class="absolute inset-0 bg-black/45 flex items-center justify-center"><span class="px-4 py-1.5 rounded-full bg-black text-white text-xs font-bold tracking-wider">TERJUAL</span></div>` : ''}
+          </div>
+          <div class="px-1 space-y-2">
+            <div class="flex justify-between items-start gap-2">
+              <div class="min-w-0">
+                <h4 class="text-sm font-semibold font-display text-navy truncate leading-snug">${p.title}</h4>
+                <p class="text-[10px] text-neutral-400 font-medium truncate flex items-center gap-1 mt-0.5"><i data-lucide="map-pin" class="w-3 h-3 text-orange-500 shrink-0"></i> ${p.location}</p>
+              </div>
+              <div class="shrink-0 text-right"><span class="text-sm font-bold font-display text-navy">${formatRupiah(p.price)}</span></div>
+            </div>
+            <div class="flex items-center gap-2 pt-1 flex-wrap">
+              ${p.bedrooms > 0 ? `<div class="bg-softgray px-2.5 py-1 rounded-xl text-[10px] font-bold text-neutral-700 flex items-center gap-1"><i data-lucide="bed" class="w-3 h-3 text-neutral-500"></i> ${p.bedrooms} Beds</div>` : ''}
+              ${p.bathrooms > 0 ? `<div class="bg-softgray px-2.5 py-1 rounded-xl text-[10px] font-bold text-neutral-700 flex items-center gap-1"><i data-lucide="bath" class="w-3 h-3 text-neutral-500"></i> ${p.bathrooms} Baths</div>` : ''}
+              <div class="bg-softgray px-2.5 py-1 rounded-xl text-[10px] font-bold text-neutral-700 flex items-center gap-1"><i data-lucide="maximize" class="w-3 h-3 text-neutral-500"></i> ${p.landArea} m²</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    /* =============== REELS =============== */
+    function renderInlineReels() {
+      const container = document.getElementById('reels-content-inline');
+      const filtered = getFilteredProperties(true);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="bg-navy p-8 rounded-3xl text-center space-y-2 border border-white/10 text-white"><i data-lucide="video-off" class="w-10 h-10 mx-auto text-neutral-500"></i><p class="text-xs font-bold text-neutral-400">Video Reels tidak ditemukan untuk kriteria ini.</p></div>`;
+        lucide.createIcons(); return;
+      }
+
+      container.innerHTML = filtered.map(p => {
+        const drive = isDrive(p.videoUrl);
+        const media = !p.videoUrl
+          ? `<img src="${imgSrc(p.photos[0] || '')}" class="absolute inset-0 w-full h-full object-cover">`
+          : drive
+            ? `<iframe src="https://drive.google.com/file/d/${driveId(p.videoUrl)}/preview" class="absolute inset-0 w-full h-full border-0" allow="autoplay; fullscreen" allowfullscreen></iframe>`
+            : `<video id="reel-vid-${p.id}" class="absolute inset-0 w-full h-full object-cover cursor-pointer" muted loop playsinline preload="auto" onclick="toggleReelPlay('${p.id}')" onplay="syncReelIcon('${p.id}', true)" onpause="syncReelIcon('${p.id}', false)"><source src="${p.videoUrl}" type="video/mp4"></video>`;
+        const showControls = p.videoUrl && !drive;
+        return `
+        <div class="relative w-full aspect-[9/16] rounded-3xl overflow-hidden bg-navy border border-white/10 shadow-2xl flex flex-col justify-between p-4 text-left text-white">
+          ${media}
+          <div class="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent pointer-events-none"></div>
+
+          <div class="relative z-10 flex justify-between items-center pointer-events-none">
+            <span class="px-3 py-1 rounded-full bg-navy/80 backdrop-blur border border-brand/30 text-brand text-[10px] font-semibold">${p.type}</span>
+            ${p.videoUrl ? `<div class="flex items-center gap-2 pointer-events-auto">
+              ${showControls ? `<button onclick="toggleReelMute('${p.id}')" id="mute-btn-${p.id}" class="w-8 h-8 rounded-full bg-black/60 backdrop-blur text-white flex items-center justify-center btn-press" title="Suara"><i data-lucide="volume-x" class="w-4 h-4"></i></button>` : ''}
+              <button onclick="openFullscreenReel('${p.id}')" class="w-8 h-8 rounded-full bg-black/60 backdrop-blur text-white flex items-center justify-center btn-press hover:bg-black/80" title="Layar Penuh"><i data-lucide="maximize" class="w-4 h-4"></i></button>
+            </div>` : ''}
+          </div>
+
+          ${showControls ? `<button onclick="toggleReelPlay('${p.id}')" id="play-btn-${p.id}" class="relative z-10 mx-auto w-14 h-14 rounded-full bg-black/50 backdrop-blur border border-white/20 text-white flex items-center justify-center btn-press shadow-xl transition-opacity"><i data-lucide="play" class="w-7 h-7 fill-white ml-0.5"></i></button>` : '<div></div>'}
+
+          <div class="relative z-10 space-y-2 pointer-events-none">
+            <span class="px-2.5 py-0.5 rounded-full bg-brand text-navy text-[9px] font-bold uppercase tracking-wider inline-block">${p.certificate}</span>
+            <h3 class="text-base font-semibold font-display leading-tight text-white">${p.title}</h3>
+            <p class="text-xs font-bold text-brandlight">${formatRupiah(p.price)}</p>
+            <p class="text-[10px] text-neutral-300 line-clamp-2">${p.description}</p>
+            <div class="pt-2 pointer-events-auto">
+              <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo GDP, saya lihat video Reels properti: ' + p.title + ' (' + formatRupiah(p.price) + ')')}" target="_blank" class="w-full py-2.5 bg-brand text-navy font-semibold text-xs rounded-2xl flex items-center justify-center gap-2 btn-press shadow-md">
+                <i data-lucide="phone" class="w-3.5 h-3.5"></i> Tanya via WA
+              </a>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+
+      lucide.createIcons();
+      setupReelObserver();
+    }
+
+    function setupReelObserver() {
+      if (reelObserver) reelObserver.disconnect();
+      const vids = document.querySelectorAll('#reels-content-inline video');
+      if (!vids.length) return;
+      reelObserver = new IntersectionObserver(entries => {
+        entries.forEach(en => {
+          const v = en.target;
+          if (en.isIntersecting && state.activeTab === 'reels') v.play().catch(() => {});
+          else if (!v.paused) v.pause();
+        });
+      }, { root: document.getElementById('app-content'), threshold: 0.6 });
+      vids.forEach(v => reelObserver.observe(v));
+    }
+
+    function toggleReelPlay(id) {
+      const vid = document.getElementById(`reel-vid-${id}`);
+      if (!vid) return;
+      if (vid.paused) vid.play().catch(() => showToast("Video tidak bisa diputar")); else vid.pause();
+    }
+    function toggleReelMute(id) {
+      const vid = document.getElementById(`reel-vid-${id}`);
+      const btn = document.getElementById(`mute-btn-${id}`);
+      if (!vid || !btn) return;
+      vid.muted = !vid.muted;
+      btn.innerHTML = `<i data-lucide="${vid.muted ? 'volume-x' : 'volume-2'}" class="w-4 h-4"></i>`;
+      lucide.createIcons();
+    }
+    function pauseAllReels() {
+      document.querySelectorAll('#reels-content-inline video').forEach(v => { if (!v.paused) v.pause(); });
+    }
+    function syncReelIcon(id, playing) {
+      const btn = document.getElementById(`play-btn-${id}`);
+      if (!btn) return;
+      btn.innerHTML = `<i data-lucide="${playing ? 'pause' : 'play'}" class="w-7 h-7 fill-white ${playing ? '' : 'ml-0.5'}"></i>`;
+      btn.style.opacity = playing ? '0' : '1';
+      btn.style.pointerEvents = playing ? 'none' : 'auto';
+      lucide.createIcons();
+    }
+
+    function openFullscreenReel(id) {
+      const p = state.properties.find(x => x.id === id);
+      if (!p || !p.videoUrl) return;
+      pauseAllReels();
+      const video = document.getElementById('fullscreen-reel-video');
+      const iframe = document.getElementById('fullscreen-reel-iframe');
+      if (isDrive(p.videoUrl)) {
+        iframe.src = `https://drive.google.com/file/d/${driveId(p.videoUrl)}/preview`;
+        iframe.classList.remove('hidden'); video.classList.add('hidden');
+      } else {
+        video.src = p.videoUrl; video.classList.remove('hidden'); iframe.classList.add('hidden');
+        video.play().catch(() => {});
+      }
+      document.getElementById('fullscreen-reel-modal').classList.remove('hidden');
+    }
+    function closeFullscreenReel() {
+      const video = document.getElementById('fullscreen-reel-video');
+      const iframe = document.getElementById('fullscreen-reel-iframe');
+      video.pause(); video.removeAttribute('src'); video.load(); iframe.src = 'about:blank';
+      document.getElementById('fullscreen-reel-modal').classList.add('hidden');
+      if (state.activeTab === 'reels') setupReelObserver();
+    }
+
+    /* =============== UTIL =============== */
+    function formatRupiah(n) {
+      if (n >= 1000000000) return 'Rp ' + (n / 1000000000).toFixed(2).replace(/\.?0+$/, '') + ' M';
+      if (n >= 1000000) return 'Rp ' + (n / 1000000).toFixed(0) + ' Jt';
+      return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(n);
+    }
+
+    /* =============== DETAIL =============== */
+    function openDetailModal(id) {
+      const p = state.properties.find(x => x.id === id);
+      if (!p) return;
+      const photos = p.photos.length ? p.photos : [''];
+      document.getElementById('detail-modal-content').innerHTML = `
+        <div class="relative w-full bg-neutral-100 rounded-b-[36px] overflow-hidden">
+          <div class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar">
+            ${photos.map(u => `<img src="${imgSrc(u)}" class="w-full shrink-0 snap-center aspect-[4/3] object-cover">`).join('')}
+          </div>
+          ${photos.length > 1 ? `<span class="absolute top-4 right-16 px-2.5 py-1 rounded-full bg-black/55 text-white text-[10px] font-bold">Geser · ${photos.length} foto</span>` : ''}
+          ${p.videoUrl ? `<button onclick="closeDetailModal(); switchTab('reels');" class="absolute bottom-4 right-4 px-3 py-1.5 rounded-full bg-navy/80 backdrop-blur text-brand font-semibold text-xs flex items-center gap-1.5 shadow-lg btn-press"><i data-lucide="video" class="w-4 h-4"></i> Tonton Video Reels</button>` : ''}
+        </div>
+        <div class="p-5 space-y-5">
+          <div class="flex justify-between items-start gap-3 border-b border-neutral-200/60 pb-3">
+            <div>
+              <h3 class="text-lg font-semibold font-display text-navy leading-tight">${p.title}</h3>
+              <p class="text-xs text-neutral-500 font-medium flex items-center gap-1 mt-1"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-orange-500 shrink-0"></i> ${p.location}</p>
+            </div>
+            <div class="shrink-0 text-right"><span class="text-lg font-bold font-display text-navy">${formatRupiah(p.price)}</span></div>
+          </div>
+          <div class="grid grid-cols-4 gap-2 text-center">
+            <div class="bg-white p-2.5 rounded-2xl border border-neutral-200 shadow-sm"><i data-lucide="bed" class="w-4 h-4 mx-auto text-neutral-700 mb-1"></i><span class="block text-[9px] text-neutral-400 font-bold">Beds</span><strong class="text-xs text-navy">${p.bedrooms || '-'}</strong></div>
+            <div class="bg-white p-2.5 rounded-2xl border border-neutral-200 shadow-sm"><i data-lucide="bath" class="w-4 h-4 mx-auto text-neutral-700 mb-1"></i><span class="block text-[9px] text-neutral-400 font-bold">Baths</span><strong class="text-xs text-navy">${p.bathrooms || '-'}</strong></div>
+            <div class="bg-white p-2.5 rounded-2xl border border-neutral-200 shadow-sm"><i data-lucide="car" class="w-4 h-4 mx-auto text-neutral-700 mb-1"></i><span class="block text-[9px] text-neutral-400 font-bold">Garage</span><strong class="text-xs text-navy">${p.garage || '-'}</strong></div>
+            <div class="bg-white p-2.5 rounded-2xl border border-neutral-200 shadow-sm"><i data-lucide="maximize" class="w-4 h-4 mx-auto text-neutral-700 mb-1"></i><span class="block text-[9px] text-neutral-400 font-bold">Luas Tanah</span><strong class="text-xs text-navy">${p.landArea}m²</strong></div>
+          </div>
+          <div class="flex items-center gap-2 text-[11px] font-bold text-neutral-700">
+            <span class="px-3 py-1 rounded-full bg-navy text-brand uppercase text-[10px] font-semibold">${p.certificate}</span>
+            ${p.buildingArea ? `<span class="px-3 py-1 rounded-full bg-white border border-neutral-200">Bangunan ${p.buildingArea} m²</span>` : ''}
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-neutral-200 flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-navy text-brand font-bold flex items-center justify-center text-sm">G</div>
+              <div><h5 class="text-xs font-bold text-navy">Guntur Dagang Property</h5><span class="text-[10px] text-orange-700 font-semibold block">✨ Dagangan A1 Lur! Langsung Pemilik</span></div>
+            </div>
+            <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo GDP, saya berminat dengan: ' + p.title + ' ' + formatRupiah(p.price))}" target="_blank" class="px-4 py-2 bg-navy text-white text-xs font-bold rounded-full btn-press">Hubungi</a>
+          </div>
+          <div class="space-y-1.5">
+            <h4 class="text-xs font-semibold text-navy font-display uppercase tracking-wider">Deskripsi Properti</h4>
+            <p class="text-xs text-neutral-600 leading-relaxed">${p.description}</p>
+          </div>
+        </div>`;
+      document.getElementById('detail-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+    function closeDetailModal() { document.getElementById('detail-modal').classList.add('hidden'); }
+    function sharePropertyLink() { showToast("Tautan properti disalin!"); }
+
+    /* =============== LOGIN POPUP + DASHBOARD =============== */
+    function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); lucide.createIcons(); }
+    function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
+    function fillDemo(role) {
+      document.getElementById('login-email').value = role === 'admin' ? 'admin@guntur.com' : 'marketer@guntur.com';
+      document.getElementById('login-pass').value = 'demo1234';
+    }
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const role = email.toLowerCase().includes('admin') ? 'admin' : 'marketer';
+      const name = email.split('@')[0];
+      closeLoginModal();
+      openDashboard(role, name);
+    }
+
+    function openDashboard(role, name) {
+      const el = document.getElementById('dashboard-screen');
+      const isAdmin = role === 'admin';
+      const tile = (icon, label, val) => `<div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm text-center"><i data-lucide="${icon}" class="w-4 h-4 mx-auto text-orange-600 mb-1"></i><strong class="block text-base font-bold font-display text-navy">${val}</strong><span class="text-[9px] text-neutral-500 font-bold">${label}</span></div>`;
+
+      const listItems = state.properties.map(p => `
+        <div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm flex items-center gap-3">
+          <img src="${imgSrc(p.photos[0] || '')}" class="w-14 h-14 rounded-xl object-cover bg-neutral-100 shrink-0">
+          <div class="min-w-0 flex-grow">
+            <h5 class="text-xs font-semibold text-navy truncate">${p.title}</h5>
+            <p class="text-[10px] text-neutral-500">${formatRupiah(p.price)} · ${p.certificate}</p>
+          </div>
+          ${isAdmin
+            ? `<span class="px-2 py-1 rounded-full text-[9px] font-semibold ${/terjual/i.test(p.status) ? 'bg-black text-white' : 'bg-[#DCE3F1] text-navy'}">${p.status}</span>`
+            : `<button onclick="showToast('Caption disalin')" class="px-3 py-1.5 rounded-xl bg-navy text-white text-[10px] font-bold btn-press shrink-0">Salin Caption</button>`}
+        </div>`).join('');
+
+      el.innerHTML = `
+        <div class="flex justify-between items-center">
+          <div>
+            <span class="px-2.5 py-0.5 rounded-full bg-brand text-navy font-bold text-[9px] uppercase tracking-wider">${isAdmin ? 'Dashboard Admin' : 'Dashboard Marketer'}</span>
+            <h3 class="text-lg font-bold font-display text-navy mt-1.5">Halo, ${name}!</h3>
+          </div>
+          <button onclick="closeDashboard()" class="px-3.5 py-2 rounded-full bg-navy text-white text-[10px] font-bold flex items-center gap-1.5 btn-press"><i data-lucide="log-out" class="w-3.5 h-3.5"></i> Keluar</button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2">
+          ${isAdmin
+            ? tile('building-2', 'Properti', state.properties.length) + tile('users', 'Mitra', '24') + tile('message-circle', 'Lead', '58')
+            : tile('building-2', 'Properti Aktif', state.properties.length) + tile('message-circle', 'Lead Saya', '12') + tile('wallet', 'Komisi', 'Rp 0')}
+        </div>
+
+        <div class="space-y-2.5">
+          <h4 class="text-xs font-semibold text-navy font-display uppercase tracking-wider">${isAdmin ? 'Daftar Listing' : 'Materi Promosi'}</h4>
+          ${listItems}
+        </div>`;
+      el.classList.remove('hidden');
+      el.scrollTop = 0;
+      lucide.createIcons();
+    }
+    function closeDashboard() { document.getElementById('dashboard-screen').classList.add('hidden'); showToast("Berhasil keluar"); }
+
+    /* =============== REGISTER =============== */
+    function handleRegisterSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('reg-name').value;
+      const phone = document.getElementById('reg-phone').value;
+      const city = document.getElementById('reg-city').value;
+      const waMsg = `Halo Admin GDP, saya ingin mendaftar sebagai Mitra Marketer Properti GDP:\n\nNama: ${name}\nWhatsApp: ${phone}\nDomisili: ${city}`;
+      window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waMsg)}`, '_blank');
+      showToast("Mengarahkan ke WhatsApp Admin...");
+    }
+
+    function showToast(msg) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'bg-navy text-white px-4 py-2.5 rounded-full text-xs font-bold shadow-2xl flex items-center justify-between border border-white/20 smooth-anim pointer-events-auto';
+      toast.innerHTML = `<span>${msg}</span><i data-lucide="check" class="w-3.5 h-3.5 text-brand ml-2"></i>`;
+      container.appendChild(toast);
+      lucide.createIcons();
+      setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 200); }, 2200);
+    }
+  </script>
+</body>
+</html>
