@@ -6,10 +6,10 @@
   <title>Guntur Dagang Property - Mobile App</title>
 
   <!-- Web App / PWA Meta Tags for Standalone Fullscreen -->
-  <meta name="theme-color" content="#F1F1F4">
+  <meta name="theme-color" content="#071D49" id="theme-color-meta">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="GDP Property">
   <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Guntur%20Dagang%20Property%22,%22short_name%22:%22GDP%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%23F1F1F4%22,%22theme_color%22:%22%23F1F1F4%22}">
 
@@ -36,7 +36,9 @@
 
   <style>
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-    body { background-color: #F1F1F4; display: flex; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; margin: 0; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
+    html { background-color: var(--chrome, #071D49); }
+    body { background-color: var(--chrome, #071D49); display: flex; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; margin: 0; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
+    #app-content { padding-top: calc(env(safe-area-inset-top, 0px) + 1rem) !important; }
     #mobile-frame { width: 100%; max-width: 412px; height: 100vh; height: 100dvh; max-height: 100dvh; background-color: #F1F1F4; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.15); }
     @media (min-width: 640px) { body { background-color: #000000; } #mobile-frame { border-radius: 48px; height: 94vh; max-height: 890px; border: 10px solid #071D49; } }
     .smooth-anim { will-change: transform, opacity; transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -72,8 +74,8 @@
   <div id="mobile-frame">
 
     <!-- INTRO -->
-    <div id="intro-screen" class="absolute inset-0 z-50 bg-navy flex flex-col justify-between p-7 pt-10 text-white overflow-hidden smooth-anim"
-      style="background-image: linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px); background-size: 36px 36px; background-position: 0 0;">
+    <div id="intro-screen" class="absolute inset-0 z-50 bg-navy flex flex-col justify-between p-7 text-white overflow-hidden smooth-anim"
+      style="padding-top: calc(env(safe-area-inset-top, 0px) + 2.5rem); background-image: linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px); background-size: 36px 36px; background-position: 0 0;">
 
       <div class="relative pt-4">
         <svg class="w-14 h-14 rounded-2xl shadow-xl"><use href="#gdp-logo"/></svg>
@@ -392,7 +394,7 @@
   <!-- DETAIL MODAL -->
   <div id="detail-modal" class="fixed inset-0 z-50 hidden bg-navy/80 backdrop-blur-sm flex justify-center items-end sm:items-center p-0 sm:p-4 smooth-anim">
     <div class="bg-cardbg w-full max-w-md h-full sm:h-[840px] rounded-t-none sm:rounded-[40px] overflow-hidden flex flex-col relative border-0 sm:border border-neutral-200/80 shadow-2xl">
-      <div class="absolute top-5 inset-x-4 z-30 flex justify-between items-center pointer-events-auto">
+      <div class="absolute inset-x-4 z-30 flex justify-between items-center pointer-events-auto" style="top: calc(env(safe-area-inset-top, 0px) + 12px);">
         <button onclick="closeDetailModal()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-navy btn-press"><i data-lucide="arrow-left" class="w-4 h-4"></i></button>
         <button id="detail-share-btn" onclick="sharePropertyLink()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-navy btn-press"><i data-lucide="share-2" class="w-4 h-4"></i></button>
       </div>
@@ -466,8 +468,8 @@
   </div>
 
   <script>
-    const SHEET_CSV_URL = "";
-    const WA_NUMBER = "6281234567890";
+    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIt_3D5l3S3kb4wX20cX-l9FXSa7vso2r9mZqZd-oDIdFiSYC2jDUe0iE28pF0T8ZkKO1dxIbgpi7l/pub?gid=454059918&single=true&output=csv";
+    const WA_NUMBER = "6283145396987";
 
     const DEMO_PROPERTIES = [
       { id: "GDP-001", title: "Redwood Villas Kaliurang", type: "Villa", location: "Kaliurang, Sleman", price: 2850000000, landArea: 320, buildingArea: 250, bedrooms: 4, bathrooms: 5, garage: 2, certificate: "SHM Pekarangan", status: "Tersedia",
@@ -786,9 +788,17 @@
       lucide.createIcons();
     }
 
+    /* Warna area status bar / chrome browser mengikuti layar yang tampil */
+    function setChrome(color) {
+      document.documentElement.style.setProperty('--chrome', color);
+      const m = document.getElementById('theme-color-meta');
+      if (m) m.setAttribute('content', color);
+    }
+
     function dismissIntro() {
       const el = document.getElementById('intro-screen');
       el.classList.add('opacity-0', 'pointer-events-none');
+      setChrome('#F1F1F4');
       setTimeout(() => el.classList.add('hidden'), 300);
     }
 
@@ -989,9 +999,9 @@
       const sold = isSold(p.status);
       const photos = p.photos.length ? p.photos : [''];
       document.getElementById('detail-modal-content').innerHTML = `
-        <div class="relative w-full bg-neutral-100 overflow-hidden pt-0">
+        <div class="relative w-full bg-black" style="padding-top: env(safe-area-inset-top, 0px);">
           <div class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar">
-            ${photos.map(u => `<img src="${imgSrc(u)}" class="w-full shrink-0 snap-center aspect-[4/3] object-cover ${sold ? 'grayscale' : ''}">`).join('')}
+            ${photos.map(u => `<div class="w-full shrink-0 snap-center flex items-center justify-center bg-black" style="height:46dvh;min-height:280px;"><img src="${imgSrc(u)}" class="w-full h-full object-contain ${sold ? 'grayscale' : ''}"></div>`).join('')}
           </div>
           ${sold ? `<div class="absolute top-16 left-4 px-3 py-1 rounded-full bg-black/85 backdrop-blur text-white text-[10px] font-extrabold uppercase tracking-widest shadow-lg border border-white/20">Terjual</div>` : ''}
           ${photos.length > 1 ? `<span class="absolute top-16 right-4 px-2.5 py-1 rounded-full bg-black/55 text-white text-[10px] font-bold">Geser · ${photos.length} foto</span>` : ''}
@@ -1018,12 +1028,13 @@
           </div>
           <div class="bg-white p-3.5 rounded-2xl border border-neutral-200 flex items-center justify-between shadow-sm">
             <div class="flex items-center gap-2.5 min-w-0 pr-2">
-              <div class="w-10 h-10 rounded-full bg-navy text-brand font-bold flex items-center justify-center text-xs shrink-0">GDP</div>
+              <div class="w-10 h-10 rounded-full bg-navy text-brand font-bold flex items-center justify-center text-xs shrink-0">PG</div>
               <div class="min-w-0">
-                <h5 class="text-xs font-bold text-navy flex items-center gap-1">
+                <h5 class="text-sm font-bold text-navy flex items-center gap-1">
                   <span>Pak Guntur</span>
-                  <i data-lucide="badge-check" class="w-4 h-4 text-blue-500 shrink-0 fill-blue-500/20"></i>
+                  <i data-lucide="badge-check" class="w-[18px] h-[18px] text-white fill-[#1D9BF0] shrink-0"></i>
                 </h5>
+                <p class="text-[10px] text-[#1D9BF0] font-semibold">Verified · Langsung Pemilik</p>
               </div>
             </div>
             <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo GDP, saya berminat dengan: ' + p.title + ' ' + formatRupiah(p.price))}" target="_blank" class="px-4 py-2 bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-bold rounded-full btn-press flex items-center gap-1.5 shadow-sm shrink-0">
@@ -1035,11 +1046,16 @@
             <p class="text-xs text-neutral-600 leading-relaxed">${p.description}</p>
           </div>
         </div>`;
+      setChrome('#000000');
       document.getElementById('detail-modal').classList.remove('hidden');
       lucide.createIcons();
     }
 
-    function closeDetailModal() { document.getElementById('detail-modal').classList.add('hidden'); activeDetailPropertyId = null; }
+    function closeDetailModal() {
+      document.getElementById('detail-modal').classList.add('hidden');
+      activeDetailPropertyId = null;
+      setChrome('#F1F1F4');
+    }
 
     function sharePropertyLink() {
       const p = activeDetailPropertyId ? state.properties.find(x => x.id === activeDetailPropertyId) : null;
