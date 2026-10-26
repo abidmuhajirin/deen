@@ -447,6 +447,19 @@
     </div>
   </div>
 
+  <!-- SHARE MODAL SHEET -->
+  <div id="share-modal" class="fixed inset-0 z-[65] hidden bg-navy/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 smooth-anim" onclick="if(event.target===this)closeShareModal()">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl p-5 max-w-sm w-full space-y-4 border border-neutral-100 shadow-2xl">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-navy text-sm font-display flex items-center gap-2"><i data-lucide="share-2" class="w-4 h-4 text-brand"></i> Bagikan Properti</h3>
+        <button onclick="closeShareModal()" class="w-8 h-8 rounded-full bg-neutral-100 text-navy flex items-center justify-center btn-press" title="Tutup">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div id="share-modal-body" class="space-y-4"></div>
+    </div>
+  </div>
+
   <script>
     const SHEET_CSV_URL = "";
     const WA_NUMBER = "6281234567890";
@@ -560,6 +573,14 @@
       await loadProperties();
       refreshLists();
       lucide.createIcons();
+
+      // Autoload detail modal if shared parameter exists in URL (?prop=GDP-xxx)
+      const urlParams = new URLSearchParams(window.location.search);
+      const sharedPropId = urlParams.get('prop') || urlParams.get('id');
+      if (sharedPropId && state.properties.some(p => p.id === sharedPropId)) {
+        dismissIntro();
+        setTimeout(() => openDetailModal(sharedPropId), 250);
+      }
     };
 
     function enableDragScroll(el) {
@@ -982,27 +1003,86 @@
 
     function sharePropertyLink() {
       const p = activeDetailPropertyId ? state.properties.find(x => x.id === activeDetailPropertyId) : null;
-      const title = p ? p.title : 'Guntur Dagang Property';
-      const shareUrl = window.location.href;
-      const shareText = p ? `Lihat properti ${p.title} (${formatRupiah(p.price)}) di Guntur Dagang Property:` : 'Cari & Temukan Properti Pilihan di Guntur Dagang Property:';
+      if (!p) {
+        showToast("Properti tidak ditemukan");
+        return;
+      }
 
+      const baseUrl = window.location.href.split('?')[0].split('#')[0];
+      const realShareUrl = `${baseUrl}?prop=${encodeURIComponent(p.id)}`;
+      const shareText = `Lihat properti ${p.title} (${formatRupiah(p.price)}) di Guntur Dagang Property:`;
+
+      const bodyEl = document.getElementById('share-modal-body');
+      bodyEl.innerHTML = `
+        <div class="bg-neutral-50 p-3 rounded-2xl border border-neutral-200/80 flex items-center gap-3">
+          <img src="${imgSrc(p.photos[0] || '')}" class="w-12 h-12 rounded-xl object-cover bg-neutral-200 shrink-0">
+          <div class="min-w-0 flex-grow">
+            <h4 class="text-xs font-bold text-navy truncate">${esc(p.title)}</h4>
+            <p class="text-[10px] text-brand font-bold">${formatRupiah(p.price)} · ${esc(p.location)}</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-4 gap-2 text-center pt-1">
+          <a href="https://wa.me/?text=${encodeURIComponent(shareText + ' ' + realShareUrl)}" target="_blank" onclick="closeShareModal()" class="flex flex-col items-center gap-1.5 p-2 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-100 btn-press">
+            <div class="w-10 h-10 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-sm"><i data-lucide="message-circle" class="w-5 h-5"></i></div>
+            <span class="text-[9px] font-bold">WhatsApp</span>
+          </a>
+          <a href="https://t.me/share/url?url=${encodeURIComponent(realShareUrl)}&text=${encodeURIComponent(shareText)}" target="_blank" onclick="closeShareModal()" class="flex flex-col items-center gap-1.5 p-2 rounded-2xl bg-sky-50 text-sky-700 border border-sky-100 btn-press">
+            <div class="w-10 h-10 rounded-full bg-[#0088cc] text-white flex items-center justify-center shadow-sm"><i data-lucide="send" class="w-5 h-5"></i></div>
+            <span class="text-[9px] font-bold">Telegram</span>
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(realShareUrl)}" target="_blank" onclick="closeShareModal()" class="flex flex-col items-center gap-1.5 p-2 rounded-2xl bg-blue-50 text-blue-700 border border-blue-100 btn-press">
+            <div class="w-10 h-10 rounded-full bg-[#1877F2] text-white flex items-center justify-center shadow-sm"><i data-lucide="facebook" class="w-5 h-5"></i></div>
+            <span class="text-[9px] font-bold">Facebook</span>
+          </a>
+          <button onclick="triggerNativeShare('${p.id}')" class="flex flex-col items-center gap-1.5 p-2 rounded-2xl bg-orange-50 text-orange-700 border border-orange-100 btn-press">
+            <div class="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center shadow-sm"><i data-lucide="share-2" class="w-5 h-5"></i></div>
+            <span class="text-[9px] font-bold">Lainnya</span>
+          </button>
+        </div>
+
+        <div class="space-y-1.5 pt-1">
+          <label class="text-[10px] font-bold text-neutral-600 block">Tautan Langsung Properti (Aktif)</label>
+          <div class="flex items-center gap-2 bg-neutral-100 p-1.5 rounded-2xl border border-neutral-200">
+            <input type="text" readonly value="${esc(realShareUrl)}" class="w-full text-[10px] bg-transparent outline-none px-2 font-mono text-neutral-700 truncate">
+            <button onclick="copyShareLink('${esc(realShareUrl)}')" class="px-3 py-2 bg-navy text-white text-[10px] font-bold rounded-xl btn-press shrink-0 flex items-center gap-1"><i data-lucide="copy" class="w-3 h-3"></i> Salin</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('share-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeShareModal() {
+      const modal = document.getElementById('share-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function triggerNativeShare(id) {
+      const p = state.properties.find(x => x.id === id);
+      if (!p) return;
+      const baseUrl = window.location.href.split('?')[0].split('#')[0];
+      const realShareUrl = `${baseUrl}?prop=${encodeURIComponent(p.id)}`;
       if (navigator.share) {
         navigator.share({
-          title: title,
-          text: shareText,
-          url: shareUrl
-        }).then(() => showToast("Berhasil dibagikan!")).catch(() => fallbackShareCopy(shareUrl));
+          title: p.title,
+          text: `Lihat properti ${p.title} (${formatRupiah(p.price)}) di GDP:`,
+          url: realShareUrl
+        }).then(() => {
+          showToast("Berhasil dibagikan!");
+          closeShareModal();
+        }).catch(() => {});
       } else {
-        fallbackShareCopy(shareUrl);
+        copyShareLink(realShareUrl);
       }
     }
 
-    function fallbackShareCopy(url) {
+    function copyShareLink(url) {
       copyText(url);
-      showToast("Tautan properti disalin!");
+      showToast("Tautan properti berhasil disalin!");
+      closeShareModal();
     }
-    function closeDetailModal() { document.getElementById('detail-modal').classList.add('hidden'); }
-    function sharePropertyLink() { showToast("Tautan properti disalin!"); }
 
     /* =============== LOGIN POPUP + DASHBOARD =============== */
     function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); lucide.createIcons(); }
