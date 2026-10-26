@@ -522,6 +522,7 @@
       activeCertificates: [],
       activeLocations: [],
       searchQuery: '', 
+      marketerQ: '',
       activeTab: 'explore', 
       sortBy: 'default',
       activeRef: null
@@ -995,6 +996,11 @@
 
     let isShareFromReel = false;
 
+    function openMarketerShareModal(propId, marketerId) {
+      if (marketerId) state.activeRef = marketerId;
+      openShareModalForProp(propId, false);
+    }
+
     function openShareModalForProp(id, fromReel = false) {
       activeDetailPropertyId = id;
       isShareFromReel = !!fromReel;
@@ -1375,7 +1381,7 @@
     /* ---------- Dashboard Marketer ---------- */
     function renderMarketerDash(name) {
       const currentM = marketers.find(m => m.email.toLowerCase().includes(name.toLowerCase())) || { id: 'MKT-DEMO', lead: 12, terjual: 1, komisi: 2.5 };
-      const tile = (icon, label, val) => `<div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm text-center"><i data-lucide="${icon}" class="w-4 h-4 mx-auto text-orange-600 mb-1"></i><strong class="block text-base font-bold text-navy">${val}</strong><span class="text-[9px] text-neutral-500 font-bold">${label}</span></div>`;
+      const tile = (icon, label, val) => `<div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm text-center"><i data-lucide="${icon}" class="w-4 h-4 mx-auto text-emerald-600 mb-1"></i><strong class="block text-base font-bold text-navy">${val}</strong><span class="text-[9px] text-neutral-500 font-bold">${label}</span></div>`;
       const baseUrl = window.location.href.split('?')[0].split('#')[0];
       const mLink = `${baseUrl}?ref=${currentM.id}`;
 
@@ -1383,59 +1389,12 @@
       const totalKomisiRate = currentM.komisi || 2.5;
       const marketerShareRate = totalKomisiRate / 2;
 
-      const items = state.properties.map(p => {
-        const pLink = `${baseUrl}?ref=${currentM.id}&prop=${p.id}`;
-        
-        // Perhitungan nominal komisi marketer
-        const komisiRp = Math.round(p.price * (marketerShareRate / 100));
+      let filteredProps = state.properties;
+      if (state.marketerQ) {
+        filteredProps = filteredProps.filter(p => (p.title + ' ' + p.location).toLowerCase().includes(state.marketerQ));
+      }
 
-        // Deskripsi singkat (1-2 kalimat ringkas)
-        const descSnippet = p.description ? (p.description.slice(0, 110) + (p.description.length > 110 ? '...' : '')) : '';
-
-        // Caption promosi otomatis & ringkas
-        const caption = `🏡 *${p.title}*\n📍 Lokasi: ${p.location}\n💰 Harga: ${formatRupiah(p.price)}\n📜 Legalitas: ${p.certificate}\n\n${descSnippet}\n\nInfo & Survey Lokasi Hubungi Saya:\n👉 ${pLink}`;
-
-        return `
-        <div class="bg-white rounded-3xl p-4 border border-neutral-200/80 shadow-soft-card space-y-3">
-          <div class="flex items-start gap-3">
-            <img src="${imgSrc(p.photos[0] || '')}" class="w-16 h-16 rounded-2xl object-cover bg-neutral-100 shrink-0 shadow-sm">
-            <div class="min-w-0 flex-grow space-y-0.5">
-              <h5 class="text-xs font-bold text-navy truncate">${esc(p.title)}</h5>
-              <p class="text-[10px] text-neutral-500 font-medium truncate">${esc(p.location)} · ${esc(p.certificate)}</p>
-              <div class="pt-0.5">
-                <span class="text-xs font-extrabold text-brand font-display">${formatRupiah(p.price)}</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- HIGHLIGHT FEE KOMISI MARKETER (MENCOLOK) -->
-          <div class="bg-gradient-to-r from-orange-50 via-amber-50 to-orange-100/60 p-3 rounded-2xl border border-orange-200/90 flex items-center justify-between shadow-sm">
-            <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-navy text-brand flex items-center justify-center font-bold shrink-0 shadow-sm">
-                <i data-lucide="coins" class="w-4 h-4"></i>
-              </div>
-              <div>
-                <span class="text-[9px] font-extrabold text-neutral-500 uppercase tracking-wider block">Est. Komisi Anda (${marketerShareRate}%)</span>
-                <strong class="text-sm font-extrabold text-navy font-display tracking-tight">${formatRupiah(komisiRp)}</strong>
-              </div>
-            </div>
-            <span class="text-[9px] font-extrabold text-orange-800 bg-orange-200/70 border border-orange-300 px-2.5 py-1 rounded-full uppercase shrink-0">Bagi 50% GDP</span>
-          </div>
-
-          <!-- TOMBOL AKSI: CAPTION, SHARE, & MEDIA DOWNLOAD -->
-          <div class="grid grid-cols-3 gap-2 pt-1 border-t border-neutral-100">
-            <button onclick="copyText(${JSON.stringify(caption).replace(/"/g, '&quot;')})" class="py-2.5 rounded-2xl bg-navy text-white text-[10px] font-bold btn-press flex items-center justify-center gap-1 shadow-sm">
-              <i data-lucide="copy" class="w-3.5 h-3.5 text-brand"></i> Caption
-            </button>
-            <button onclick="openMarketerShareModal('${p.id}', '${currentM.id}')" class="py-2.5 rounded-2xl bg-neutral-100 hover:bg-neutral-200 text-navy text-[10px] font-bold btn-press flex items-center justify-center gap-1">
-              <i data-lucide="share-2" class="w-3.5 h-3.5 text-orange-600"></i> Bagikan
-            </button>
-            <button onclick="openMediaDownloadModal('${p.id}')" class="py-2.5 rounded-2xl bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 text-[10px] font-bold btn-press flex items-center justify-center gap-1">
-              <i data-lucide="download" class="w-3.5 h-3.5"></i> Media
-            </button>
-          </div>
-        </div>`;
-      }).join('');
+      const items = renderMarketerPropertyList(filteredProps, currentM, baseUrl, marketerShareRate);
 
       document.getElementById('dashboard-screen').innerHTML = `
         <div class="h-full overflow-y-auto no-scrollbar px-5 pt-10 pb-28 space-y-5">
@@ -1456,16 +1415,125 @@
           <div class="grid grid-cols-3 gap-2">${tile('building-2', 'Properti Aktif', state.properties.length) + tile('message-circle', 'Lead Saya', currentM.lead || 0) + tile('wallet', 'Komisi', marketerShareRate + '%')}</div>
           
           <div class="space-y-3">
-            <h4 class="text-xs font-semibold text-navy uppercase tracking-wider">Materi Promosi & Bahan Jualan</h4>
-            ${items}
+            <div class="flex justify-between items-center">
+              <h4 class="text-xs font-semibold text-navy uppercase tracking-wider">Materi Promosi & Bahan Jualan</h4>
+            </div>
+            <div class="bg-white rounded-full px-4 py-2.5 border border-neutral-200/80 shadow-sm flex items-center gap-2.5 focus-within:border-navy transition-all">
+              <i data-lucide="search" class="w-4 h-4 text-neutral-400 shrink-0"></i>
+              <input type="text" value="${esc(state.marketerQ || '')}" placeholder="Cari judul atau lokasi properti..." oninput="handleMarketerSearch(this.value, '${esc(name)}')" class="w-full text-xs bg-transparent outline-none font-medium text-navy placeholder-neutral-400">
+            </div>
+            <div id="marketer-items-container" class="space-y-3">
+              ${items}
+            </div>
           </div>
         </div>`;
     }
 
-    /* Handler Share Khusus Marketer dengan Tag Referral */
-    function openMarketerShareModal(propId, mId) {
-      state.activeRef = mId;
-      openShareModalForProp(propId, false);
+    function handleMarketerSearch(val, name) {
+      state.marketerQ = val.trim().toLowerCase();
+      const currentM = marketers.find(m => m.email.toLowerCase().includes(name.toLowerCase())) || { id: 'MKT-DEMO', lead: 12, terjual: 1, komisi: 2.5 };
+      const baseUrl = window.location.href.split('?')[0].split('#')[0];
+      const marketerShareRate = (currentM.komisi || 2.5) / 2;
+      let filteredProps = state.properties;
+      if (state.marketerQ) {
+        filteredProps = filteredProps.filter(p => (p.title + ' ' + p.location).toLowerCase().includes(state.marketerQ));
+      }
+      const container = document.getElementById('marketer-items-container');
+      if (container) {
+        container.innerHTML = renderMarketerPropertyList(filteredProps, currentM, baseUrl, marketerShareRate);
+        if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
+      }
+    }
+
+    function renderMarketerPropertyList(props, currentM, baseUrl, marketerShareRate) {
+      if (!props.length) {
+        return `<div class="bg-white p-8 rounded-3xl text-center space-y-2 border border-neutral-200"><i data-lucide="search-x" class="w-10 h-10 mx-auto text-neutral-300"></i><p class="text-xs font-bold text-neutral-500">Properti tidak ditemukan.</p></div>`;
+      }
+      return props.map(p => {
+        const pLink = `${baseUrl}?ref=${currentM.id}&prop=${p.id}`;
+        const komisiRp = Math.round(p.price * (marketerShareRate / 100));
+        const descSnippet = p.description ? (p.description.slice(0, 110) + (p.description.length > 110 ? '...' : '')) : '';
+        const caption = `🏡 *${p.title}*\n📍 Lokasi: ${p.location}\n💰 Harga: ${formatRupiah(p.price)}\n📜 Legalitas: ${p.certificate}\n\n${descSnippet}\n\nInfo & Survey Lokasi Hubungi Saya:\n👉 ${pLink}`;
+
+        return `
+        <div class="bg-white rounded-3xl p-4 border border-neutral-200/80 shadow-soft-card space-y-3">
+          <div class="flex items-start gap-3">
+            <img src="${imgSrc(p.photos[0] || '')}" class="w-16 h-16 rounded-2xl object-cover bg-neutral-100 shrink-0 shadow-sm">
+            <div class="min-w-0 flex-grow space-y-0.5">
+              <h5 class="text-xs font-bold text-navy truncate">${esc(p.title)}</h5>
+              <p class="text-[10px] text-neutral-500 font-medium truncate">${esc(p.location)} · ${esc(p.certificate)}</p>
+              <div class="pt-0.5">
+                <span class="text-xs font-extrabold text-brand font-display">${formatRupiah(p.price)}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- HIGHLIGHT FEE KOMISI MARKETER (WARNA HIJAU & ICON DOLLAR) -->
+          <div class="bg-gradient-to-r from-emerald-50 via-green-50 to-emerald-100/80 p-3 rounded-2xl border border-emerald-200/90 flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0 shadow-sm">
+                <img src="https://img.icons8.com/?size=100&id=xDnuaxgjAmJP&format=png&color=000000" class="w-4.5 h-4.5 object-contain brightness-0 invert" alt="Dollar Icon">
+              </div>
+              <div>
+                <span class="text-[9px] font-extrabold text-emerald-800 uppercase tracking-wider block">Est. Komisi Anda (${marketerShareRate}%)</span>
+                <strong class="text-sm font-extrabold text-emerald-700 font-display tracking-tight">${formatRupiah(komisiRp)}</strong>
+              </div>
+            </div>
+            <span class="text-[9px] font-extrabold text-emerald-800 bg-emerald-200/80 border border-emerald-300 px-2.5 py-1 rounded-full uppercase shrink-0">Bagi 50% GDP</span>
+          </div>
+
+          <!-- TOMBOL AKSI: CAPTION, SHARE, & MEDIA DOWNLOAD -->
+          <div class="grid grid-cols-3 gap-2 pt-1 border-t border-neutral-100">
+            <button onclick="copyText(${JSON.stringify(caption).replace(/"/g, '&quot;')})" class="py-2.5 rounded-2xl bg-navy text-white text-[10px] font-bold btn-press flex items-center justify-center gap-1 shadow-sm">
+              <i data-lucide="copy" class="w-3.5 h-3.5 text-brand"></i> Caption
+            </button>
+            <button onclick="openMarketerShareModal('${p.id}', '${currentM.id}')" class="py-2.5 rounded-2xl bg-neutral-100 hover:bg-neutral-200 text-navy text-[10px] font-bold btn-press flex items-center justify-center gap-1">
+              <i data-lucide="share-2" class="w-3.5 h-3.5 text-emerald-600"></i> Bagikan
+            </button>
+            <button onclick="openMediaDownloadModal('${p.id}')" class="py-2.5 rounded-2xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-[10px] font-bold btn-press flex items-center justify-center gap-1">
+              <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-600"></i> Media
+            </button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    /* Helper Unduh Media untuk Marketer */
+    async function downloadSingleMedia(url, filename) {
+      showToast("Mengunduh file...");
+      try {
+        const res = await fetch(url);
+        const blob = await res.blob();
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(a.href);
+        showToast("Unduhan selesai!");
+      } catch (e) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.download = filename;
+        a.click();
+        showToast("Proses unduh dimulai");
+      }
+    }
+
+    async function downloadAllPhotos(propId) {
+      const p = state.properties.find(x => x.id === propId);
+      if (!p || !p.photos || !p.photos.length) {
+        showToast("Tidak ada foto untuk diunduh");
+        return;
+      }
+      showToast(`Mengunduh ${p.photos.length} foto...`);
+      for (let i = 0; i < p.photos.length; i++) {
+        const url = imgSrc(p.photos[i]);
+        await downloadSingleMedia(url, `${p.id}-foto-${i + 1}.jpg`);
+        await new Promise(r => setTimeout(r, 300));
+      }
     }
 
     /* Modal Unduh Bahan Promosi (Foto HD & Video) */
@@ -1473,24 +1541,34 @@
       const p = state.properties.find(x => x.id === propId);
       if (!p) return;
 
-      const photosHtml = (p.photos && p.photos.length) ? p.photos.map((u, i) => `
-        <a href="${imgSrc(u)}" target="_blank" download="foto-properti-${i+1}.jpg" class="flex items-center justify-between p-3 rounded-2xl bg-neutral-50 border border-neutral-200/80 hover:bg-neutral-100 text-xs font-bold text-navy btn-press">
-          <span class="flex items-center gap-2 truncate"><i data-lucide="image" class="w-4 h-4 text-orange-600 shrink-0"></i> Foto HD #${i+1}</span>
-          <div class="flex items-center gap-1 text-orange-700 text-[10px]"><i data-lucide="external-link" class="w-3.5 h-3.5"></i> Buka/Unduh</div>
-        </a>
-      `).join('') : '<p class="text-xs text-neutral-400">Tidak ada foto.</p>';
-
       const videoHtml = p.videoUrl ? `
-        <a href="${p.videoUrl}" target="_blank" download="video-reels-properti.mp4" class="flex items-center justify-between p-3 rounded-2xl bg-orange-50 border border-orange-200 hover:bg-orange-100 text-xs font-bold text-orange-900 btn-press">
-          <span class="flex items-center gap-2 truncate"><i data-lucide="video" class="w-4 h-4 text-brand shrink-0"></i> Video Reels Promosi</span>
-          <div class="flex items-center gap-1 text-brand text-[10px] font-bold"><i data-lucide="download" class="w-3.5 h-3.5"></i> Unduh / Tonton</div>
-        </a>
+        <button onclick="downloadSingleMedia('${p.videoUrl}', '${p.id}-reels.mp4')" class="w-full flex items-center justify-between p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 text-xs font-bold text-emerald-900 btn-press">
+          <span class="flex items-center gap-2 truncate"><i data-lucide="video" class="w-4 h-4 text-emerald-600 shrink-0"></i> Video Reels Promosi</span>
+          <div class="flex items-center gap-1 text-emerald-700 text-[10px] font-bold"><i data-lucide="download" class="w-3.5 h-3.5"></i> Unduh Video</div>
+        </button>
       ` : '<p class="text-xs text-neutral-400">Video Reels belum tersedia untuk properti ini.</p>';
+
+      const photosCount = p.photos ? p.photos.length : 0;
+      const photosHtml = photosCount ? `
+        <div class="space-y-2">
+          <button onclick="downloadAllPhotos('${p.id}')" class="w-full py-3.5 px-4 rounded-2xl bg-navy text-white text-xs font-bold btn-press flex items-center justify-center gap-2 shadow-sm">
+            <i data-lucide="folder-down" class="w-4 h-4 text-brand"></i> Unduh Paket Semua Foto HD (${photosCount} Foto)
+          </button>
+          <div class="space-y-1.5 max-h-40 overflow-y-auto no-scrollbar pt-1">
+            ${p.photos.map((u, i) => `
+              <button onclick="downloadSingleMedia('${imgSrc(u)}', '${p.id}-foto-${i+1}.jpg')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-neutral-50 border border-neutral-200/80 hover:bg-neutral-100 text-[11px] font-semibold text-navy btn-press">
+                <span class="flex items-center gap-2 truncate"><i data-lucide="image" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i> Foto HD #${i+1}</span>
+                <span class="text-emerald-700 font-bold text-[10px] flex items-center gap-1"><i data-lucide="download" class="w-3 h-3"></i> Unduh</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      ` : '<p class="text-xs text-neutral-400">Tidak ada foto.</p>';
 
       openAdminSheet(`
         <div class="flex justify-between items-center mb-3">
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full bg-brand text-navy flex items-center justify-center font-bold text-xs"><i data-lucide="download" class="w-4 h-4"></i></div>
+            <div class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs"><i data-lucide="download" class="w-4 h-4"></i></div>
             <h3 class="text-base font-bold text-navy">Bahan Promosi & Media</h3>
           </div>
           <button onclick="closeAdminSheet()" class="w-8 h-8 rounded-full bg-neutral-100 text-navy flex items-center justify-center btn-press" title="Tutup"><i data-lucide="x" class="w-4 h-4"></i></button>
@@ -1504,19 +1582,17 @@
           </div>
         </div>
 
-        <div class="space-y-3">
+        <div class="space-y-4">
           <div>
-            <label class="text-[10px] font-bold text-neutral-500 uppercase tracking-wider block mb-1.5">Video Reels (Konten TikTok / IG / Shorts)</label>
+            <label class="text-[10px] font-bold text-neutral-500 uppercase tracking-wider block mb-1.5">Video Reels (TikTok / IG / Shorts)</label>
             ${videoHtml}
           </div>
           <div>
-            <label class="text-[10px] font-bold text-neutral-500 uppercase tracking-wider block mb-1.5">Foto Galeri HD (${p.photos ? p.photos.length : 0})</label>
-            <div class="space-y-2 max-h-48 overflow-y-auto no-scrollbar">
-              ${photosHtml}
-            </div>
+            <label class="text-[10px] font-bold text-neutral-500 uppercase tracking-wider block mb-1.5">Foto Galeri HD</label>
+            ${photosHtml}
           </div>
         </div>
-        <button onclick="closeAdminSheet()" class="w-full mt-4 py-3.5 bg-navy text-white font-bold text-xs rounded-2xl btn-press">Selesai</button>
+        <button onclick="closeAdminSheet()" class="w-full mt-4 py-3 bg-navy text-white font-bold text-xs rounded-2xl btn-press">Selesai</button>
       `);
     }
 
@@ -1536,7 +1612,7 @@
     }
     function saveMarketers() { try { localStorage.setItem(MKEY, JSON.stringify(marketers)); } catch (e) {} }
     let marketers = loadMarketers();
-    const adminUI = { tab: 'ringkasan', filter: 'all', q: '', name: 'Admin' };
+    const adminUI = { tab: 'ringkasan', filter: 'all', q: '', listingQ: '', name: 'Admin' };
 
     const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     const STATUS_LABEL = { aktif: 'Aktif', pending: 'Menunggu', nonaktif: 'Nonaktif' };
@@ -1683,34 +1759,45 @@
     }
 
     function adminListingHTML() {
+      let list = state.properties;
+      if (adminUI.listingQ) {
+        list = list.filter(p => (p.title + ' ' + p.location).toLowerCase().includes(adminUI.listingQ));
+      }
       return `
-        <div class="flex justify-between items-center">
-          <div>
-            <h3 class="text-base font-bold text-navy">Daftar Listing</h3>
-            <p class="text-[10px] text-neutral-500">Gunakan tombol pensil untuk merubah detail properti.</p>
+        <div class="space-y-3">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-base font-bold text-navy">Daftar Listing</h3>
+              <p class="text-[10px] text-neutral-500">Kelola dan revisi detail properti.</p>
+            </div>
           </div>
-        </div>
-        ${state.properties.map(p => {
-          const sold = isSold(p.status);
-          return `
-          <div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm space-y-2">
-            <div class="flex justify-between items-center border-b border-neutral-100 pb-2">
-              <span class="px-2.5 py-0.5 rounded-full text-[9px] font-bold ${sold ? 'bg-black text-white' : 'bg-[#DCE3F1] text-navy'}">${esc(p.status)}</span>
-              <div class="flex items-center gap-1">
-                <button onclick="openRevisionModal('${p.id}')" class="w-7 h-7 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center btn-press" title="Revisi Listing"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
-                <button onclick="openShareModalForProp('${p.id}')" class="w-7 h-7 rounded-xl bg-neutral-100 text-navy flex items-center justify-center btn-press" title="Bagikan"><i data-lucide="share-2" class="w-3.5 h-3.5"></i></button>
+          <div class="bg-white rounded-full px-4 py-2.5 border border-neutral-200/80 shadow-sm flex items-center gap-2.5 focus-within:border-navy transition-all">
+            <i data-lucide="search" class="w-4 h-4 text-neutral-400 shrink-0"></i>
+            <input type="text" value="${esc(adminUI.listingQ || '')}" placeholder="Cari judul atau lokasi properti..." oninput="adminUI.listingQ=this.value.trim().toLowerCase();renderAdminBody()" class="w-full text-xs bg-transparent outline-none font-medium text-navy placeholder-neutral-400">
+          </div>
+          ${!list.length ? `<div class="bg-white p-8 rounded-3xl text-center space-y-2 border border-neutral-200"><i data-lucide="search-x" class="w-10 h-10 mx-auto text-neutral-300"></i><p class="text-xs font-bold text-neutral-500">Properti tidak ditemukan.</p></div>` : ''}
+          ${list.map(p => {
+            const sold = isSold(p.status);
+            return `
+            <div class="bg-white rounded-2xl p-3 border border-neutral-200 shadow-sm space-y-2">
+              <div class="flex justify-between items-center border-b border-neutral-100 pb-2">
+                <span class="px-2.5 py-0.5 rounded-full text-[9px] font-bold ${sold ? 'bg-black text-white' : 'bg-[#DCE3F1] text-navy'}">${esc(p.status)}</span>
+                <div class="flex items-center gap-1">
+                  <button onclick="openRevisionModal('${p.id}')" class="w-7 h-7 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center btn-press" title="Revisi Listing"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                  <button onclick="openShareModalForProp('${p.id}')" class="w-7 h-7 rounded-xl bg-neutral-100 text-navy flex items-center justify-center btn-press" title="Bagikan"><i data-lucide="share-2" class="w-3.5 h-3.5"></i></button>
+                </div>
               </div>
-            </div>
-            <div class="flex items-center gap-3">
-              <img src="${imgSrc(p.photos[0] || '')}" class="w-14 h-14 rounded-xl object-cover bg-neutral-100 shrink-0">
-              <div class="min-w-0 flex-grow">
-                <h5 class="text-xs font-semibold text-navy truncate">${esc(p.title)}</h5>
-                <p class="text-[10px] text-neutral-400 font-medium truncate">${esc(p.location)} · ${esc(p.certificate)}</p>
-                <p class="text-xs font-bold font-display text-brand mt-0.5">${formatRupiah(p.price)}</p>
+              <div class="flex items-center gap-3">
+                <img src="${imgSrc(p.photos[0] || '')}" class="w-14 h-14 rounded-xl object-cover bg-neutral-100 shrink-0">
+                <div class="min-w-0 flex-grow">
+                  <h5 class="text-xs font-semibold text-navy truncate">${esc(p.title)}</h5>
+                  <p class="text-[10px] text-neutral-400 font-medium truncate">${esc(p.location)} · ${esc(p.certificate)}</p>
+                  <p class="text-xs font-bold font-display text-brand mt-0.5">${formatRupiah(p.price)}</p>
+                </div>
               </div>
-            </div>
-          </div>`;
-        }).join('')}`;
+            </div>`;
+          }).join('')}
+        </div>`;
     }
 
     function openRevisionModal(id) {
